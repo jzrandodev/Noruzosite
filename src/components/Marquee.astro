@@ -1,0 +1,44 @@
+<div class="marquee" data-marquee aria-hidden="true">
+  <div class="marquee__track" data-marquee-track>
+    {
+      Array.from({ length: 4 }).map(() => (
+        <span class="marquee__item t-display t-display--lg">
+          AI that ships <span class="marquee__sep">●</span> NORU
+          <span class="t-tilt">ZO</span> <span class="marquee__sep">●</span>
+        </span>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: clip;
+    padding: 1.2rem 0;
+    background: var(--c-accent);
+    color: var(--c-black);
+    transform: rotate(-1.5deg) scale(1.02);
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+  }
+
+  .marquee__item {
+    white-space: nowrap;
+    padding-right: 0.6em;
+  }
+
+  .marquee__sep {
+    font-size: 0.35em;
+    vertical-align: middle;
+    display: inline-block;
+    transform: translateY(-0.6em);
+  }
+
+  .marquee .t-tilt {
+    color: var(--c-cream);
+  }
+</style>

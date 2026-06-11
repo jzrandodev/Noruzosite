@@ -1,0 +1,121 @@
+<section class="cta section" id="contact" data-theme-section="dark">
+  <h2 class="cta__title t-display t-display--xl" data-split>
+    Let's build
+  </h2>
+
+  <p class="cta__sub t-body-lg" data-reveal>
+    Tell us where to reach you and we'll start the conversation.
+  </p>
+
+  <form class="cta__form" data-contact-form novalidate>
+    <label class="visually-hidden" for="cta-email">Email address</label>
+    <input
+      class="cta__input"
+      id="cta-email"
+      type="email"
+      name="email"
+      placeholder="you@company.com"
+      autocomplete="email"
+      required
+      data-hover
+    />
+    <button class="cta__submit t-label" type="submit" data-hover>
+      <span data-form-label>Send it</span>
+    </button>
+    <p class="cta__status t-label" data-form-status role="status" aria-live="polite"></p>
+  </form>
+</section>
+
+<style>
+  .cta {
+    min-height: 90svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .cta__title {
+    color: var(--c-cream);
+  }
+
+  .cta__sub {
+    margin-top: 2rem;
+    max-width: 30rem;
+    color: color-mix(in srgb, var(--c-cream) 75%, transparent);
+  }
+
+  .cta__form {
+    position: relative;
+    display: flex;
+    gap: 1rem;
+    margin-top: 3rem;
+    max-width: 38rem;
+    flex-wrap: wrap;
+  }
+
+  .cta__input {
+    flex: 1 1 16rem;
+    padding: 1.1rem 1.4rem;
+    border: 1px solid color-mix(in srgb, var(--c-cream) 30%, transparent);
+    border-radius: 99px;
+    background: transparent;
+    color: var(--c-cream);
+    transition: border-color 0.3s var(--ease-out-expo);
+  }
+
+  .cta__input::placeholder {
+    color: color-mix(in srgb, var(--c-cream) 40%, transparent);
+  }
+
+  .cta__input:focus {
+    outline: none;
+    border-color: var(--c-accent);
+  }
+
+  .cta__form.is-error .cta__input {
+    border-color: #ff4d4d;
+  }
+
+  .cta__submit {
+    padding: 1.1rem 2.2rem;
+    border-radius: 99px;
+    background: var(--c-accent);
+    color: var(--c-cream);
+    transition:
+      transform 0.3s var(--ease-out-expo),
+      background-color 0.3s var(--ease-out-expo);
+  }
+
+  .cta__submit:hover {
+    transform: scale(1.05);
+    background: var(--c-accent-soft);
+  }
+
+  .cta__submit:disabled {
+    opacity: 0.6;
+    transform: none;
+  }
+
+  .cta__status {
+    flex-basis: 100%;
+    min-height: 1.2em;
+    color: var(--c-accent-soft);
+  }
+
+  .cta__form.is-error .cta__status {
+    color: #ff4d4d;
+  }
+
+  .cta__form.is-success .cta__status {
+    color: #5ee37e;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+</style>

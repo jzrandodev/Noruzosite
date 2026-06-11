@@ -1,0 +1,49 @@
+---
+import "@fontsource/anton";
+import "@fontsource-variable/space-grotesk";
+import "../styles/base.css";
+import "../styles/typography.css";
+
+import Preloader from "../components/Preloader.astro";
+import Nav from "../components/Nav.astro";
+import Hero from "../components/Hero.astro";
+import Marquee from "../components/Marquee.astro";
+import Services from "../components/Services.astro";
+import Philosophy from "../components/Philosophy.astro";
+import Cta from "../components/Cta.astro";
+import Footer from "../components/Footer.astro";
+
+const title = "Noruzo AI — AI that ships";
+const description =
+  "Noruzo is an AI agency. We design, build and ship AI automation, custom agents and AI products that earn their keep.";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={`${Astro.site}${import.meta.env.BASE_URL.replace(/^\//, "")}/og.png`} />
+    <meta name="theme-color" content="#0e0e10" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+  </head>
+  <body data-theme="dark">
+    <Preloader />
+    <Nav />
+    <main>
+      <Hero />
+      <Marquee />
+      <Services />
+      <Philosophy />
+      <Cta />
+    </main>
+    <Footer />
+    <div class="cursor" aria-hidden="true"></div>
+    <script src="../scripts/main.ts"></script>
+  </body>
+</html>

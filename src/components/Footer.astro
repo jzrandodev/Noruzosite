@@ -1,0 +1,57 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer__row">
+    <span class="footer__logo t-display t-display--md">
+      NORU<span class="t-tilt">ZO</span><span class="footer__dot"></span>
+    </span>
+
+    <nav class="footer__links" aria-label="Social">
+      <a class="t-label" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" data-hover>LinkedIn</a>
+      <a class="t-label" href="https://x.com/" target="_blank" rel="noopener noreferrer" data-hover>X</a>
+      <a class="t-label" href="mailto:hello@noruzo.ai" data-hover>hello@noruzo.ai</a>
+    </nav>
+  </div>
+
+  <div class="footer__row footer__row--bottom">
+    <span class="t-label">© {year} Noruzo AI</span>
+    <a class="t-label" href="#top" data-hover>Back to top ↑</a>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: 3rem var(--gutter) 2rem;
+    border-top: 1px solid color-mix(in srgb, var(--c-cream) 15%, transparent);
+    color: var(--c-cream);
+  }
+
+  .footer__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .footer__row--bottom {
+    margin-top: 2.5rem;
+    color: color-mix(in srgb, var(--c-cream) 55%, transparent);
+  }
+
+  .footer__dot {
+    display: inline-block;
+    width: 0.16em;
+    height: 0.16em;
+    border-radius: 50%;
+    background: var(--c-accent);
+    margin-left: 0.1em;
+  }
+
+  .footer__links {
+    display: flex;
+    gap: 2rem;
+  }
+</style>

@@ -1,0 +1,55 @@
+/* ---------------------------------- */
+/* Noruzo AI — type scale             */
+/* ---------------------------------- */
+
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.86;
+  letter-spacing: -0.01em;
+}
+
+.t-display--xl {
+  font-size: clamp(4rem, 17vw, 16rem);
+}
+
+.t-display--lg {
+  font-size: clamp(3rem, 9vw, 8rem);
+}
+
+.t-display--md {
+  font-size: clamp(2rem, 5.5vw, 4.5rem);
+}
+
+/* The "zo" treatment — skewed accent slice of the wordmark */
+.t-tilt {
+  display: inline-block;
+  transform: skewX(-12deg);
+  color: var(--c-accent);
+}
+
+.t-label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.t-body-lg {
+  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+  line-height: 1.45;
+}
+
+/* Words split for scroll reveals get wrapped in these */
+.w-line {
+  display: inline-block;
+  overflow: clip;
+  vertical-align: bottom;
+}
+
+.w-word {
+  display: inline-block;
+  will-change: transform;
+}

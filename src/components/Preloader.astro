@@ -1,0 +1,42 @@
+<div class="preloader" data-preloader>
+  <div class="preloader__inner">
+    <span class="preloader__word t-display t-display--md">
+      NORU<span class="t-tilt">ZO</span>
+    </span>
+    <span class="preloader__count t-label" data-preloader-count>0</span>
+  </div>
+</div>
+
+<style>
+  .preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    background: var(--c-black);
+  }
+
+  .preloader__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .preloader__word {
+    color: var(--c-cream);
+  }
+
+  .preloader__count {
+    color: var(--c-accent-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* If JS never runs, don't trap the user behind the curtain */
+  @media (scripting: none) {
+    .preloader {
+      display: none;
+    }
+  }
+</style>
