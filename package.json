@@ -1,0 +1,21 @@
+{
+  "name": "noruzo-ai",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@fontsource-variable/space-grotesk": "^5.2.10",
+    "@fontsource/anton": "^5.2.7",
+    "@types/three": "^0.184.1",
+    "astro": "^6.4.6",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.23",
+    "three": "^0.184.0"
+  }
+}

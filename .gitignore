@@ -1,0 +1,16 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# environment
+.env
+.env.production
+
+# os / editor
+.DS_Store
+
+# local reference material
+screencapture-buttermax-net-*.png
