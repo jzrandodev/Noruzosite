@@ -5,7 +5,7 @@ import { defineConfig } from "astro/config";
 // When pushing to github.com/<user>/<repo>, set base to "/<repo>" — or remove
 // both once a custom domain is attached.
 export default defineConfig({
-  site: "https://juanzamora.github.io",
+  site: "https://jzrandodev.github.io",
   base: "/Noruzosite",
   vite: {
     assetsInclude: ["**/*.frag", "**/*.vert"],
