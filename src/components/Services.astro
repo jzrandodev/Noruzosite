@@ -87,7 +87,7 @@ const services = [
               <div class="mock mock--chat">
                 <span class="mock__orb" />
                 <p class="mock__q">What can I take off your plate?</p>
-                <div class="mock__input">Summarize this morning's standup…</div>
+                <div class="mock__input"><span class="mock__type">Summarize this morning's standup…</span></div>
                 <div class="mock__chips">
                   <span>Draft</span>
                   <span>Schedule</span>
@@ -278,6 +278,11 @@ const services = [
     font-size: 0.85rem;
     color: var(--c-ink-soft);
     text-align: left;
+  }
+
+  .mock__type {
+    display: inline-block;
+    white-space: nowrap;
   }
 
   .mock__chips {

@@ -1,6 +1,7 @@
 import { runPreloader } from "./anim/preloader";
 import { initSmoothScroll, initScrollAnimations } from "./anim/scroll";
 import { initCursor } from "./anim/cursor";
+import { initMockupAnimations } from "./anim/mockups";
 import { initContactForm } from "./form";
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -24,6 +25,7 @@ async function boot() {
   initSmoothScroll();
   await runPreloader(false);
   initScrollAnimations();
+  initMockupAnimations();
   initCursor();
 }
 

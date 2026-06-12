@@ -78,6 +78,22 @@ export function initScrollAnimations(): void {
     });
   }
 
+  // Process timeline line draws itself as the section scrolls through
+  const processLine = document.querySelector<HTMLElement>("[data-process-line]");
+  if (processLine?.parentElement) {
+    gsap.from(processLine, {
+      scaleY: 0,
+      transformOrigin: "top",
+      ease: "none",
+      scrollTrigger: {
+        trigger: processLine.parentElement,
+        start: "top 75%",
+        end: "bottom 55%",
+        scrub: 0.6,
+      },
+    });
+  }
+
   // Body background flips as themed sections take the viewport.
   // Starts early (top 75%) so section text never sits on the wrong bg.
   for (const section of document.querySelectorAll<HTMLElement>("[data-theme-section]")) {
