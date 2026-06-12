@@ -1,0 +1,42 @@
+---
+interface Props {
+  chip: string;
+  title: string; // may contain <em class="t-tilt"> accents
+  sub?: string;
+}
+const { chip, title, sub } = Astro.props;
+---
+
+<header class="shead" data-reveal>
+  <span class="shead__chip t-label">{chip}</span>
+  <h2 class="shead__title t-display t-display--lg" set:html={title} />
+  {sub && <p class="shead__sub t-body-lg">{sub}</p>}
+</header>
+
+<style>
+  .shead {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+    margin-bottom: clamp(3.5rem, 9vh, 6rem);
+  }
+
+  .shead__chip {
+    border: 1px solid var(--c-line);
+    background: var(--c-paper);
+    padding: 0.55rem 1.1rem;
+    border-radius: 99px;
+    color: var(--c-ink-soft);
+  }
+
+  .shead__title {
+    max-width: 20ch;
+  }
+
+  .shead__sub {
+    color: var(--c-ink-soft);
+    max-width: 34rem;
+  }
+</style>

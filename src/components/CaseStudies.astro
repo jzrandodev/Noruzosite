@@ -1,0 +1,217 @@
+---
+import SectionHead from "./SectionHead.astro";
+
+// Placeholder engagements — swap for real client work before outreach.
+const cases = [
+  {
+    stat: "−38%",
+    statLabel: "inventory waste",
+    title: "Forecasting that cut inventory waste by 38%",
+    client: "Consumer goods brand",
+    impact: ["38% less inventory waste", "4× faster demand planning", "Forecasts 21% more accurate"],
+  },
+  {
+    stat: "71%",
+    statLabel: "tickets auto-resolved",
+    title: "A support agent that resolves 7 of 10 tickets",
+    client: "B2B SaaS company",
+    impact: ["71% of tickets auto-resolved", "Median response under 3 minutes", "Support team refocused on churn"],
+  },
+  {
+    stat: "3×",
+    statLabel: "qualified leads",
+    title: "An outreach engine that tripled qualified leads",
+    client: "Professional services firm",
+    impact: ["3× qualified leads in one quarter", "60% less manual prospecting", "Live in under two weeks"],
+  },
+];
+---
+
+<section class="cases section" id="work" data-theme-section="dark">
+  <SectionHead
+    chip="Case studies"
+    title='Shipped AI that <em class="t-tilt">pays for itself</em>'
+    sub="A sample of what engagements look like — full studies coming soon."
+  />
+
+  <div class="cases__track" data-drag-scroll>
+    {
+      cases.map((c, i) => (
+        <article class="case" data-reveal>
+          <div class={`case__visual case__visual--${i % 3}`} aria-hidden="true">
+            <span class="case__stat t-tilt">{c.stat}</span>
+            <span class="case__statlabel t-label">{c.statLabel}</span>
+          </div>
+          <div class="case__body">
+            <span class="case__client t-label">{c.client}</span>
+            <h3 class="case__title">{c.title}</h3>
+            <ul class="case__impact" role="list">
+              {c.impact.map((line) => (
+                <li>{line}</li>
+              ))}
+            </ul>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+
+  <p class="cases__hint t-label" aria-hidden="true">Drag to explore →</p>
+</section>
+
+<style>
+  .cases {
+    color: var(--c-paper);
+    overflow: clip;
+  }
+
+  /* Section head sits on dark here — repaint its light-theme pieces */
+  .cases :global(.shead__chip) {
+    background: transparent;
+    border-color: rgb(255 255 255 / 0.18);
+    color: rgb(255 255 255 / 0.65);
+  }
+
+  .cases :global(.shead__title) {
+    color: var(--c-paper);
+  }
+
+  .cases :global(.shead__sub) {
+    color: rgb(255 255 255 / 0.55);
+  }
+
+  .cases__track {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    cursor: grab;
+    padding-bottom: 1rem;
+    /* let the first/last card breathe at the edges */
+    margin: 0 calc(-1 * var(--gutter));
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+  }
+
+  .cases__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cases__track.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+  }
+
+  .case {
+    flex: none;
+    width: min(480px, 84vw);
+    scroll-snap-align: start;
+    background: #232326;
+    border: 1px solid rgb(255 255 255 / 0.08);
+    border-radius: 1.25rem;
+    overflow: clip;
+  }
+
+  .cases__track.is-dragging .case {
+    pointer-events: none;
+  }
+
+  .case__visual {
+    aspect-ratio: 16 / 9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .case__visual--0 {
+    background: radial-gradient(120% 130% at 20% 0%, var(--c-accent), var(--c-accent-deep) 75%);
+  }
+
+  .case__visual--1 {
+    background: radial-gradient(120% 130% at 80% 0%, #2e2e33, #161618 75%);
+  }
+
+  .case__visual--2 {
+    background: radial-gradient(120% 130% at 50% 110%, var(--c-accent-deep), #1a0c06 80%);
+  }
+
+  .case__stat {
+    font-size: clamp(3.5rem, 7vw, 5.5rem);
+    line-height: 1;
+    color: var(--c-paper);
+  }
+
+  .case__statlabel {
+    color: rgb(255 255 255 / 0.7);
+  }
+
+  .case__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: clamp(1.5rem, 2.5vw, 2rem);
+  }
+
+  .case__client {
+    color: rgb(255 255 255 / 0.5);
+  }
+
+  .case__title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+
+  .case__impact {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    font-size: 0.9rem;
+    color: rgb(255 255 255 / 0.65);
+  }
+
+  .case__impact li::before {
+    content: "—";
+    color: var(--c-accent);
+    margin-right: 0.6rem;
+  }
+
+  .cases__hint {
+    margin-top: 1.5rem;
+    color: rgb(255 255 255 / 0.4);
+  }
+</style>
+
+<script>
+  // Pointer drag-to-scroll for the case study track
+  const track = document.querySelector<HTMLElement>("[data-drag-scroll]");
+  if (track) {
+    let startX = 0;
+    let startScroll = 0;
+    let dragging = false;
+
+    track.addEventListener("pointerdown", (e) => {
+      dragging = true;
+      startX = e.clientX;
+      startScroll = track.scrollLeft;
+      track.setPointerCapture(e.pointerId);
+    });
+    track.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      const moved = e.clientX - startX;
+      if (Math.abs(moved) > 4) track.classList.add("is-dragging");
+      track.scrollLeft = startScroll - moved;
+    });
+    const end = () => {
+      dragging = false;
+      track.classList.remove("is-dragging");
+    };
+    track.addEventListener("pointerup", end);
+    track.addEventListener("pointercancel", end);
+  }
+</script>

@@ -1,0 +1,205 @@
+---
+import SectionHead from "./SectionHead.astro";
+
+const steps = [
+  {
+    n: "Step 1",
+    title: "Analyze",
+    blurb:
+      "We dig into your workflows and find where AI actually pays off — no hype, just leverage worth building.",
+    visual: "list",
+  },
+  {
+    n: "Step 2",
+    title: "Build",
+    blurb:
+      "We design and develop the automation or agent, tailored to your stack, your data and your rules.",
+    visual: "code",
+  },
+  {
+    n: "Step 3",
+    title: "Integrate",
+    blurb:
+      "We wire it into the tools you already use with minimal disruption, and train your team to run it.",
+    visual: "link",
+  },
+  {
+    n: "Step 4",
+    title: "Optimize",
+    blurb:
+      "We measure results, refine prompts and pipelines, and compound the gains month over month.",
+    visual: "status",
+  },
+];
+---
+
+<section class="process section" id="process" data-theme-section="light">
+  <SectionHead
+    chip="Our process"
+    title='Simple, smart and <em class="t-tilt">scalable</em>'
+    sub="One loop, four moves — from finding the opportunity to compounding the returns."
+  />
+
+  <ol class="process__grid" role="list">
+    {
+      steps.map((s) => (
+        <li class="step" data-reveal>
+          <span class="step__chip t-label">{s.n}</span>
+          <h3 class="step__title t-display t-display--md">{s.title}</h3>
+          <p class="step__body">{s.blurb}</p>
+
+          <div class="step__visual" aria-hidden="true">
+            {s.visual === "list" && (
+              <div class="v-list">
+                <span style="width: 72%" />
+                <span style="width: 88%" class="v-accent" />
+                <span style="width: 55%" />
+              </div>
+            )}
+            {s.visual === "code" && (
+              <div class="v-list">
+                <span style="width: 84%" class="v-accent" />
+                <span style="width: 64%" />
+                <span style="width: 76%" />
+              </div>
+            )}
+            {s.visual === "link" && (
+              <div class="v-link">
+                <i>Our build</i>
+                <span class="v-link__line" />
+                <i>Your stack</i>
+              </div>
+            )}
+            {s.visual === "status" && (
+              <div class="v-status">
+                <span>
+                  <i class="v-dot v-dot--ok" /> Chatbot · resolution up 22%
+                </span>
+                <span>
+                  <i class="v-dot" /> Workflow · update shipped
+                </span>
+              </div>
+            )}
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .process__grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    background: var(--c-paper);
+    border: 1px solid var(--c-line);
+    border-radius: 1.25rem;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .step__chip {
+    border: 1px solid var(--c-line);
+    border-radius: 99px;
+    padding: 0.45rem 0.95rem;
+    color: var(--c-ink-soft);
+  }
+
+  .step__title {
+    color: var(--c-ink);
+  }
+
+  .step__body {
+    color: var(--c-ink-soft);
+    line-height: 1.65;
+  }
+
+  .step__visual {
+    width: 100%;
+    margin-top: 1rem;
+    border: 1px solid var(--c-line);
+    border-radius: 0.9rem;
+    padding: 1.25rem;
+    background: var(--c-bg);
+  }
+
+  .v-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .v-list span {
+    display: block;
+    height: 0.55rem;
+    border-radius: 99px;
+    background: var(--c-line);
+  }
+
+  .v-list .v-accent {
+    background: color-mix(in srgb, var(--c-accent) 45%, var(--c-line));
+  }
+
+  .v-link {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .v-link i {
+    font-style: normal;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--c-ink);
+    border: 1px solid var(--c-line);
+    background: var(--c-paper);
+    border-radius: 0.6rem;
+    padding: 0.6rem 0.9rem;
+    white-space: nowrap;
+  }
+
+  .v-link__line {
+    flex: 1;
+    border-top: 2px dashed color-mix(in srgb, var(--c-accent) 55%, transparent);
+  }
+
+  .v-status {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--c-ink);
+  }
+
+  .v-status span {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .v-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--c-line);
+  }
+
+  .v-dot--ok {
+    background: #1d9e4b;
+  }
+
+  @media (max-width: 720px) {
+    .process__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

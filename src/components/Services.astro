@@ -1,42 +1,132 @@
 ---
+import SectionHead from "./SectionHead.astro";
+
 const services = [
   {
-    n: "{01}",
-    title: "AI Automation",
+    kind: "tasks",
+    chip: "Workflow automation",
+    title: "Automate the repetitive",
     blurb:
-      "We find the busywork in your operation and delete it. Workflows that run themselves, around the clock, without the headcount.",
+      "We map the busywork inside your operation — data entry, reporting, approval chains — and replace it with workflows that run themselves, around the clock.",
+    tags: ["Task bots", "Back-office", "Reporting"],
   },
   {
-    n: "{02}",
-    title: "Custom AI Agents",
+    kind: "chat",
+    chip: "AI agents",
+    title: "Delegate the daily grind",
     blurb:
-      "Agents that live inside your tools — triaging, drafting, researching and acting. Built for your stack, tuned to your rules.",
+      "From triaging inboxes to drafting documents and summarizing meetings, our agents live inside your tools and work your rules — without the handholding.",
+    tags: ["Summaries", "Scheduling", "Research"],
   },
   {
-    n: "{03}",
-    title: "AI Product Builds",
+    kind: "build",
+    chip: "AI products",
+    title: "Ship AI-native product",
     blurb:
-      "From a napkin sketch to production. We design, prototype and ship AI-native products with real interfaces and real users.",
+      "From a napkin sketch to production: we design, prototype and launch AI products with real interfaces, real users and real stakes.",
+    tags: ["Prototype", "Interface", "Launch"],
   },
   {
-    n: "{04}",
-    title: "AI Strategy",
+    kind: "dash",
+    chip: "Strategy & custom",
+    title: "Build smarter systems",
     blurb:
-      "A roadmap, not a buzzword deck. We audit what AI can actually do for your business and hand you a plan worth executing.",
+      "Starting from scratch or upgrading what you have, we bring strategic consulting and custom builds aligned with where your business is actually going.",
+    tags: ["Audit", "Roadmap", "Consulting"],
   },
 ];
 ---
 
 <section class="services section" id="services" data-theme-section="light">
-  <p class="services__label t-label" data-reveal>What we do</p>
+  <SectionHead
+    chip="Our services"
+    title='AI solutions that take your business <em class="t-tilt">further</em>'
+    sub="We design, build and ship automation that helps you work smarter, not harder."
+  />
 
   <ul class="services__list">
     {
       services.map((s) => (
-        <li class="services__row" data-service-row data-hover>
-          <span class="services__num t-label">{s.n}</span>
-          <h2 class="services__title t-display t-display--lg">{s.title}</h2>
-          <p class="services__blurb">{s.blurb}</p>
+        <li class="feat" data-service-row>
+          <div class="feat__text">
+            <span class="feat__chip t-label">{s.chip}</span>
+            <h3 class="feat__title t-display t-display--md">{s.title}</h3>
+            <p class="feat__body">{s.blurb}</p>
+            <ul class="feat__tags" role="list">
+              {s.tags.map((t) => (
+                <li class="t-label">{t}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="feat__visual" aria-hidden="true">
+            {s.kind === "tasks" && (
+              <div class="mock mock--tasks">
+                <div class="mock__bar">All tasks</div>
+                <div class="mock__row">
+                  <span class="mock__check mock__check--done" />
+                  <span>
+                    Payment reminders <small>sent to 42 clients</small>
+                  </span>
+                </div>
+                <div class="mock__row mock__row--hot">
+                  <span class="mock__check mock__check--done" />
+                  <span>
+                    Weekly report <small>generated &amp; shared</small>
+                  </span>
+                </div>
+                <div class="mock__row">
+                  <span class="mock__check" />
+                  <span>
+                    Invoice approvals <small>2 waiting</small>
+                  </span>
+                </div>
+              </div>
+            )}
+            {s.kind === "chat" && (
+              <div class="mock mock--chat">
+                <span class="mock__orb" />
+                <p class="mock__q">What can I take off your plate?</p>
+                <div class="mock__input">Summarize this morning's standup…</div>
+                <div class="mock__chips">
+                  <span>Draft</span>
+                  <span>Schedule</span>
+                  <span>Research</span>
+                </div>
+              </div>
+            )}
+            {s.kind === "build" && (
+              <div class="mock mock--build">
+                <div class="mock__dots">
+                  <i /><i /><i />
+                </div>
+                <div class="mock__code">
+                  <span style="width: 62%" />
+                  <span style="width: 84%" class="mock__code--accent" />
+                  <span style="width: 48%" />
+                  <span style="width: 71%" />
+                  <span style="width: 35%" class="mock__code--accent" />
+                </div>
+                <div class="mock__deploy">● Deployed to production</div>
+              </div>
+            )}
+            {s.kind === "dash" && (
+              <div class="mock mock--dash">
+                <div class="mock__stat">
+                  <span>Hours saved / week</span>
+                  <div class="mock__meter"><i style="width: 78%" /></div>
+                </div>
+                <div class="mock__stat">
+                  <span>Tickets auto-resolved</span>
+                  <div class="mock__meter"><i style="width: 64%" /></div>
+                </div>
+                <div class="mock__stat">
+                  <span>Roadmap shipped</span>
+                  <div class="mock__meter"><i style="width: 91%" /></div>
+                </div>
+              </div>
+            )}
+          </div>
         </li>
       ))
     }
@@ -44,84 +134,232 @@ const services = [
 </section>
 
 <style>
-  .services__label {
-    color: var(--c-ink-soft);
-    margin-bottom: 3rem;
-  }
-
   .services__list {
     list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(4rem, 10vh, 7rem);
   }
 
-  .services__row {
-    position: relative;
+  .feat {
     display: grid;
-    grid-template-columns: 5rem 1fr minmax(16rem, 24rem);
+    grid-template-columns: 1fr 1fr;
     align-items: center;
-    gap: 2rem;
-    padding: 2.75rem 0;
-    border-top: 1px solid var(--c-line);
-    transition: padding-left 0.5s var(--ease-out-expo);
+    gap: clamp(2rem, 6vw, 6rem);
   }
 
-  .services__row:last-child {
+  .feat:nth-child(even) .feat__visual {
+    order: -1;
+  }
+
+  .feat__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    max-width: 30rem;
+  }
+
+  .feat__chip {
+    border: 1px solid var(--c-line);
+    background: var(--c-paper);
+    padding: 0.5rem 1rem;
+    border-radius: 99px;
+    color: var(--c-ink-soft);
+  }
+
+  .feat__title {
+    color: var(--c-ink);
+  }
+
+  .feat__body {
+    color: var(--c-ink-soft);
+    line-height: 1.65;
+  }
+
+  .feat__tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+  }
+
+  .feat__tags li {
+    border: 1px solid var(--c-line);
+    background: var(--c-paper);
+    border-radius: 99px;
+    padding: 0.45rem 0.9rem;
+    color: var(--c-ink);
+  }
+
+  /* ---- mockup cards ---- */
+
+  .mock {
+    background: var(--c-paper);
+    border: 1px solid var(--c-line);
+    border-radius: 1.25rem;
+    padding: clamp(1.25rem, 2.5vw, 2rem);
+    box-shadow: 0 32px 64px -40px rgb(28 28 30 / 0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    min-height: 280px;
+    justify-content: center;
+  }
+
+  .mock__bar {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--c-ink);
+    padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--c-line);
   }
 
-  .services__row::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--c-ink);
-    transform: scaleY(0);
-    transform-origin: bottom;
-    transition: transform 0.5s var(--ease-out-expo);
-    z-index: -1;
-  }
-
-  .services__row:hover::before {
-    transform: scaleY(1);
-    transform-origin: top;
-  }
-
-  .services__row:hover {
-    padding-left: 1.75rem;
-    padding-right: 1.75rem;
-  }
-
-  .services__num {
-    color: var(--c-ink-soft);
-    transition: color 0.3s;
-  }
-
-  .services__row:hover .services__num {
-    color: var(--c-accent);
-  }
-
-  .services__title {
+  .mock__row {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.8rem 0.9rem;
+    border: 1px solid var(--c-line);
+    border-radius: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
     color: var(--c-ink);
-    transition: color 0.3s;
   }
 
-  .services__row:hover .services__title {
-    color: var(--c-paper);
-  }
-
-  .services__blurb {
-    font-size: 0.95rem;
-    line-height: 1.6;
+  .mock__row small {
+    display: block;
+    font-size: 0.72rem;
     color: var(--c-ink-soft);
-    transition: color 0.3s;
+    font-weight: 400;
   }
 
-  .services__row:hover .services__blurb {
-    color: color-mix(in srgb, var(--c-paper) 80%, transparent);
+  .mock__row--hot {
+    border-color: color-mix(in srgb, var(--c-accent) 35%, transparent);
+    background: color-mix(in srgb, var(--c-accent) 5%, transparent);
   }
 
-  @media (max-width: 860px) {
-    .services__row {
+  .mock__check {
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    border: 1.5px solid var(--c-line);
+    border-radius: 0.35rem;
+  }
+
+  .mock__check--done {
+    background: var(--c-accent);
+    border-color: var(--c-accent);
+  }
+
+  .mock--chat {
+    align-items: center;
+    text-align: center;
+  }
+
+  .mock__orb {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 30%, #ff9d6b, var(--c-accent) 58%, var(--c-accent-deep));
+  }
+
+  .mock__q {
+    font-weight: 600;
+    color: var(--c-ink);
+  }
+
+  .mock__input {
+    width: 100%;
+    border: 1px solid var(--c-line);
+    border-radius: 99px;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.85rem;
+    color: var(--c-ink-soft);
+    text-align: left;
+  }
+
+  .mock__chips {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .mock__chips span {
+    font-size: 0.72rem;
+    font-weight: 500;
+    border: 1px solid var(--c-line);
+    border-radius: 99px;
+    padding: 0.35rem 0.8rem;
+    color: var(--c-ink-soft);
+  }
+
+  .mock__dots {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .mock__dots i {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: var(--c-line);
+  }
+
+  .mock__code {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 1rem 0;
+  }
+
+  .mock__code span {
+    display: block;
+    height: 0.55rem;
+    border-radius: 99px;
+    background: var(--c-bg);
+  }
+
+  .mock__code .mock__code--accent {
+    background: color-mix(in srgb, var(--c-accent) 30%, var(--c-bg));
+  }
+
+  .mock__deploy {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: #1d9e4b;
+  }
+
+  .mock__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--c-ink);
+  }
+
+  .mock__meter {
+    height: 0.55rem;
+    border-radius: 99px;
+    background: var(--c-bg);
+    overflow: clip;
+  }
+
+  .mock__meter i {
+    display: block;
+    height: 100%;
+    border-radius: 99px;
+    background: var(--c-accent);
+  }
+
+  @media (max-width: 820px) {
+    .feat {
       grid-template-columns: 1fr;
-      gap: 0.75rem;
+    }
+
+    .feat:nth-child(even) .feat__visual {
+      order: 0;
     }
   }
 </style>
