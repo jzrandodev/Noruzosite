@@ -8,22 +8,50 @@
   </p>
 
   <form class="cta__form" data-contact-form novalidate>
-    <!-- Web3Forms honeypot: hidden from people, bots fill it and get dropped -->
+    <!-- Honeypot: hidden from people, bots fill it and get dropped -->
     <input type="checkbox" name="botcheck" class="visually-hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
-    <label class="visually-hidden" for="cta-email">Email address</label>
-    <input
-      class="cta__input"
-      id="cta-email"
-      type="email"
-      name="email"
-      placeholder="you@company.com"
-      autocomplete="email"
-      required
-      data-hover
-    />
-    <button class="cta__submit t-label" type="submit" data-hover>
-      <span data-form-label>Send it</span>
-    </button>
+
+    <div class="cta__row">
+      <label class="visually-hidden" for="cta-name">Your name</label>
+      <input
+        class="cta__input"
+        id="cta-name"
+        type="text"
+        name="name"
+        placeholder="Your name (optional)"
+        autocomplete="name"
+        maxlength="120"
+        data-hover
+      />
+      <label class="visually-hidden" for="cta-email">Email address</label>
+      <input
+        class="cta__input"
+        id="cta-email"
+        type="email"
+        name="email"
+        placeholder="you@company.com"
+        autocomplete="email"
+        required
+        data-hover
+      />
+    </div>
+
+    <label class="visually-hidden" for="cta-message">What do you need?</label>
+    <textarea
+      class="cta__input cta__textarea"
+      id="cta-message"
+      name="message"
+      placeholder="What do you need? A sentence is plenty. (optional)"
+      rows="3"
+      maxlength="2000"
+      data-hover></textarea>
+
+    <div class="cta__row cta__row--actions">
+      <button class="cta__submit t-label" type="submit" data-hover>
+        <span data-form-label>Send it</span>
+      </button>
+      <p class="cta__privacy">We only use this to reply to you. No lists, no spam.</p>
+    </div>
     <p class="cta__status t-label" data-form-status role="status" aria-live="polite"></p>
   </form>
 </section>
@@ -49,14 +77,37 @@
   .cta__form {
     position: relative;
     display: flex;
+    flex-direction: column;
     gap: 1rem;
     margin-top: 3rem;
     max-width: 38rem;
+  }
+
+  .cta__row {
+    display: flex;
+    gap: 1rem;
     flex-wrap: wrap;
   }
 
+  .cta__row--actions {
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .cta__privacy {
+    font-size: 0.8rem;
+    color: var(--c-ink-soft);
+  }
+
+  .cta__textarea {
+    resize: vertical;
+    border-radius: 1.25rem;
+    min-height: 5.5rem;
+    font-size: 0.95rem;
+  }
+
   .cta__input {
-    flex: 1 1 16rem;
+    flex: 1 1 14rem;
     padding: 1.1rem 1.4rem;
     border: 1px solid var(--c-line);
     border-radius: 99px;
