@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jzrandodev.github.io/Noruzosite/sitemap-index.xml

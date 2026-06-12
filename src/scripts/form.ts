@@ -25,6 +25,14 @@ export function initContactForm(): void {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    // Honeypot tripped → pretend success, deliver nothing
+    const honeypot = form.querySelector<HTMLInputElement>("input[name=botcheck]");
+    if (honeypot?.checked) {
+      setStatus("Got it. We'll be in touch soon.", "is-success");
+      form.reset();
+      return;
+    }
+
     const email = input?.value.trim() ?? "";
     if (!email || !input?.checkValidity()) {
       setStatus("That email doesn't look right — try again?", "is-error");

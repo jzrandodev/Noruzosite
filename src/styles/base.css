@@ -103,6 +103,25 @@ body[data-theme="accent"] {
   padding: clamp(5rem, 12vh, 9rem) var(--gutter);
 }
 
+/* Keyboard skip link — invisible until focused */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 300;
+  background: var(--c-ink);
+  color: var(--c-paper);
+  padding: 0.7rem 1.2rem;
+  border-radius: 99px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+}
+
 /* Hide the real cursor only when the custom one is running */
 html.has-custom-cursor,
 html.has-custom-cursor * {

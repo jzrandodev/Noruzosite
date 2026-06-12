@@ -34,7 +34,13 @@ const cases = [
     sub="A sample of what engagements look like — full studies coming soon."
   />
 
-  <div class="cases__track" data-drag-scroll>
+  <div
+    class="cases__track"
+    data-drag-scroll
+    tabindex="0"
+    role="region"
+    aria-label="Case studies, scroll horizontally"
+  >
     {
       cases.map((c, i) => (
         <article class="case" data-reveal>

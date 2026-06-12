@@ -17,7 +17,19 @@ import Footer from "../components/Footer.astro";
 
 const title = "Noruzo AI — AI that ships";
 const description =
-  "Noruzo is an AI agency. We design, build and ship AI automation, custom agents and AI products that earn their keep.";
+  "Noruzo is an AI agency. We design, build and ship automation, custom agents and AI products for teams that want results, not demos.";
+
+const canonical = new URL(import.meta.env.BASE_URL + "/", Astro.site).href.replace(/\/+$/, "/");
+const ogImage = new URL(import.meta.env.BASE_URL + "/og.png", Astro.site).href;
+
+const orgSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Noruzo AI",
+  description,
+  url: canonical,
+  logo: ogImage,
+});
 ---
 
 <!doctype html>
@@ -27,17 +39,25 @@ const description =
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content={`${Astro.site}${import.meta.env.BASE_URL.replace(/^\//, "")}/og.png`} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     <meta name="theme-color" content="#f6f6f6" />
     <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <script type="application/ld+json" set:html={orgSchema} />
   </head>
   <body data-theme="light">
+    <a class="skip-link" href="#main">Skip to content</a>
     <Preloader />
     <Nav />
-    <main>
+    <main id="main">
       <Hero />
       <Services />
       <Process />
