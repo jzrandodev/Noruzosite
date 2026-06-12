@@ -1,5 +1,6 @@
 import {
-  Color,
+  HalfFloatType,
+  LinearFilter,
   Mesh,
   OrthographicCamera,
   PlaneGeometry,
@@ -7,15 +8,23 @@ import {
   ShaderMaterial,
   Vector2,
   WebGLRenderer,
+  WebGLRenderTarget,
 } from "three";
+import { Color } from "three";
 import vertexShader from "./fluid.vert?raw";
-import fragmentShader from "./fluid.frag?raw";
+import trailFrag from "./trail.frag?raw";
+import gooFrag from "./goo.frag?raw";
 
 const lerp = (a: number, b: number, n: number) => a + (b - a) * n;
 
+// The trail buffer runs at reduced resolution — the goo threshold hides it
+// and the sim cost drops 6x.
+const SIM_SCALE = 0.4;
+
 /**
- * Fullscreen liquid-shader plane behind the hero.
- * Returns a destroy function, or null when WebGL isn't available.
+ * Buttermax-style goo: the mouse paints into a feedback buffer that decays
+ * and slides downward each frame (melt), then a display pass thresholds it
+ * into flat paint blobs. Returns a destroy function, null if WebGL fails.
  */
 export function createFluidScene(canvas: HTMLCanvasElement): (() => void) | null {
   let renderer: WebGLRenderer;
@@ -28,30 +37,56 @@ export function createFluidScene(canvas: HTMLCanvasElement): (() => void) | null
   const styles = getComputedStyle(document.documentElement);
   const cssColor = (name: string) => new Color(styles.getPropertyValue(name).trim());
 
-  const scene = new Scene();
   const camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
-  const material = new ShaderMaterial({
+  const geometry = new PlaneGeometry(2, 2);
+
+  const simMaterial = new ShaderMaterial({
     vertexShader,
-    fragmentShader,
+    fragmentShader: trailFrag,
     uniforms: {
-      uTime: { value: 0 },
+      uPrev: { value: null },
       uResolution: { value: new Vector2(1, 1) },
-      uMouse: { value: new Vector2(0.5, 0.5) },
+      uMouse: { value: new Vector2(0.5, 0.6) },
+      uPrevMouse: { value: new Vector2(0.5, 0.6) },
       uVelocity: { value: 0 },
+      uDecay: { value: 0.972 },
+    },
+  });
+  const drawMaterial = new ShaderMaterial({
+    vertexShader,
+    fragmentShader: gooFrag,
+    uniforms: {
+      uTrail: { value: null },
+      uResolution: { value: new Vector2(1, 1) },
       uAccent: { value: cssColor("--c-accent") },
       uAccentDeep: { value: cssColor("--c-accent-deep") },
       uBlack: { value: cssColor("--c-black") },
     },
   });
-  scene.add(new Mesh(new PlaneGeometry(2, 2), material));
 
-  const mouse = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5, vel: 0, tvel: 0 };
+  const simScene = new Scene();
+  simScene.add(new Mesh(geometry, simMaterial));
+  const drawScene = new Scene();
+  drawScene.add(new Mesh(geometry, drawMaterial));
+
+  const rtOptions = {
+    type: HalfFloatType,
+    minFilter: LinearFilter,
+    magFilter: LinearFilter,
+    depthBuffer: false,
+  };
+  let rtA = new WebGLRenderTarget(2, 2, rtOptions);
+  let rtB = new WebGLRenderTarget(2, 2, rtOptions);
+
+  const mouse = { x: 0.5, y: 0.6, tx: 0.5, ty: 0.6, vel: 0, tvel: 0 };
   let lastX = 0.5;
-  let lastY = 0.5;
+  let lastY = 0.6;
+  let lastPointerAt = 0;
 
   const onPointerMove = (e: PointerEvent) => {
     mouse.tx = e.clientX / window.innerWidth;
     mouse.ty = 1 - e.clientY / window.innerHeight;
+    lastPointerAt = performance.now();
   };
   window.addEventListener("pointermove", onPointerMove, { passive: true });
 
@@ -60,12 +95,17 @@ export function createFluidScene(canvas: HTMLCanvasElement): (() => void) | null
     const { clientWidth: w, clientHeight: h } = canvas;
     renderer.setPixelRatio(dpr);
     renderer.setSize(w, h, false);
-    material.uniforms.uResolution.value.set(w, h);
+    drawMaterial.uniforms.uResolution.value.set(w, h);
+
+    const sw = Math.max(2, Math.round(w * SIM_SCALE));
+    const sh = Math.max(2, Math.round(h * SIM_SCALE));
+    rtA.setSize(sw, sh);
+    rtB.setSize(sw, sh);
+    simMaterial.uniforms.uResolution.value.set(sw, sh);
   };
   resize();
   window.addEventListener("resize", resize);
 
-  // Pause rendering while the hero is offscreen
   let visible = true;
   const observer = new IntersectionObserver(([entry]) => {
     visible = entry?.isIntersecting ?? true;
@@ -73,22 +113,37 @@ export function createFluidScene(canvas: HTMLCanvasElement): (() => void) | null
   observer.observe(canvas);
 
   let raf = 0;
-  let start = performance.now();
   const tick = (now: number) => {
     raf = requestAnimationFrame(tick);
     if (!visible) return;
 
-    mouse.x = lerp(mouse.x, mouse.tx, 0.055);
-    mouse.y = lerp(mouse.y, mouse.ty, 0.055);
-    mouse.tvel = Math.min(1, Math.hypot(mouse.tx - lastX, mouse.ty - lastY) * 18);
-    mouse.vel = lerp(mouse.vel, mouse.tvel, 0.045);
+    // When the pointer goes quiet, a slow wandering ghost keeps the goo alive
+    if (now - lastPointerAt > 1500) {
+      const t = now / 1000;
+      mouse.tx = 0.5 + 0.36 * Math.sin(t * 0.21);
+      mouse.ty = 0.58 + 0.27 * Math.sin(t * 0.16 + 1.7);
+    }
+
+    simMaterial.uniforms.uPrevMouse.value.set(mouse.x, mouse.y);
+    mouse.x = lerp(mouse.x, mouse.tx, 0.09);
+    mouse.y = lerp(mouse.y, mouse.ty, 0.09);
+    mouse.tvel = Math.min(1, Math.hypot(mouse.tx - lastX, mouse.ty - lastY) * 14);
+    mouse.vel = lerp(mouse.vel, mouse.tvel, 0.08);
     lastX = mouse.tx;
     lastY = mouse.ty;
 
-    material.uniforms.uTime.value = (now - start) / 1000;
-    material.uniforms.uMouse.value.set(mouse.x, mouse.y);
-    material.uniforms.uVelocity.value = mouse.vel;
-    renderer.render(scene, camera);
+    simMaterial.uniforms.uMouse.value.set(mouse.x, mouse.y);
+    simMaterial.uniforms.uVelocity.value = mouse.vel;
+
+    // Feedback step: previous trail in, decayed + freshly painted trail out
+    simMaterial.uniforms.uPrev.value = rtA.texture;
+    renderer.setRenderTarget(rtB);
+    renderer.render(simScene, camera);
+    renderer.setRenderTarget(null);
+    [rtA, rtB] = [rtB, rtA];
+
+    drawMaterial.uniforms.uTrail.value = rtA.texture;
+    renderer.render(drawScene, camera);
   };
   raf = requestAnimationFrame(tick);
 
@@ -97,7 +152,10 @@ export function createFluidScene(canvas: HTMLCanvasElement): (() => void) | null
     observer.disconnect();
     window.removeEventListener("pointermove", onPointerMove);
     window.removeEventListener("resize", resize);
-    material.dispose();
+    rtA.dispose();
+    rtB.dispose();
+    simMaterial.dispose();
+    drawMaterial.dispose();
     renderer.dispose();
   };
 }
