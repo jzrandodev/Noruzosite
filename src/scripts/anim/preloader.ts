@@ -30,8 +30,8 @@ export function runPreloader(reducedMotion: boolean): Promise<void> {
     const counter = { v: 0 };
     tl.to(counter, {
       v: 100,
-      duration: 1.4,
-      ease: "power2.inOut",
+      duration: 1.6,
+      ease: "power3.inOut",
       onUpdate: () => {
         if (count) count.textContent = String(Math.round(counter.v));
       },
@@ -39,25 +39,25 @@ export function runPreloader(reducedMotion: boolean): Promise<void> {
       .to(el.querySelector(".preloader__inner"), {
         yPercent: -30,
         autoAlpha: 0,
-        duration: 0.5,
-        ease: "power2.in",
+        duration: 0.6,
+        ease: "power2.inOut",
       })
       .to(el, {
         yPercent: -100,
-        duration: 0.9,
+        duration: 1.1,
         ease: "expo.inOut",
-      }, "-=0.15")
+      }, "-=0.25")
       .to(chars, {
         yPercent: 0,
-        duration: 1,
+        duration: 1.4,
         ease: "expo.out",
-        stagger: 0.045,
-      }, "-=0.45")
+        stagger: 0.06,
+      }, "-=0.55")
       .to(tagline, {
         autoAlpha: 1,
         y: 0,
-        duration: 0.8,
+        duration: 1.1,
         ease: "power3.out",
-      }, "-=0.6");
+      }, "-=0.8");
   });
 }

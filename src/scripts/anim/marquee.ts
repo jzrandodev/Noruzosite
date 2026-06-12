@@ -10,7 +10,7 @@ export function initMarquee(): void {
 
   const loop = gsap.to(track, {
     x: () => -item.offsetWidth,
-    duration: 12,
+    duration: 18,
     ease: "none",
     repeat: -1,
   });
@@ -19,7 +19,7 @@ export function initMarquee(): void {
   gsap.ticker.add(() => {
     const delta = window.scrollY - lastScroll;
     lastScroll = window.scrollY;
-    const boost = gsap.utils.clamp(-3, 3, delta * 0.04);
-    loop.timeScale(gsap.utils.interpolate(loop.timeScale(), 1 + boost, 0.1));
+    const boost = gsap.utils.clamp(-2, 2, delta * 0.025);
+    loop.timeScale(gsap.utils.interpolate(loop.timeScale(), 1 + boost, 0.06));
   });
 }

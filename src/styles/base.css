@@ -4,10 +4,11 @@
 
 :root {
   /* Palette — swap --c-accent to retheme the whole site */
-  --c-accent: #7b2bff;
-  --c-accent-soft: #9d5cff;
-  --c-black: #0e0e10;
-  --c-cream: #f4f1ea;
+  --c-accent: #ff4d00;
+  --c-accent-soft: #ff7a3d;
+  --c-accent-deep: #7a2000;
+  --c-black: #0d0b09;
+  --c-cream: #f0eae0;
 
   --font-display: "Anton", "Arial Narrow", sans-serif;
   --font-body: "Space Grotesk Variable", "Helvetica Neue", sans-serif;
@@ -87,7 +88,7 @@ button {
 
 /* Sections flip the page background via ScrollTrigger; this paints the body */
 body {
-  transition: background-color 0.6s var(--ease-in-out);
+  transition: background-color 0.9s var(--ease-in-out);
 }
 
 body[data-theme="accent"] {

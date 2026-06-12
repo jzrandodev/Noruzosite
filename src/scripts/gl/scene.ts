@@ -39,7 +39,7 @@ export function createFluidScene(canvas: HTMLCanvasElement): (() => void) | null
       uMouse: { value: new Vector2(0.5, 0.5) },
       uVelocity: { value: 0 },
       uAccent: { value: cssColor("--c-accent") },
-      uAccentDeep: { value: new Color("#3d0f8f") },
+      uAccentDeep: { value: cssColor("--c-accent-deep") },
       uBlack: { value: cssColor("--c-black") },
     },
   });
@@ -78,10 +78,10 @@ export function createFluidScene(canvas: HTMLCanvasElement): (() => void) | null
     raf = requestAnimationFrame(tick);
     if (!visible) return;
 
-    mouse.x = lerp(mouse.x, mouse.tx, 0.08);
-    mouse.y = lerp(mouse.y, mouse.ty, 0.08);
+    mouse.x = lerp(mouse.x, mouse.tx, 0.055);
+    mouse.y = lerp(mouse.y, mouse.ty, 0.055);
     mouse.tvel = Math.min(1, Math.hypot(mouse.tx - lastX, mouse.ty - lastY) * 18);
-    mouse.vel = lerp(mouse.vel, mouse.tvel, 0.06);
+    mouse.vel = lerp(mouse.vel, mouse.tvel, 0.045);
     lastX = mouse.tx;
     lastY = mouse.ty;
 

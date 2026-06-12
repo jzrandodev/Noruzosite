@@ -22,7 +22,7 @@ function splitWords(el: HTMLElement): HTMLElement[] {
 }
 
 export function initSmoothScroll(): Lenis {
-  const lenis = new Lenis({ lerp: 0.1, anchors: true });
+  const lenis = new Lenis({ lerp: 0.065, wheelMultiplier: 0.9, anchors: true });
   lenis.on("scroll", ScrollTrigger.update);
   gsap.ticker.add((time) => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
@@ -30,13 +30,26 @@ export function initSmoothScroll(): Lenis {
 }
 
 export function initScrollAnimations(): void {
+  // Hero content drifts up slightly as it leaves — soft parallax
+  gsap.to(".hero__content", {
+    yPercent: -14,
+    autoAlpha: 0.25,
+    ease: "none",
+    scrollTrigger: {
+      trigger: ".hero",
+      start: "top top",
+      end: "bottom 20%",
+      scrub: 0.8,
+    },
+  });
+
   // Simple label fade-ups
   for (const el of document.querySelectorAll<HTMLElement>("[data-reveal]")) {
     gsap.from(el, {
       autoAlpha: 0,
-      y: 30,
-      duration: 0.8,
-      ease: "power3.out",
+      y: 36,
+      duration: 1.2,
+      ease: "power4.out",
       scrollTrigger: { trigger: el, start: "top 85%" },
     });
   }
@@ -46,10 +59,10 @@ export function initScrollAnimations(): void {
   for (const row of rows) {
     gsap.from(row, {
       autoAlpha: 0,
-      y: 60,
-      duration: 0.9,
+      y: 70,
+      duration: 1.4,
       ease: "expo.out",
-      scrollTrigger: { trigger: row, start: "top 88%" },
+      scrollTrigger: { trigger: row, start: "top 90%" },
     });
   }
 
@@ -58,9 +71,9 @@ export function initScrollAnimations(): void {
     const words = splitWords(el);
     gsap.from(words, {
       yPercent: 110,
-      duration: 0.7,
+      duration: 1,
       ease: "expo.out",
-      stagger: 0.025,
+      stagger: 0.035,
       scrollTrigger: { trigger: el, start: "top 80%" },
     });
   }

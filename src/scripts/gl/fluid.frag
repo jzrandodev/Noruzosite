@@ -56,7 +56,7 @@ void main() {
   vec2 p = uv * aspect;
   vec2 m = uMouse * aspect;
 
-  float t = uTime * 0.12;
+  float t = uTime * 0.085;
 
   // Mouse influence: a soft well around the cursor that grows with velocity
   float md = distance(p, m);

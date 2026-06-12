@@ -10,8 +10,8 @@ export function initCursor(): void {
 
   document.documentElement.classList.add("has-custom-cursor");
 
-  const setX = gsap.quickTo(el, "x", { duration: 0.35, ease: "power3.out" });
-  const setY = gsap.quickTo(el, "y", { duration: 0.35, ease: "power3.out" });
+  const setX = gsap.quickTo(el, "x", { duration: 0.55, ease: "power3.out" });
+  const setY = gsap.quickTo(el, "y", { duration: 0.55, ease: "power3.out" });
 
   window.addEventListener(
     "pointermove",
