@@ -78,13 +78,14 @@ export function initScrollAnimations(): void {
     });
   }
 
-  // Body background flips as themed sections take the viewport
+  // Body background flips as themed sections take the viewport.
+  // Starts early (top 75%) so section text never sits on the wrong bg.
   for (const section of document.querySelectorAll<HTMLElement>("[data-theme-section]")) {
-    const theme = section.dataset.themeSection ?? "dark";
+    const theme = section.dataset.themeSection ?? "light";
     ScrollTrigger.create({
       trigger: section,
-      start: "top 50%",
-      end: "bottom 50%",
+      start: "top 75%",
+      end: "bottom 75%",
       onToggle: (self) => {
         if (self.isActive) document.body.dataset.theme = theme;
       },

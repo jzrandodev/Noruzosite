@@ -49,7 +49,7 @@ export function createFluidScene(canvas: HTMLCanvasElement): (() => void) | null
       uMouse: { value: new Vector2(0.5, 0.6) },
       uPrevMouse: { value: new Vector2(0.5, 0.6) },
       uVelocity: { value: 0 },
-      uDecay: { value: 0.972 },
+      uDecay: { value: 0.985 },
     },
   });
   const drawMaterial = new ShaderMaterial({
@@ -60,7 +60,7 @@ export function createFluidScene(canvas: HTMLCanvasElement): (() => void) | null
       uResolution: { value: new Vector2(1, 1) },
       uAccent: { value: cssColor("--c-accent") },
       uAccentDeep: { value: cssColor("--c-accent-deep") },
-      uBlack: { value: cssColor("--c-black") },
+      uBg: { value: cssColor("--c-bg") },
     },
   });
 
@@ -125,10 +125,10 @@ export function createFluidScene(canvas: HTMLCanvasElement): (() => void) | null
     }
 
     simMaterial.uniforms.uPrevMouse.value.set(mouse.x, mouse.y);
-    mouse.x = lerp(mouse.x, mouse.tx, 0.09);
-    mouse.y = lerp(mouse.y, mouse.ty, 0.09);
+    mouse.x = lerp(mouse.x, mouse.tx, 0.055);
+    mouse.y = lerp(mouse.y, mouse.ty, 0.055);
     mouse.tvel = Math.min(1, Math.hypot(mouse.tx - lastX, mouse.ty - lastY) * 14);
-    mouse.vel = lerp(mouse.vel, mouse.tvel, 0.08);
+    mouse.vel = lerp(mouse.vel, mouse.tvel, 0.05);
     lastX = mouse.tx;
     lastY = mouse.ty;
 

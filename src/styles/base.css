@@ -3,15 +3,17 @@
 /* ---------------------------------- */
 
 :root {
-  /* Palette — swap --c-accent to retheme the whole site */
-  --c-accent: #ff4d00;
-  --c-accent-soft: #ff7a3d;
-  --c-accent-deep: #7a2000;
-  --c-black: #0d0b09;
-  --c-cream: #f0eae0;
+  /* Palette — light editorial theme, swap --c-accent to retheme */
+  --c-accent: #ff4400;
+  --c-accent-deep: #c23300;
+  --c-ink: #1c1c1e;
+  --c-ink-soft: #6f6f75;
+  --c-bg: #f6f6f6;
+  --c-paper: #ffffff;
+  --c-line: #e4e4e2;
 
-  --font-display: "Anton", "Arial Narrow", sans-serif;
-  --font-body: "Space Grotesk Variable", "Helvetica Neue", sans-serif;
+  --font-body: "Inter Variable", "Helvetica Neue", sans-serif;
+  --font-serif: "Playfair Display Variable", Georgia, serif;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
@@ -43,13 +45,14 @@ html.lenis {
 }
 
 body {
-  background: var(--c-black);
-  color: var(--c-cream);
+  background: var(--c-bg);
+  color: var(--c-ink);
   font-family: var(--font-body);
   font-size: 1rem;
   line-height: 1.5;
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.9s var(--ease-in-out);
 }
 
 img,
@@ -78,7 +81,7 @@ button {
 
 ::selection {
   background: var(--c-accent);
-  color: var(--c-cream);
+  color: var(--c-paper);
 }
 
 :focus-visible {
@@ -86,17 +89,13 @@ button {
   outline-offset: 3px;
 }
 
-/* Sections flip the page background via ScrollTrigger; this paints the body */
-body {
-  transition: background-color 0.9s var(--ease-in-out);
+/* Sections flip the page background via ScrollTrigger */
+body[data-theme="dark"] {
+  background: var(--c-ink);
 }
 
 body[data-theme="accent"] {
   background: var(--c-accent);
-}
-
-body[data-theme="cream"] {
-  background: var(--c-cream);
 }
 
 .section {
@@ -110,23 +109,23 @@ html.has-custom-cursor * {
   cursor: none !important;
 }
 
-/* Custom cursor blob */
+/* Custom cursor blob — white + difference inverts against any section */
 .cursor {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 200;
-  width: 14px;
-  height: 14px;
-  margin: -7px 0 0 -7px;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
   border-radius: 50%;
-  background: var(--c-accent);
+  background: #fff;
   mix-blend-mode: difference;
   pointer-events: none;
   opacity: 0;
   transition:
     opacity 0.25s,
-    scale 0.35s var(--ease-out-expo);
+    scale 0.45s var(--ease-out-expo);
 }
 
 .cursor.is-visible {
@@ -134,8 +133,7 @@ html.has-custom-cursor * {
 }
 
 .cursor.is-hover {
-  scale: 3.2;
-  background: #fff;
+  scale: 3.4;
 }
 
 @media (prefers-reduced-motion: reduce) {

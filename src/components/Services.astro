@@ -1,25 +1,25 @@
 ---
 const services = [
   {
-    n: "01",
+    n: "{01}",
     title: "AI Automation",
     blurb:
       "We find the busywork in your operation and delete it. Workflows that run themselves, around the clock, without the headcount.",
   },
   {
-    n: "02",
+    n: "{02}",
     title: "Custom AI Agents",
     blurb:
       "Agents that live inside your tools — triaging, drafting, researching and acting. Built for your stack, tuned to your rules.",
   },
   {
-    n: "03",
+    n: "{03}",
     title: "AI Product Builds",
     blurb:
       "From a napkin sketch to production. We design, prototype and ship AI-native products with real interfaces and real users.",
   },
   {
-    n: "04",
+    n: "{04}",
     title: "AI Strategy",
     blurb:
       "A roadmap, not a buzzword deck. We audit what AI can actually do for your business and hand you a plan worth executing.",
@@ -27,7 +27,7 @@ const services = [
 ];
 ---
 
-<section class="services section" id="services" data-theme-section="dark">
+<section class="services section" id="services" data-theme-section="light">
   <p class="services__label t-label" data-reveal>What we do</p>
 
   <ul class="services__list">
@@ -45,7 +45,7 @@ const services = [
 
 <style>
   .services__label {
-    color: var(--c-accent-soft);
+    color: var(--c-ink-soft);
     margin-bottom: 3rem;
   }
 
@@ -56,26 +56,26 @@ const services = [
   .services__row {
     position: relative;
     display: grid;
-    grid-template-columns: 4rem 1fr minmax(16rem, 24rem);
+    grid-template-columns: 5rem 1fr minmax(16rem, 24rem);
     align-items: center;
     gap: 2rem;
-    padding: 2.5rem 0;
-    border-top: 1px solid color-mix(in srgb, var(--c-cream) 12%, transparent);
-    transition: padding-left 0.45s var(--ease-out-expo);
+    padding: 2.75rem 0;
+    border-top: 1px solid var(--c-line);
+    transition: padding-left 0.5s var(--ease-out-expo);
   }
 
   .services__row:last-child {
-    border-bottom: 1px solid color-mix(in srgb, var(--c-cream) 12%, transparent);
+    border-bottom: 1px solid var(--c-line);
   }
 
   .services__row::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: var(--c-accent);
+    background: var(--c-ink);
     transform: scaleY(0);
     transform-origin: bottom;
-    transition: transform 0.45s var(--ease-out-expo);
+    transition: transform 0.5s var(--ease-out-expo);
     z-index: -1;
   }
 
@@ -85,30 +85,37 @@ const services = [
   }
 
   .services__row:hover {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
   }
 
   .services__num {
-    color: var(--c-accent-soft);
+    color: var(--c-ink-soft);
     transition: color 0.3s;
   }
 
   .services__row:hover .services__num {
-    color: var(--c-black);
+    color: var(--c-accent);
   }
 
   .services__title {
-    color: var(--c-cream);
+    color: var(--c-ink);
+    transition: color 0.3s;
+  }
+
+  .services__row:hover .services__title {
+    color: var(--c-paper);
   }
 
   .services__blurb {
-    color: color-mix(in srgb, var(--c-cream) 75%, transparent);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--c-ink-soft);
     transition: color 0.3s;
   }
 
   .services__row:hover .services__blurb {
-    color: var(--c-black);
+    color: color-mix(in srgb, var(--c-paper) 80%, transparent);
   }
 
   @media (max-width: 860px) {

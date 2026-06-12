@@ -4,7 +4,7 @@
   <div class="hero__content">
     <h1 class="hero__title t-display t-display--xl" data-hero-title aria-label="Noruzo AI">
       <span class="hero__line" aria-hidden="true">
-        <span class="char">N</span><span class="char">O</span><span class="char">R</span><span class="char">U</span><span class="char t-tilt">Z</span><span class="char t-tilt">O</span>
+        <span class="char">N</span><span class="char">O</span><span class="char">R</span><span class="char">U</span><span class="char t-tilt">z</span><span class="char t-tilt">o</span>
       </span>
       <span class="hero__line hero__line--sub" aria-hidden="true">
         <span class="char">A</span><span class="char">I</span><span class="hero__dot char"></span>
@@ -39,10 +39,9 @@
     height: 100%;
     /* Static fallback painted until (or instead of) WebGL boots */
     background: radial-gradient(
-      120% 90% at 70% 20%,
-      var(--c-accent) 0%,
-      var(--c-accent-deep) 38%,
-      var(--c-black) 78%
+      110% 80% at 72% 18%,
+      #ffd9c7 0%,
+      var(--c-bg) 62%
     );
   }
 
@@ -52,7 +51,7 @@
   }
 
   .hero__title {
-    color: var(--c-cream);
+    color: var(--c-ink);
   }
 
   .hero__line {
@@ -70,26 +69,20 @@
     will-change: transform;
   }
 
-  .hero__line .t-tilt {
-    color: var(--c-cream);
-    -webkit-text-stroke: 2px var(--c-cream);
-    -webkit-text-fill-color: transparent;
-  }
-
   .hero__dot {
-    width: 0.18em;
-    height: 0.18em;
+    width: 0.16em;
+    height: 0.16em;
     border-radius: 50%;
     background: var(--c-accent);
     margin-left: 0.08em;
     align-self: flex-end;
-    margin-bottom: 0.07em;
+    margin-bottom: 0.09em;
   }
 
   .hero__tagline {
-    max-width: 34rem;
+    max-width: 32rem;
     margin-top: 2rem;
-    color: var(--c-cream);
+    color: var(--c-ink-soft);
   }
 
   .hero__scroll {
@@ -99,7 +92,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--c-cream);
+    color: var(--c-ink-soft);
   }
 
   .hero__arrow {

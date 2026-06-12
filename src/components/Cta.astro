@@ -1,4 +1,4 @@
-<section class="cta section" id="contact" data-theme-section="dark">
+<section class="cta section" id="contact" data-theme-section="light">
   <h2 class="cta__title t-display t-display--xl" data-split>
     Let's build
   </h2>
@@ -35,13 +35,13 @@
   }
 
   .cta__title {
-    color: var(--c-cream);
+    color: var(--c-ink);
   }
 
   .cta__sub {
     margin-top: 2rem;
     max-width: 30rem;
-    color: color-mix(in srgb, var(--c-cream) 75%, transparent);
+    color: var(--c-ink-soft);
   }
 
   .cta__form {
@@ -56,15 +56,15 @@
   .cta__input {
     flex: 1 1 16rem;
     padding: 1.1rem 1.4rem;
-    border: 1px solid color-mix(in srgb, var(--c-cream) 30%, transparent);
+    border: 1px solid var(--c-line);
     border-radius: 99px;
-    background: transparent;
-    color: var(--c-cream);
+    background: var(--c-paper);
+    color: var(--c-ink);
     transition: border-color 0.3s var(--ease-out-expo);
   }
 
   .cta__input::placeholder {
-    color: color-mix(in srgb, var(--c-cream) 40%, transparent);
+    color: var(--c-ink-soft);
   }
 
   .cta__input:focus {
@@ -73,22 +73,22 @@
   }
 
   .cta__form.is-error .cta__input {
-    border-color: #ff4d4d;
+    border-color: #e23636;
   }
 
   .cta__submit {
     padding: 1.1rem 2.2rem;
     border-radius: 99px;
-    background: var(--c-accent);
-    color: var(--c-cream);
+    background: var(--c-ink);
+    color: var(--c-paper);
     transition:
-      transform 0.3s var(--ease-out-expo),
-      background-color 0.3s var(--ease-out-expo);
+      transform 0.35s var(--ease-out-expo),
+      background-color 0.35s var(--ease-out-expo);
   }
 
   .cta__submit:hover {
-    transform: scale(1.05);
-    background: var(--c-accent-soft);
+    transform: scale(1.04);
+    background: var(--c-accent);
   }
 
   .cta__submit:disabled {
@@ -99,15 +99,15 @@
   .cta__status {
     flex-basis: 100%;
     min-height: 1.2em;
-    color: var(--c-accent-soft);
+    color: var(--c-ink-soft);
   }
 
   .cta__form.is-error .cta__status {
-    color: #ff4d4d;
+    color: #e23636;
   }
 
   .cta__form.is-success .cta__status {
-    color: #5ee37e;
+    color: #1d9e4b;
   }
 
   .visually-hidden {

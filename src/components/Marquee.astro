@@ -3,8 +3,9 @@
     {
       Array.from({ length: 4 }).map(() => (
         <span class="marquee__item t-display t-display--lg">
-          AI that ships <span class="marquee__sep">●</span> NORU
-          <span class="t-tilt">ZO</span> <span class="marquee__sep">●</span>
+          AI that <span class="t-tilt">ships</span>
+          <span class="marquee__sep">—</span> NORU<span class="t-tilt">zo</span>
+          <span class="marquee__sep">—</span>
         </span>
       ))
     }
@@ -14,10 +15,11 @@
 <style>
   .marquee {
     overflow: clip;
-    padding: 1.2rem 0;
-    background: var(--c-accent);
-    color: var(--c-black);
-    transform: rotate(-1.5deg) scale(1.02);
+    padding: 2rem 0;
+    background: var(--c-paper);
+    color: var(--c-ink);
+    border-top: 1px solid var(--c-line);
+    border-bottom: 1px solid var(--c-line);
   }
 
   .marquee__track {
@@ -32,13 +34,7 @@
   }
 
   .marquee__sep {
-    font-size: 0.35em;
-    vertical-align: middle;
-    display: inline-block;
-    transform: translateY(-0.6em);
-  }
-
-  .marquee .t-tilt {
-    color: var(--c-cream);
+    color: var(--c-line);
+    padding: 0 0.15em;
   }
 </style>

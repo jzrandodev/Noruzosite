@@ -22,20 +22,20 @@ void main() {
   vec2 aspect = vec2(uResolution.x / uResolution.y, 1.0);
   vec2 texel = 1.0 / uResolution;
 
-  // Melt: pull from slightly above so the goo slides downward,
-  // with a soft 5-tap blur that rounds the edges into goo.
-  vec2 drip = vec2(0.0, texel.y * 1.4);
-  float c = texture2D(uPrev, vUv + drip).r * 0.5;
-  c += texture2D(uPrev, vUv + drip + vec2(texel.x * 1.5, 0.0)).r * 0.175;
-  c += texture2D(uPrev, vUv + drip - vec2(texel.x * 1.5, 0.0)).r * 0.175;
-  c += texture2D(uPrev, vUv + drip + vec2(0.0, texel.y * 1.5)).r * 0.075;
-  c += texture2D(uPrev, vUv + drip - vec2(0.0, texel.y * 1.5)).r * 0.075;
+  // Melt: pull from slightly above so the smear slides downward, with a
+  // wide blur that spreads each frame — this is what makes it buttery.
+  vec2 drip = vec2(0.0, texel.y * 1.1);
+  float c = texture2D(uPrev, vUv + drip).r * 0.42;
+  c += texture2D(uPrev, vUv + drip + vec2(texel.x * 2.4, 0.0)).r * 0.16;
+  c += texture2D(uPrev, vUv + drip - vec2(texel.x * 2.4, 0.0)).r * 0.16;
+  c += texture2D(uPrev, vUv + drip + vec2(0.0, texel.y * 2.4)).r * 0.13;
+  c += texture2D(uPrev, vUv + drip - vec2(0.0, texel.y * 2.4)).r * 0.13;
   c *= uDecay;
 
-  // Paint along the mouse path — fatter and stronger when moving fast
+  // Paint along the mouse path — wider, gentler deposits than before
   float d = segDist(vUv * aspect, uPrevMouse * aspect, uMouse * aspect);
-  float radius = 0.035 + uVelocity * 0.13;
-  c += smoothstep(radius, 0.0, d) * (0.22 + uVelocity * 0.4);
+  float radius = 0.055 + uVelocity * 0.14;
+  c += smoothstep(radius, 0.0, d) * (0.16 + uVelocity * 0.3);
 
   gl_FragColor = vec4(vec3(min(c, 1.5)), 1.0);
 }
