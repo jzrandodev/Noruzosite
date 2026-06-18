@@ -11,6 +11,8 @@ export function initContactForm(): void {
 
   const emailInput = form.querySelector<HTMLInputElement>("input[name=email]");
   const nameInput = form.querySelector<HTMLInputElement>("input[name=name]");
+  const websiteInput = form.querySelector<HTMLInputElement>("input[name=website]");
+  const budgetSelect = form.querySelector<HTMLSelectElement>("select[name=budget]");
   const messageInput = form.querySelector<HTMLTextAreaElement>("textarea[name=message]");
   const button = form.querySelector<HTMLButtonElement>("button[type=submit]");
   const label = form.querySelector<HTMLElement>("[data-form-label]");
@@ -49,10 +51,29 @@ export function initContactForm(): void {
       return;
     }
 
+    const shake = () =>
+      gsap.fromTo(form, { x: -6 }, { x: 0, duration: 0.4, ease: "elastic.out(1, 0.3)" });
+
     const email = emailInput?.value.trim() ?? "";
     if (!email || !emailInput?.checkValidity()) {
       setStatus("That email doesn't look right — try again?", "is-error");
-      gsap.fromTo(form, { x: -6 }, { x: 0, duration: 0.4, ease: "elastic.out(1, 0.3)" });
+      shake();
+      return;
+    }
+
+    const budget = budgetSelect?.value ?? "";
+    if (!budget) {
+      setStatus("Pick a budget range so we can scope it right.", "is-error");
+      budgetSelect?.focus();
+      shake();
+      return;
+    }
+
+    const message = messageInput?.value.trim() ?? "";
+    if (!message) {
+      setStatus("Tell us the main problem you're trying to solve.", "is-error");
+      messageInput?.focus();
+      shake();
       return;
     }
 
@@ -74,7 +95,9 @@ export function initContactForm(): void {
         body: JSON.stringify({
           email,
           name: nameInput?.value.trim() || null,
-          message: messageInput?.value.trim() || null,
+          website: websiteInput?.value.trim() || null,
+          budget,
+          message,
           source,
         }),
       });

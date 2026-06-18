@@ -36,14 +36,39 @@
       />
     </div>
 
-    <label class="visually-hidden" for="cta-message">What do you need?</label>
+    <div class="cta__row">
+      <label class="visually-hidden" for="cta-website">Company website</label>
+      <input
+        class="cta__input"
+        id="cta-website"
+        type="url"
+        name="website"
+        placeholder="Company website (optional)"
+        autocomplete="url"
+        inputmode="url"
+        maxlength="254"
+        data-hover
+      />
+      <label class="visually-hidden" for="cta-budget">Project budget</label>
+      <select class="cta__input cta__select" id="cta-budget" name="budget" required data-hover>
+        <option value="" disabled selected>Project budget…</option>
+        <option value="Under $5,000">Under $5,000</option>
+        <option value="$5,000 – $15,000">$5,000 – $15,000</option>
+        <option value="$15,000 – $50,000">$15,000 – $50,000</option>
+        <option value="$50,000+">$50,000+</option>
+        <option value="Not sure yet">Not sure yet</option>
+      </select>
+    </div>
+
+    <label class="visually-hidden" for="cta-message">What are you trying to fix?</label>
     <textarea
       class="cta__input cta__textarea"
       id="cta-message"
       name="message"
-      placeholder="What do you need? A sentence is plenty. (optional)"
+      placeholder="What's the main problem you're trying to solve? A couple of sentences is plenty."
       rows="3"
       maxlength="2000"
+      required
       data-hover></textarea>
 
     <div class="cta__row cta__row--actions">
@@ -117,6 +142,21 @@
   }
 
   .cta__input::placeholder {
+    color: var(--c-ink-soft);
+  }
+
+  .cta__select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-right: 3rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23222' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1.4rem center;
+  }
+
+  /* Empty + required = :invalid → show like a placeholder until they pick */
+  .cta__select:invalid {
     color: var(--c-ink-soft);
   }
 

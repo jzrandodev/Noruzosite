@@ -32,7 +32,14 @@ Deno.serve(async (req) => {
     return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers });
   }
 
-  let body: { email?: string; name?: string | null; message?: string | null; source?: unknown };
+  let body: {
+    email?: string;
+    name?: string | null;
+    website?: string | null;
+    budget?: string | null;
+    message?: string | null;
+    source?: unknown;
+  };
   try {
     body = await req.json();
   } catch {
@@ -41,11 +48,19 @@ Deno.serve(async (req) => {
 
   const email = (body.email ?? "").trim().slice(0, 254);
   const name = body.name ? String(body.name).trim().slice(0, 120) : null;
+  const website = body.website ? String(body.website).trim().slice(0, 254) : null;
+  const budget = body.budget ? String(body.budget).trim().slice(0, 60) : null;
   const message = body.message ? String(body.message).trim().slice(0, 2000) : null;
   const source = body.source && typeof body.source === "object" ? body.source : null;
 
   if (!EMAIL_RE.test(email)) {
     return new Response(JSON.stringify({ error: "Invalid email" }), { status: 400, headers });
+  }
+  if (!budget) {
+    return new Response(JSON.stringify({ error: "Budget is required" }), { status: 400, headers });
+  }
+  if (!message) {
+    return new Response(JSON.stringify({ error: "Message is required" }), { status: 400, headers });
   }
 
   // Store the lead first — it must survive even if the email ping fails
@@ -53,7 +68,9 @@ Deno.serve(async (req) => {
     Deno.env.get("SUPABASE_URL")!,
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
   );
-  const { error: dbError } = await supabase.from("leads").insert({ email, name, message, source });
+  const { error: dbError } = await supabase
+    .from("leads")
+    .insert({ email, name, company_website: website, budget, message, source });
   if (dbError) {
     console.error("leads insert failed:", dbError.message);
     return new Response(JSON.stringify({ error: "Could not save your message" }), { status: 500, headers });
@@ -66,6 +83,8 @@ Deno.serve(async (req) => {
     const lines = [
       `Email: ${email}`,
       name ? `Name: ${name}` : null,
+      website ? `Website: ${website}` : null,
+      `Budget: ${budget}`,
       message ? `\n${message}` : null,
       source ? `\nSource: ${JSON.stringify(source)}` : null,
     ].filter(Boolean);
