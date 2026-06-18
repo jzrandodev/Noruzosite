@@ -1,0 +1,57 @@
+---
+import "@fontsource-variable/inter";
+import "@fontsource-variable/playfair-display";
+import "@fontsource-variable/playfair-display/wght-italic.css";
+import "../../styles/base.css";
+import "../../styles/typography.css";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Noruzo Journal</title>
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+  </head>
+  <body data-theme="light" class="blog-body">
+    <header class="blog-top">
+      <a class="blog-top__home" href={import.meta.env.BASE_URL}>Noruzo</a>
+      <a class="blog-top__back" data-back href="#">← Journal</a>
+    </header>
+
+    <main class="blog-wrap">
+      <article class="post" data-article hidden>
+        <time class="post__date" data-date></time>
+        <h1 class="post__title" data-title></h1>
+        <div class="post__body" data-body></div>
+      </article>
+      <p class="post-state" data-state>Loading…</p>
+    </main>
+
+    <script src="../../scripts/blog-post.ts"></script>
+
+    <style>
+      .blog-body { background: var(--c-bg); color: var(--c-ink); font-family: var(--font-body); min-height: 100vh; }
+      .blog-top { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem var(--gutter); border-bottom: 1px solid var(--c-line); }
+      .blog-top__home { font-weight: 600; color: var(--c-ink); text-decoration: none; }
+      .blog-top__home:hover, .blog-top__back:hover { color: var(--c-accent); }
+      .blog-top__back { color: var(--c-ink-soft); text-decoration: none; font-size: 0.9rem; }
+      .blog-wrap { max-width: 42rem; margin: 0 auto; padding: 4rem var(--gutter) 6rem; }
+      .post-state { color: var(--c-ink-soft); padding: 2rem 0; }
+      .post__date { display: block; font-size: 0.78rem; color: var(--c-ink-soft); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
+      .post__title { font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; margin-bottom: 2.5rem; color: var(--c-ink); }
+      .post__body { line-height: 1.7; font-size: 1.08rem; color: var(--c-ink); }
+      .post__body h2 { font-family: var(--font-serif); font-size: 1.6rem; margin: 2.5rem 0 1rem; line-height: 1.2; }
+      .post__body h3 { font-size: 1.2rem; font-weight: 600; margin: 2rem 0 0.75rem; }
+      .post__body p { margin-bottom: 1.25rem; }
+      .post__body ul, .post__body ol { margin: 0 0 1.25rem 1.25rem; }
+      .post__body li { margin-bottom: 0.5rem; }
+      .post__body a { color: var(--c-accent); }
+      .post__body blockquote { border-left: 3px solid var(--c-accent); padding-left: 1rem; color: var(--c-ink-soft); margin: 1.5rem 0; }
+      .post__body code { background: var(--c-paper); border: 1px solid var(--c-line); border-radius: 0.3rem; padding: 0.1rem 0.35rem; font-size: 0.9em; }
+      .post__body pre { background: var(--c-paper); border: 1px solid var(--c-line); border-radius: 0.6rem; padding: 1rem; overflow-x: auto; margin-bottom: 1.25rem; }
+      .post__body pre code { border: none; padding: 0; background: none; }
+    </style>
+  </body>
+</html>

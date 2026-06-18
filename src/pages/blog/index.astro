@@ -1,0 +1,61 @@
+---
+import "@fontsource-variable/inter";
+import "@fontsource-variable/playfair-display";
+import "@fontsource-variable/playfair-display/wght-italic.css";
+import "../../styles/base.css";
+import "../../styles/typography.css";
+
+const title = "Journal — Noruzo AI";
+const description = "Notes on building and shipping AI that works.";
+const canonical = new URL(import.meta.env.BASE_URL + "blog", Astro.site).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+  </head>
+  <body data-theme="light" class="blog-body">
+    <header class="blog-top">
+      <a class="blog-top__home" href={import.meta.env.BASE_URL}>Noruzo</a>
+      <span class="t-label">Journal</span>
+    </header>
+
+    <main class="blog-wrap">
+      <h1 class="blog-h1 t-display t-display--md">The <span class="t-tilt">Journal</span></h1>
+      <p class="blog-lede t-body-lg">Notes on building and shipping AI that works.</p>
+
+      <ul class="post-list" data-list>
+        <li class="post-empty" data-empty hidden>No posts yet — check back soon.</li>
+      </ul>
+    </main>
+
+    <script src="../../scripts/blog-index.ts"></script>
+
+    <style>
+      .blog-body { background: var(--c-bg); color: var(--c-ink); font-family: var(--font-body); min-height: 100vh; }
+      .blog-top { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem var(--gutter); border-bottom: 1px solid var(--c-line); }
+      .blog-top__home { font-weight: 600; color: var(--c-ink); text-decoration: none; letter-spacing: -0.01em; }
+      .blog-top__home:hover { color: var(--c-accent); }
+      .blog-wrap { max-width: 44rem; margin: 0 auto; padding: 4rem var(--gutter) 6rem; }
+      .blog-h1 { color: var(--c-ink); }
+      .blog-lede { margin: 1.25rem 0 3rem; color: var(--c-ink-soft); max-width: 32rem; }
+      .post-list { list-style: none; display: flex; flex-direction: column; }
+      .post-item { padding: 1.75rem 0; border-top: 1px solid var(--c-line); }
+      .post-item:last-child { border-bottom: 1px solid var(--c-line); }
+      .post-item a { text-decoration: none; color: var(--c-ink); }
+      .post-item__title { font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.2; margin-bottom: 0.5rem; transition: color 0.2s; }
+      .post-item a:hover .post-item__title { color: var(--c-accent); }
+      .post-item__excerpt { color: var(--c-ink-soft); line-height: 1.55; }
+      .post-item__date { display: block; font-size: 0.78rem; color: var(--c-ink-soft); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+      .post-empty { color: var(--c-ink-soft); padding: 2rem 0; }
+    </style>
+  </body>
+</html>

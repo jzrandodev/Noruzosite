@@ -8,7 +8,12 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://jzrandodev.github.io",
   base: "/Noruzosite",
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // Keep the private studio and the dynamic blog template out of the sitemap.
+      filter: (page) => !/\/(studio|blog\/post)\/?$/.test(page),
+    }),
+  ],
   vite: {
     assetsInclude: ["**/*.frag", "**/*.vert"],
   },
