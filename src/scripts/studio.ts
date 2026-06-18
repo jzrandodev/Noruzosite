@@ -47,9 +47,14 @@ async function init() {
   if (data.session) showApp(data.session.user.email ?? "");
   else showLogin();
 
+  // Defer any Supabase calls out of this callback. It fires while the client
+  // holds its auth lock; calling the client back synchronously (showApp →
+  // loadHistory) deadlocks sign-in and the UI hangs on "Signing in…".
   supabase.auth.onAuthStateChange((_e, session) => {
-    if (session) showApp(session.user.email ?? "");
-    else showLogin();
+    setTimeout(() => {
+      if (session) showApp(session.user.email ?? "");
+      else showLogin();
+    }, 0);
   });
 }
 
