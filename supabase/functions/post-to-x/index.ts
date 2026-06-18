@@ -10,6 +10,7 @@ import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const ALLOWED_ORIGINS = new Set([
   "https://jzrandodev.github.io",
+  "http://localhost:3000",
   "http://localhost:4321",
   "http://localhost:4322",
 ]);

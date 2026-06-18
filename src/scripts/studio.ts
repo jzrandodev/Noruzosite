@@ -70,9 +70,23 @@ $("[data-login-form]")!.addEventListener("submit", async (e) => {
   const form = e.currentTarget as HTMLFormElement;
   const email = (form.elements.namedItem("email") as HTMLInputElement).value.trim();
   const password = (form.elements.namedItem("password") as HTMLInputElement).value;
+  const submit = $("[data-login-submit]") as HTMLButtonElement;
+  submit.disabled = true;
   setLoginStatus("Signing in…", false);
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) setLoginStatus(error.message, false);
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      setLoginStatus(error.message, false);
+    } else if (data.session) {
+      // Flip to the app here directly — don't depend on the background
+      // auth event firing, so a missed event can't leave us stuck.
+      showApp(data.session.user.email ?? email);
+    }
+  } catch {
+    setLoginStatus("Couldn't reach the server — check your connection and try again.", false);
+  } finally {
+    submit.disabled = false;
+  }
 });
 
 $("[data-forgot]")!.addEventListener("click", async () => {
