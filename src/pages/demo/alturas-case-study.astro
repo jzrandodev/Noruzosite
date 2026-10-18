@@ -1,0 +1,212 @@
+---
+// Case study for the Alturas Pediatrics concept site. No invented results: it explains decisions.
+import "@fontsource-variable/inter";
+import "@fontsource-variable/playfair-display";
+import "@fontsource-variable/playfair-display/wght-italic.css";
+import "../../styles/base.css";
+import "../../styles/typography.css";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const title = "Case study: a bilingual site for a pediatric practice | Noruzo";
+const description =
+  "How Noruzo designed a bilingual website, booking flow and AI front desk for a concept pediatric practice in Washington Heights.";
+
+const decisions = [
+  {
+    n: "01",
+    title: "Spanish is a first-class version, not a translation tab",
+    body: "Every line was written for both languages, with one switch at the top that changes the whole page. Parents never land on a half-translated screen or a link that falls back to English.",
+  },
+  {
+    n: "02",
+    title: "Booking in three taps, on a phone",
+    body: "Most parents look up a pediatrician on their phone, often with a sick kid nearby. The booking flow asks only what the visit is for and when, with large tap targets and no account to create.",
+  },
+  {
+    n: "03",
+    title: "A front desk assistant with clear limits",
+    body: "The assistant answers the questions front desks hear all day: hours, insurance, booking and same-day sick visits. It replies in the language the parent writes in, and for anything urgent it points straight to 911 or the ER instead of guessing.",
+  },
+  {
+    n: "04",
+    title: "Plain words over medical jargon",
+    body: "Copy is short and written at an everyday reading level in both languages, so a parent can scan it in seconds. Insurance programs families rely on, like Medicaid and Child Health Plus, are named up front.",
+  },
+];
+
+const realVersion = [
+  "Spanish copy reviewed by a native medical translator",
+  "Booking connected to the practice's real scheduling system",
+  "Text reminders sent in each family's preferred language",
+  "AI assistant on a HIPAA-compliant vendor with a signed agreement, and no patient details stored in the demo tools",
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
+  </head>
+  <body data-theme="light">
+    <header class="cs-top">
+      <a class="cs-logo t-display" href={`${base}/`}>NORU<span class="t-tilt">zo</span></a>
+      <a class="cs-back t-label" href={`${base}/#work`}>← Back to Noruzo</a>
+    </header>
+
+    <main class="cs">
+      <section class="cs-hero">
+        <p class="t-label cs-chip">Concept case study</p>
+        <h1 class="t-display t-display--lg">A pediatric practice that works as well in Spanish as in English</h1>
+        <p class="t-body-lg cs-lede">
+          Alturas Pediatrics is a fictional practice in Washington Heights, designed to show what Noruzo builds
+          for clinics where many families prefer Spanish: a bilingual website, a three-tap booking flow and a
+          front desk assistant.
+        </p>
+        <div class="cs-ctas">
+          <a class="cs-btn cs-btn--primary" href={`${base}/demo/alturas/`}>Open the live demo</a>
+          <a class="cs-btn" href={`${base}/#contact`}>Book a $500 audit</a>
+        </div>
+      </section>
+
+      <section class="cs-block">
+        <h2 class="t-display t-display--md">The problem</h2>
+        <div class="cs-cols">
+          <p>
+            Many independent practices in neighborhoods like Washington Heights, Corona and the Bronx see a large
+            share of Spanish-speaking families, yet their websites are often English only. Parents end up calling
+            to ask basic questions, or asking a relative to translate.
+          </p>
+          <p>
+            That lands on the front desk, which is already juggling calls in two languages. The goal was a site
+            that answers those questions on its own and makes booking easy, in either language.
+          </p>
+        </div>
+      </section>
+
+      <section class="cs-block">
+        <h2 class="t-display t-display--md">Key decisions</h2>
+        <ol class="cs-list" role="list">
+          {
+            decisions.map((d) => (
+              <li class="cs-item">
+                <span class="cs-num t-tilt" aria-hidden="true">{d.n}</span>
+                <div>
+                  <h3>{d.title}</h3>
+                  <p>{d.body}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section class="cs-block">
+        <h2 class="t-display t-display--md">What a real build adds</h2>
+        <p class="cs-note">This concept uses scripted answers and a demo booking flow. For a real practice, Noruzo adds:</p>
+        <ul class="cs-checks" role="list">
+          {realVersion.map((line) => <li>{line}</li>)}
+        </ul>
+      </section>
+
+      <section class="cs-cta">
+        <h2 class="t-display t-display--md">Want this for your practice?</h2>
+        <p class="t-body-lg">Start with a $500 patient experience audit of your site, booking and phones, in both languages.</p>
+        <a class="cs-btn cs-btn--primary" href={`${base}/#contact`}>Get in touch</a>
+      </section>
+    </main>
+
+    <style>
+      .cs-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.5rem var(--gutter);
+      }
+      .cs-logo { font-size: 1.35rem; line-height: 1; }
+      .cs-back { color: var(--c-ink-soft); }
+      .cs-back:hover { color: var(--c-accent); }
+
+      .cs { max-width: 1040px; margin: 0 auto; padding: 0 var(--gutter) 6rem; }
+      .cs-hero { padding: 3rem 0 4rem; display: flex; flex-direction: column; gap: 1.5rem; }
+      .cs-chip {
+        align-self: flex-start;
+        border: 1px solid var(--c-line);
+        background: var(--c-paper);
+        padding: 0.5rem 1rem;
+        border-radius: 99px;
+        color: var(--c-ink-soft);
+      }
+      .cs-lede { color: var(--c-ink-soft); max-width: 40rem; }
+      .cs-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+      .cs-btn {
+        display: inline-flex;
+        align-items: center;
+        min-height: 48px;
+        padding: 0.9rem 1.6rem;
+        border-radius: 99px;
+        border: 1px solid var(--c-ink);
+        font-weight: 600;
+        transition: background-color 0.3s var(--ease-out-expo), color 0.3s var(--ease-out-expo);
+      }
+      .cs-btn:hover { background: var(--c-ink); color: var(--c-paper); }
+      .cs-btn--primary { background: var(--c-ink); color: var(--c-paper); }
+      .cs-btn--primary:hover { background: var(--c-accent-deep); border-color: var(--c-accent-deep); }
+
+      .cs-block { padding: 3.5rem 0; border-top: 1px solid var(--c-line); }
+      .cs-block h2 { margin-bottom: 1.75rem; }
+      .cs-cols { display: flex; flex-wrap: wrap; gap: 1.5rem 3rem; }
+      .cs-cols p { flex: 1 1 300px; color: var(--c-ink-soft); line-height: 1.7; }
+
+      .cs-list { list-style: none; display: flex; flex-direction: column; }
+      .cs-item {
+        display: grid;
+        grid-template-columns: 4.5rem 1fr;
+        gap: 1rem;
+        padding: 1.75rem 0;
+        border-top: 1px solid var(--c-line);
+      }
+      .cs-item:first-child { border-top: 0; padding-top: 0; }
+      .cs-num { font-size: 2.4rem; line-height: 1; }
+      .cs-item h3 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 0.5rem; }
+      .cs-item p { color: var(--c-ink-soft); line-height: 1.7; max-width: 42rem; }
+
+      .cs-note { color: var(--c-ink-soft); margin-bottom: 1.25rem; }
+      .cs-checks { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+      .cs-checks li { padding-left: 1.75rem; position: relative; line-height: 1.6; }
+      .cs-checks li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.45em;
+        width: 0.7rem;
+        height: 0.7rem;
+        border-radius: 50%;
+        background: var(--c-accent-deep);
+      }
+
+      .cs-cta {
+        margin-top: 2rem;
+        padding: clamp(2rem, 5vw, 3.5rem);
+        border-radius: 1.5rem;
+        background: var(--c-ink);
+        color: var(--c-paper);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+      }
+      .cs-cta p { color: rgb(255 255 255 / 0.75); max-width: 34rem; }
+      .cs-cta .cs-btn { background: var(--c-paper); color: var(--c-ink); border-color: var(--c-paper); }
+      .cs-cta .cs-btn:hover { background: var(--c-accent-deep); color: var(--c-paper); border-color: var(--c-accent-deep); }
+
+      @media (max-width: 560px) {
+        .cs-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      }
+    </style>
+  </body>
+</html>
