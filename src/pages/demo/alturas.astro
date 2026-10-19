@@ -1,0 +1,493 @@
+---
+// Concept site for a fictional pediatric practice. Built by Noruzo as a showcase.
+// The clinic, doctors, phone number and booking are not real.
+import "@fontsource-variable/inter";
+import "@fontsource-variable/playfair-display";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const title = "Alturas Pediatrics | Concept site by Noruzo";
+const description =
+  "A concept bilingual website and AI front desk for a fictional pediatric practice in Washington Heights, designed by Noruzo.";
+---
+
+<!doctype html>
+<html lang="en" data-lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
+  </head>
+  <body>
+    <div class="concept">
+      <span data-l="en">Concept site by Noruzo. Alturas Pediatrics is a fictional practice.</span>
+      <span data-l="es">Sitio de muestra creado por Noruzo. Alturas Pediatrics es una clínica ficticia.</span>
+      <a href={`${base}/demo/alturas-case-study/`}>
+        <span data-l="en">Read the case study</span><span data-l="es">Ver el caso de estudio</span>
+      </a>
+    </div>
+
+    <header class="top">
+      <a class="logo" href="#inicio">
+        <span class="logo__mark" aria-hidden="true"></span>
+        Alturas <em>Pediatrics</em>
+      </a>
+      <nav class="top__nav" aria-label="Main">
+        <a href="#servicios"><span data-l="en">Services</span><span data-l="es">Servicios</span></a>
+        <a href="#seguros"><span data-l="en">Insurance</span><span data-l="es">Seguros</span></a>
+        <a href="#visitar"><span data-l="en">Visit us</span><span data-l="es">Visítenos</span></a>
+      </nav>
+      <div class="top__actions">
+        <div class="lang" role="group" aria-label="Language / Idioma">
+          <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+          <button type="button" data-set-lang="es" aria-pressed="false">ES</button>
+        </div>
+        <a class="btn btn--primary btn--sm" href="#reservar">
+          <span data-l="en">Book a visit</span><span data-l="es">Hacer cita</span>
+        </a>
+      </div>
+    </header>
+
+    <main id="inicio">
+      <section class="hero wrap">
+        <div class="hero__text">
+          <p class="eyebrow">
+            <span data-l="en">Pediatric care in Washington Heights</span>
+            <span data-l="es">Pediatría en Washington Heights</span>
+          </p>
+          <h1>
+            <span data-l="en">Care for your kids, in the language your family speaks.</span>
+            <span data-l="es">Cuidamos a sus hijos, en el idioma de su familia.</span>
+          </h1>
+          <p class="lede">
+            <span data-l="en">Checkups, sick visits and vaccines for newborns to teens. Every doctor and every front desk team member speaks English and Spanish.</span>
+            <span data-l="es">Chequeos, consultas por enfermedad y vacunas, desde recién nacidos hasta adolescentes. Todos nuestros médicos y nuestro personal hablan inglés y español.</span>
+          </p>
+          <div class="hero__ctas">
+            <a class="btn btn--primary" href="#reservar">
+              <span data-l="en">Book a visit online</span><span data-l="es">Haga su cita en línea</span>
+            </a>
+            <button class="btn btn--ghost" type="button" data-open-chat>
+              <span data-l="en">Ask a question</span><span data-l="es">Hacer una pregunta</span>
+            </button>
+          </div>
+          <ul class="hero__facts" role="list">
+            <li><span data-l="en">Same-day sick visits</span><span data-l="es">Citas el mismo día si su hijo está enfermo</span></li>
+            <li><span data-l="en">Medicaid and Child Health Plus accepted</span><span data-l="es">Aceptamos Medicaid y Child Health Plus</span></li>
+            <li><span data-l="en">Open Saturdays</span><span data-l="es">Abierto los sábados</span></li>
+          </ul>
+        </div>
+
+        <div class="hero__card" aria-hidden="true">
+          <div class="hc__row hc__row--head">
+            <span class="hc__dot"></span>
+            <span data-l="en">Next available</span><span data-l="es">Próxima cita</span>
+          </div>
+          <div class="hc__slot">
+            <strong data-l="en">Today, 3:40 PM</strong><strong data-l="es">Hoy, 3:40 PM</strong>
+            <span data-l="en">Sick visit, Dr. Reyes</span><span data-l="es">Consulta por enfermedad, Dra. Reyes</span>
+          </div>
+          <div class="hc__slot">
+            <strong data-l="en">Tomorrow, 9:00 AM</strong><strong data-l="es">Mañana, 9:00 AM</strong>
+            <span data-l="en">Checkup, Dr. Okafor</span><span data-l="es">Chequeo, Dr. Okafor</span>
+          </div>
+          <div class="hc__note">
+            <span data-l="en">Hablamos español</span><span data-l="es">We speak English</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap section" id="servicios">
+        <h2>
+          <span data-l="en">What we help with</span><span data-l="es">En qué le ayudamos</span>
+        </h2>
+        <ul class="cards" role="list">
+          <li class="card">
+            <h3><span data-l="en">Well visits</span><span data-l="es">Chequeos de rutina</span></h3>
+            <p><span data-l="en">Growth, development and school or camp forms, on the schedule your pediatrician recommends.</span><span data-l="es">Crecimiento, desarrollo y formularios para la escuela o el campamento, según el calendario que recomiende su pediatra.</span></p>
+          </li>
+          <li class="card">
+            <h3><span data-l="en">Sick visits</span><span data-l="es">Consultas por enfermedad</span></h3>
+            <p><span data-l="en">Fever, ear pain, coughs and rashes. Call or book online and we'll fit you in the same day when we can.</span><span data-l="es">Fiebre, dolor de oído, tos y sarpullido. Llame o reserve en línea y haremos lo posible por atenderle el mismo día.</span></p>
+          </li>
+          <li class="card">
+            <h3><span data-l="en">Vaccines</span><span data-l="es">Vacunas</span></h3>
+            <p><span data-l="en">All recommended childhood vaccines, plus a printed record for school in English or Spanish.</span><span data-l="es">Todas las vacunas infantiles recomendadas, con un registro impreso para la escuela en inglés o español.</span></p>
+          </li>
+          <li class="card">
+            <h3><span data-l="en">Newborn care</span><span data-l="es">Recién nacidos</span></h3>
+            <p><span data-l="en">First visits, feeding questions and support for new parents, in whichever language feels easiest.</span><span data-l="es">Primeras visitas, preguntas sobre alimentación y apoyo para padres primerizos, en el idioma que le resulte más cómodo.</span></p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="wrap section book" id="reservar" aria-labelledby="book-title">
+        <div class="book__intro">
+          <h2 id="book-title"><span data-l="en">Book a visit in under a minute</span><span data-l="es">Reserve una cita en menos de un minuto</span></h2>
+          <p class="muted"><span data-l="en">Demo booking: nothing is sent or saved.</span><span data-l="es">Reserva de demostración: no se envía ni se guarda nada.</span></p>
+        </div>
+
+        <div class="book__box" data-booking>
+          <ol class="steps" role="list" aria-hidden="true">
+            <li data-step-dot="1" class="is-on">1</li>
+            <li data-step-dot="2">2</li>
+            <li data-step-dot="3">3</li>
+          </ol>
+
+          <div data-step="1">
+            <p class="q"><span data-l="en">What's the visit for?</span><span data-l="es">¿Para qué es la cita?</span></p>
+            <div class="choices">
+              <button type="button" class="choice" data-pick="reason" data-en="Sick visit" data-es="Consulta por enfermedad"><span data-l="en">Sick visit</span><span data-l="es">Consulta por enfermedad</span></button>
+              <button type="button" class="choice" data-pick="reason" data-en="Checkup" data-es="Chequeo"><span data-l="en">Checkup</span><span data-l="es">Chequeo</span></button>
+              <button type="button" class="choice" data-pick="reason" data-en="Vaccines" data-es="Vacunas"><span data-l="en">Vaccines</span><span data-l="es">Vacunas</span></button>
+              <button type="button" class="choice" data-pick="reason" data-en="Newborn visit" data-es="Visita de recién nacido"><span data-l="en">Newborn visit</span><span data-l="es">Visita de recién nacido</span></button>
+            </div>
+          </div>
+
+          <div data-step="2" hidden>
+            <p class="q"><span data-l="en">Pick a time</span><span data-l="es">Elija un horario</span></p>
+            <div class="choices">
+              <button type="button" class="choice" data-pick="time" data-en="Today, 3:40 PM" data-es="Hoy, 3:40 PM"><span data-l="en">Today, 3:40 PM</span><span data-l="es">Hoy, 3:40 PM</span></button>
+              <button type="button" class="choice" data-pick="time" data-en="Tomorrow, 9:00 AM" data-es="Mañana, 9:00 AM"><span data-l="en">Tomorrow, 9:00 AM</span><span data-l="es">Mañana, 9:00 AM</span></button>
+              <button type="button" class="choice" data-pick="time" data-en="Tomorrow, 11:20 AM" data-es="Mañana, 11:20 AM"><span data-l="en">Tomorrow, 11:20 AM</span><span data-l="es">Mañana, 11:20 AM</span></button>
+              <button type="button" class="choice" data-pick="time" data-en="Saturday, 10:00 AM" data-es="Sábado, 10:00 AM"><span data-l="en">Saturday, 10:00 AM</span><span data-l="es">Sábado, 10:00 AM</span></button>
+            </div>
+            <button type="button" class="link" data-back><span data-l="en">Back</span><span data-l="es">Atrás</span></button>
+          </div>
+
+          <div data-step="3" hidden>
+            <p class="q"><span data-l="en">You're all set (demo)</span><span data-l="es">¡Listo! (demostración)</span></p>
+            <p class="confirm" data-confirm></p>
+            <p class="muted"><span data-l="en">A real version would text a reminder in the family's language the day before.</span><span data-l="es">Una versión real enviaría un recordatorio por mensaje de texto, en el idioma de la familia, el día anterior.</span></p>
+            <button type="button" class="link" data-restart><span data-l="en">Start over</span><span data-l="es">Empezar de nuevo</span></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap section" id="seguros">
+        <h2><span data-l="en">Insurance</span><span data-l="es">Seguros médicos</span></h2>
+        <p class="lede"><span data-l="en">We accept Medicaid, Child Health Plus and most major plans. Not sure about yours? Ask our front desk in English or Spanish.</span><span data-l="es">Aceptamos Medicaid, Child Health Plus y la mayoría de los planes principales. ¿No está seguro del suyo? Pregunte a nuestro personal en inglés o español.</span></p>
+      </section>
+
+      <section class="wrap section visit" id="visitar">
+        <div>
+          <h2><span data-l="en">Visit us</span><span data-l="es">Visítenos</span></h2>
+          <p><span data-l="en">Washington Heights, New York (fictional address)</span><span data-l="es">Washington Heights, Nueva York (dirección ficticia)</span></p>
+          <p><a href="tel:+12125550123">(212) 555-0123</a></p>
+        </div>
+        <dl class="hours">
+          <div><dt><span data-l="en">Mon to Fri</span><span data-l="es">Lun a vie</span></dt><dd>8:30 AM – 6:00 PM</dd></div>
+          <div><dt><span data-l="en">Saturday</span><span data-l="es">Sábado</span></dt><dd>9:00 AM – 1:00 PM</dd></div>
+          <div><dt><span data-l="en">Sunday</span><span data-l="es">Domingo</span></dt><dd><span data-l="en">Closed</span><span data-l="es">Cerrado</span></dd></div>
+        </dl>
+      </section>
+    </main>
+
+    <footer class="foot wrap">
+      <span>Alturas Pediatrics</span>
+      <span>
+        <span data-l="en">Concept by</span><span data-l="es">Concepto de</span>
+        <a href={`${base}/`}>Noruzo</a>
+      </span>
+    </footer>
+
+    <!-- AI front desk demo: scripted answers, no real AI or data collection -->
+    <button class="chat-fab" type="button" data-open-chat aria-controls="chat" aria-expanded="false">
+      <span data-l="en">Questions? Chat with us</span><span data-l="es">¿Preguntas? Escríbanos</span>
+    </button>
+
+    <section class="chat" id="chat" hidden aria-label="Front desk assistant">
+      <header class="chat__head">
+        <div>
+          <strong><span data-l="en">Front desk assistant</span><span data-l="es">Asistente de recepción</span></strong>
+          <small><span data-l="en">Demo, scripted answers only</span><span data-l="es">Demostración, respuestas programadas</span></small>
+        </div>
+        <button type="button" class="chat__close" data-close-chat aria-label="Close chat">×</button>
+      </header>
+      <div class="chat__log" data-chat-log role="log" aria-live="polite"></div>
+      <div class="chat__chips" data-chat-chips></div>
+      <form class="chat__form" data-chat-form>
+        <label class="sr-only" for="chat-input">Message</label>
+        <input id="chat-input" type="text" autocomplete="off" maxlength="200" data-chat-input />
+        <button type="submit" class="btn btn--primary btn--sm">
+          <span data-l="en">Send</span><span data-l="es">Enviar</span>
+        </button>
+      </form>
+    </section>
+
+    <style is:global>
+      :root {
+        --ink: #17312b;
+        --ink-soft: #4b5f59;
+        --bg: #fbf8f2;
+        --paper: #ffffff;
+        --line: #e6e0d4;
+        --green: #1f6b57;
+        --green-deep: #154c3e;
+        --sun: #f2b84b;
+        --sun-soft: #fdf0d3;
+        --serif: "Playfair Display Variable", Georgia, serif;
+        --sans: "Inter Variable", "Helvetica Neue", sans-serif;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body { background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+      a { color: inherit; }
+      button, input { font: inherit; color: inherit; }
+      html[data-lang="en"] [data-l="es"], html[data-lang="es"] [data-l="en"] { display: none !important; }
+      .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+      .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+      .section { padding: 72px 20px; }
+      h1, h2, h3 { font-family: var(--serif); font-weight: 600; letter-spacing: -0.01em; line-height: 1.1; }
+      h1 { font-size: clamp(2.4rem, 5.5vw, 4rem); }
+      h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin-bottom: 28px; }
+      h3 { font-size: 1.35rem; margin-bottom: 8px; }
+      .muted { color: var(--ink-soft); font-size: 0.95rem; }
+      .lede { font-size: 1.15rem; color: var(--ink-soft); max-width: 36rem; }
+
+      .concept { background: var(--ink); color: #fff; font-size: 0.85rem; padding: 10px 20px; display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: center; }
+      .concept a { color: var(--sun); font-weight: 600; }
+
+      .top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; max-width: 1120px; margin: 0 auto; padding: 18px 20px; }
+      .logo { display: inline-flex; align-items: center; gap: 10px; font-family: var(--serif); font-size: 1.35rem; font-weight: 600; text-decoration: none; }
+      .logo em { font-style: italic; color: var(--green); }
+      .logo__mark { width: 26px; height: 26px; border-radius: 50% 50% 50% 8px; background: var(--sun); box-shadow: inset -6px -6px 0 var(--green); }
+      .top__nav { display: flex; gap: 22px; font-size: 0.95rem; }
+      .top__nav a { text-decoration: none; padding: 10px 0; }
+      .top__nav a:hover { color: var(--green); }
+      .top__actions { display: flex; align-items: center; gap: 12px; }
+      .lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: var(--paper); }
+      .lang button { border: 0; background: none; border-radius: 999px; padding: 8px 12px; min-height: 40px; font-size: 0.85rem; font-weight: 600; cursor: pointer; color: var(--ink-soft); }
+      .lang button[aria-pressed="true"] { background: var(--green); color: #fff; }
+
+      .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 22px; border-radius: 999px; font-weight: 600; text-decoration: none; cursor: pointer; border: 1.5px solid transparent; }
+      .btn--primary { background: var(--green); color: #fff; }
+      .btn--primary:hover { background: var(--green-deep); }
+      .btn--ghost { background: transparent; border-color: var(--ink); }
+      .btn--sm { min-height: 44px; padding: 10px 18px; font-size: 0.92rem; }
+
+      .hero { display: flex; flex-wrap: wrap; align-items: center; gap: 48px; padding-top: 40px; padding-bottom: 56px; }
+      .hero__text { flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+      .eyebrow { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--green); }
+      .hero__ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+      .hero__facts { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+      .hero__facts li { background: var(--sun-soft); border-radius: 999px; padding: 6px 14px; font-size: 0.88rem; }
+      .hero__card { flex: 1 1 300px; background: var(--paper); border: 1px solid var(--line); border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 30px 60px -40px rgb(23 49 43 / 0.35); }
+      .hc__row--head { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.9rem; }
+      .hc__dot { width: 9px; height: 9px; border-radius: 50%; background: #2fa36b; }
+      .hc__slot { border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; }
+      .hc__slot span { color: var(--ink-soft); font-size: 0.9rem; }
+      .hc__note { align-self: flex-start; background: var(--ink); color: #fff; border-radius: 999px; padding: 6px 14px; font-size: 0.85rem; }
+
+      .cards { list-style: none; display: flex; flex-wrap: wrap; gap: 16px; }
+      .card { flex: 1 1 240px; background: var(--paper); border: 1px solid var(--line); border-radius: 20px; padding: 24px; }
+      .card p { color: var(--ink-soft); }
+
+      .book { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; }
+      .book__intro { flex: 1 1 280px; }
+      .book__box { flex: 999 1 420px; min-width: 0; background: var(--paper); border: 1px solid var(--line); border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 18px; }
+      .steps { list-style: none; display: flex; gap: 8px; }
+      .steps li { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 0.85rem; font-weight: 600; background: var(--bg); color: var(--ink-soft); }
+      .steps li.is-on { background: var(--green); color: #fff; }
+      .q { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin-bottom: 14px; }
+      .choices { display: flex; flex-wrap: wrap; gap: 10px; }
+      .choice { min-height: 48px; padding: 12px 18px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--bg); cursor: pointer; font-weight: 500; text-align: left; }
+      .choice:hover, .choice:focus-visible { border-color: var(--green); outline: none; }
+      .link { margin-top: 14px; background: none; border: 0; text-decoration: underline; cursor: pointer; color: var(--ink-soft); min-height: 44px; }
+      .confirm { font-size: 1.1rem; margin-bottom: 8px; }
+
+      .visit { display: flex; flex-wrap: wrap; gap: 32px; justify-content: space-between; }
+      .visit p { font-size: 1.1rem; margin-bottom: 6px; }
+      .hours { flex: 0 1 340px; display: flex; flex-direction: column; gap: 10px; }
+      .hours div { display: flex; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+      .hours dt { font-weight: 600; }
+
+      .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 32px 20px 120px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: 0.9rem; }
+
+      .chat-fab { position: fixed; right: 16px; bottom: 16px; z-index: 20; background: var(--ink); color: #fff; border: 0; border-radius: 999px; padding: 14px 20px; min-height: 48px; font-weight: 600; cursor: pointer; box-shadow: 0 12px 30px -10px rgb(0 0 0 / 0.4); }
+      .chat { position: fixed; right: 16px; bottom: 16px; z-index: 30; width: min(380px, calc(100vw - 32px)); height: min(560px, calc(100vh - 32px)); background: var(--paper); border: 1px solid var(--line); border-radius: 22px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 30px 70px -20px rgb(0 0 0 / 0.35); }
+      .chat[hidden] { display: none; }
+      .chat__head { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: var(--green); color: #fff; }
+      .chat__head small { display: block; opacity: 0.85; font-size: 0.78rem; }
+      .chat__close { background: none; border: 0; color: #fff; font-size: 1.6rem; width: 44px; height: 44px; cursor: pointer; }
+      .chat__log { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+      .msg { max-width: 85%; padding: 10px 14px; border-radius: 16px; font-size: 0.94rem; white-space: pre-line; }
+      .msg--bot { background: var(--bg); align-self: flex-start; border-bottom-left-radius: 4px; }
+      .msg--me { background: var(--green); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+      .chat__chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 10px; }
+      .chat__chips button { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 8px 12px; min-height: 40px; font-size: 0.85rem; cursor: pointer; }
+      .chat__form { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line); }
+      .chat__form input { flex: 1; min-width: 0; border: 1px solid var(--line); border-radius: 999px; padding: 10px 14px; min-height: 44px; background: var(--bg); }
+
+      @media (max-width: 720px) {
+        .top__nav { display: none; }
+        .section { padding: 56px 20px; }
+      }
+    </style>
+
+    <script>
+      type Lang = "en" | "es";
+      const root = document.documentElement;
+      const getLang = (): Lang => (root.dataset.lang === "es" ? "es" : "en");
+
+      // ---- language switch ----
+      const langButtons = document.querySelectorAll<HTMLButtonElement>("[data-set-lang]");
+      function setLang(lang: Lang) {
+        root.dataset.lang = lang;
+        root.lang = lang;
+        langButtons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.setLang === lang)));
+        renderChips();
+        renderConfirm();
+        const input = document.querySelector<HTMLInputElement>("[data-chat-input]");
+        if (input) input.placeholder = lang === "es" ? "Escriba su pregunta…" : "Type your question…";
+      }
+      langButtons.forEach((b) => b.addEventListener("click", () => setLang(b.dataset.setLang as Lang)));
+
+      // ---- booking demo ----
+      const picks: Record<string, { en: string; es: string }> = {};
+      const steps = document.querySelectorAll<HTMLElement>("[data-step]");
+      const dots = document.querySelectorAll<HTMLElement>("[data-step-dot]");
+      function showStep(n: number) {
+        steps.forEach((s) => (s.hidden = s.dataset.step !== String(n)));
+        dots.forEach((d) => d.classList.toggle("is-on", Number(d.dataset.stepDot) <= n));
+        const first = document.querySelector<HTMLElement>(`[data-step="${n}"] button`);
+        first?.focus({ preventScroll: true });
+      }
+      function renderConfirm() {
+        const el = document.querySelector<HTMLElement>("[data-confirm]");
+        if (!el || !picks.reason || !picks.time) return;
+        const l = getLang();
+        el.textContent = `${picks.reason[l]} · ${picks.time[l]}`;
+      }
+      document.querySelectorAll<HTMLButtonElement>("[data-pick]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const key = btn.dataset.pick!;
+          picks[key] = { en: btn.dataset.en!, es: btn.dataset.es! };
+          if (key === "reason") showStep(2);
+          else {
+            renderConfirm();
+            showStep(3);
+          }
+        });
+      });
+      document.querySelector("[data-back]")?.addEventListener("click", () => showStep(1));
+      document.querySelector("[data-restart]")?.addEventListener("click", () => showStep(1));
+
+      // ---- AI front desk demo (scripted) ----
+      const replies: Record<string, { en: string; es: string; words: string[] }> = {
+        hours: {
+          en: "We're open Monday to Friday 8:30 AM to 6 PM, and Saturday 9 AM to 1 PM. Closed Sundays.",
+          es: "Abrimos de lunes a viernes de 8:30 AM a 6 PM, y los sábados de 9 AM a 1 PM. Los domingos estamos cerrados.",
+          words: ["hour", "open", "close", "time", "hora", "abierto", "abren", "cierran", "horario", "sabado", "sábado"],
+        },
+        insurance: {
+          en: "We accept Medicaid, Child Health Plus and most major plans. Tell me your plan name and the front desk will confirm.",
+          es: "Aceptamos Medicaid, Child Health Plus y la mayoría de los planes principales. Dígame el nombre de su plan y el personal lo confirmará.",
+          words: ["insurance", "medicaid", "plan", "cover", "seguro", "aseguranza", "cubre"],
+        },
+        book: {
+          en: "You can book online in under a minute. Want me to take you to the booking section?",
+          es: "Puede reservar en línea en menos de un minuto. ¿Quiere que le lleve a la sección de citas?",
+          words: ["book", "appointment", "schedule", "visit", "cita", "reservar", "turno", "consulta"],
+        },
+        sick: {
+          en: "We keep same-day spots for sick kids. If your child has trouble breathing or seems very ill, call 911 or go to the nearest emergency room right away.",
+          es: "Guardamos citas el mismo día para niños enfermos. Si su hijo tiene dificultad para respirar o se ve muy enfermo, llame al 911 o vaya a la sala de emergencias más cercana de inmediato.",
+          words: ["sick", "fever", "cough", "ill", "enfermo", "fiebre", "tos", "vomit", "vómito", "dolor"],
+        },
+        location: {
+          en: "We're in Washington Heights. This is a demo, so the address is fictional.",
+          es: "Estamos en Washington Heights. Es una demostración, así que la dirección es ficticia.",
+          words: ["where", "address", "location", "located", "donde", "dónde", "dirección", "direccion", "ubicación"],
+        },
+      };
+      const chips: { key: keyof typeof replies; en: string; es: string }[] = [
+        { key: "hours", en: "Hours", es: "Horario" },
+        { key: "insurance", en: "Insurance", es: "Seguros" },
+        { key: "book", en: "Book a visit", es: "Hacer cita" },
+        { key: "sick", en: "My child is sick", es: "Mi hijo está enfermo" },
+      ];
+      const fallback = {
+        en: "I can help with hours, insurance, booking and sick visits. For anything else, the front desk will call you back.",
+        es: "Puedo ayudarle con horarios, seguros, citas y consultas por enfermedad. Para otras preguntas, el personal le devolverá la llamada.",
+      };
+      const greeting = {
+        en: "Hi! I can answer questions in English or Spanish. What can I help with?",
+        es: "¡Hola! Puedo responder en inglés o español. ¿En qué le puedo ayudar?",
+      };
+
+      const chat = document.getElementById("chat") as HTMLElement;
+      const log = document.querySelector<HTMLElement>("[data-chat-log]")!;
+      const chipBox = document.querySelector<HTMLElement>("[data-chat-chips]")!;
+      const form = document.querySelector<HTMLFormElement>("[data-chat-form]")!;
+      const input = document.querySelector<HTMLInputElement>("[data-chat-input]")!;
+      const fab = document.querySelector<HTMLButtonElement>(".chat-fab")!;
+      let greeted = false;
+
+      function addMsg(text: string, who: "bot" | "me") {
+        const p = document.createElement("p");
+        p.className = `msg msg--${who}`;
+        p.textContent = text;
+        log.appendChild(p);
+        log.scrollTop = log.scrollHeight;
+      }
+      function looksSpanish(t: string) {
+        return /[¿¡ñáéíóú]|\b(hola|cita|seguro|horario|enfermo|fiebre|dónde|donde|quiero|necesito|mi hijo|mi hija)\b/i.test(t);
+      }
+      function answer(text: string) {
+        const lang: Lang = looksSpanish(text) ? "es" : getLang();
+        const t = text.toLowerCase();
+        const hit = Object.values(replies).find((r) => r.words.some((w) => t.includes(w)));
+        window.setTimeout(() => addMsg(hit ? hit[lang] : fallback[lang], "bot"), 450);
+      }
+      function renderChips() {
+        const l = getLang();
+        chipBox.replaceChildren(
+          ...chips.map((c) => {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.textContent = c[l];
+            b.addEventListener("click", () => {
+              addMsg(c[l], "me");
+              window.setTimeout(() => addMsg(replies[c.key][l], "bot"), 450);
+            });
+            return b;
+          }),
+        );
+      }
+      function openChat() {
+        chat.hidden = false;
+        fab.hidden = true;
+        fab.setAttribute("aria-expanded", "true");
+        if (!greeted) {
+          addMsg(greeting[getLang()], "bot");
+          greeted = true;
+        }
+        input.focus();
+      }
+      function closeChat() {
+        chat.hidden = true;
+        fab.hidden = false;
+        fab.setAttribute("aria-expanded", "false");
+        fab.focus();
+      }
+      document.querySelectorAll("[data-open-chat]").forEach((b) => b.addEventListener("click", openChat));
+      document.querySelector("[data-close-chat]")?.addEventListener("click", closeChat);
+      chat.addEventListener("keydown", (e) => {
+        if ((e as KeyboardEvent).key === "Escape") closeChat();
+      });
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const text = input.value.trim();
+        if (!text) return;
+        addMsg(text, "me");
+        input.value = "";
+        answer(text);
+      });
+
+      setLang("en");
+    </script>
+  </body>
+</html>

@@ -1,37 +1,39 @@
 ---
 import SectionHead from "./SectionHead.astro";
 
-// Placeholder engagements — swap for real client work before outreach.
+// Who Noruzo serves. Swap in real client work once it exists, never invented results.
 const cases = [
   {
-    stat: "−38%",
-    statLabel: "inventory waste",
-    title: "Forecasting that cut inventory waste by 38%",
-    client: "Consumer goods brand",
-    impact: ["38% less inventory waste", "4× faster demand planning", "Forecasts 21% more accurate"],
+    stat: "Pediatrics",
+    statLabel: "Family practices",
+    title: "Parents booking in Spanish, without calling twice",
+    client: "Pediatricians",
+    impact: ["Bilingual booking and visit prep", "Clear pages for new families", "After-hours questions answered"],
   },
   {
-    stat: "71%",
-    statLabel: "tickets auto-resolved",
-    title: "A support agent that resolves 7 of 10 tickets",
-    client: "B2B SaaS company",
-    impact: ["71% of tickets auto-resolved", "Median response under 3 minutes", "Support team refocused on churn"],
+    stat: "Dental",
+    statLabel: "General and family dentists",
+    title: "A front desk that keeps up with the phones",
+    client: "Dental offices",
+    impact: ["AI answers hours, insurance and FAQs", "Online booking in both languages", "Reminders patients understand"],
   },
   {
-    stat: "3×",
-    statLabel: "qualified leads",
-    title: "An outreach engine that tripled qualified leads",
-    client: "Professional services firm",
-    impact: ["3× qualified leads in one quarter", "60% less manual prospecting", "Live in under two weeks"],
+    stat: "PT + therapy",
+    statLabel: "Rehab and mental health",
+    title: "Trust before the first appointment",
+    client: "Physical therapists and therapists",
+    impact: ["Warm, plain-language bilingual pages", "Simple intake paths", "Built with patient privacy in mind"],
   },
 ];
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <section class="cases section" id="work" data-theme-section="dark">
   <SectionHead
-    chip="Case studies"
-    title='Shipped AI that <em class="t-tilt">pays for itself</em>'
-    sub="A sample of what engagements look like — full studies coming soon."
+    chip="Who it's for"
+    title='Independent practices in <em class="t-tilt">New York</em>'
+    sub="Clinics in neighborhoods like Washington Heights, Sunset Park, Corona and the Bronx, where many patients prefer Spanish."
   />
 
   <div
@@ -39,7 +41,7 @@ const cases = [
     data-drag-scroll
     tabindex="0"
     role="region"
-    aria-label="Case studies, scroll horizontally"
+    aria-label="Practice types, scroll horizontally"
   >
     {
       cases.map((c, i) => (
@@ -63,6 +65,12 @@ const cases = [
   </div>
 
   <p class="cases__hint t-label" aria-hidden="true">Drag to explore →</p>
+
+  <a class="featured" href={`${base}/demo/alturas-case-study/`} data-reveal>
+    <span class="featured__chip t-label">Concept case study</span>
+    <span class="featured__title">Alturas Pediatrics: a bilingual site, three-tap booking and a front desk assistant</span>
+    <span class="featured__cta t-label">Read the case study →</span>
+  </a>
 </section>
 
 <style>
@@ -145,7 +153,7 @@ const cases = [
   }
 
   .case__stat {
-    font-size: clamp(3.5rem, 7vw, 5.5rem);
+    font-size: clamp(2.4rem, 4.5vw, 3.6rem);
     line-height: 1;
     color: var(--c-paper);
   }
@@ -185,6 +193,38 @@ const cases = [
     content: "—";
     color: var(--c-accent);
     margin-right: 0.6rem;
+  }
+
+  .featured {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    margin-top: 3rem;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border-radius: 1.25rem;
+    border: 1px solid rgb(255 255 255 / 0.14);
+    background: #232326;
+    transition: border-color 0.3s var(--ease-out-expo);
+  }
+
+  .featured:hover {
+    border-color: var(--c-accent);
+  }
+
+  .featured__chip {
+    color: var(--c-accent);
+  }
+
+  .featured__title {
+    font-size: clamp(1.4rem, 2.6vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    max-width: 40rem;
+  }
+
+  .featured__cta {
+    color: rgb(255 255 255 / 0.7);
   }
 
   .cases__hint {

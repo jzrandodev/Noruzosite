@@ -3,36 +3,36 @@ import SectionHead from "./SectionHead.astro";
 
 const services = [
   {
-    kind: "tasks",
-    chip: "Workflow automation",
-    title: "Automate the repetitive",
+    kind: "build",
+    chip: "Bilingual websites",
+    title: "A site patients can actually use",
     blurb:
-      "We map the busywork inside your operation — data entry, reporting, approval chains — and replace it with workflows that run themselves, around the clock.",
-    tags: ["Task bots", "Back-office", "Reporting"],
+      "A fast, modern website in English and Spanish, written so patients understand it and designed so they can book in a few taps on their phone.",
+    tags: ["English + Spanish", "Mobile booking", "From $3,500"],
   },
   {
     kind: "chat",
-    chip: "AI agents",
-    title: "Delegate the daily grind",
+    chip: "AI front desk",
+    title: "Answer every call, in both languages",
     blurb:
-      "From triaging inboxes to drafting documents and summarizing meetings, our agents live inside your tools and work your rules — without the handholding.",
-    tags: ["Summaries", "Scheduling", "Research"],
-  },
-  {
-    kind: "build",
-    chip: "AI products",
-    title: "Ship AI-native product",
-    blurb:
-      "From a napkin sketch to production: we design, prototype and launch AI products with real interfaces, real users and real stakes.",
-    tags: ["Prototype", "Interface", "Launch"],
+      "We set up an AI assistant that answers common questions and books visits in English or Spanish, so your front desk stops juggling the phone all day.",
+    tags: ["FAQs", "Scheduling", "Setup + management"],
   },
   {
     kind: "dash",
-    chip: "Strategy & custom",
-    title: "Build smarter systems",
+    chip: "Patient experience audit",
+    title: "See where Spanish-speaking patients drop off",
     blurb:
-      "Starting from scratch or upgrading what you have, we bring strategic consulting and custom builds aligned with where your business is actually going.",
-    tags: ["Audit", "Roadmap", "Consulting"],
+      "A one-week review of your website, booking flow and phone experience in both languages, with a clear, prioritized list of what to fix first.",
+    tags: ["One week", "Loom walkthrough", "$500"],
+  },
+  {
+    kind: "tasks",
+    chip: "Care plan",
+    title: "Your site, always up to date",
+    blurb:
+      "Hosting, updates, new pages and small changes handled for you every month, so your website never falls behind your practice.",
+    tags: ["Hosting", "Updates", "Monthly"],
   },
 ];
 ---
@@ -40,8 +40,8 @@ const services = [
 <section class="services section" id="services" data-theme-section="light">
   <SectionHead
     chip="Our services"
-    title='AI that does the work, not the <em class="t-tilt">talking</em>'
-    sub="Automation, agents and product, designed and shipped for the stack you already run."
+    title='Built for clinics that care for <em class="t-tilt">both languages</em>'
+    sub="Websites, booking and front desk tools that work as well in Spanish as they do in English."
   />
 
   <ul class="services__list">
@@ -62,23 +62,23 @@ const services = [
           <div class="feat__visual" aria-hidden="true">
             {s.kind === "tasks" && (
               <div class="mock mock--tasks">
-                <div class="mock__bar">All tasks</div>
+                <div class="mock__bar">This month</div>
                 <div class="mock__row">
                   <span class="mock__check mock__check--done" />
                   <span>
-                    Payment reminders <small>sent to 42 clients</small>
+                    Holiday hours <small>updated in both languages</small>
                   </span>
                 </div>
                 <div class="mock__row mock__row--hot">
                   <span class="mock__check mock__check--done" />
                   <span>
-                    Weekly report <small>generated &amp; shared</small>
+                    New provider page <small>published</small>
                   </span>
                 </div>
                 <div class="mock__row">
                   <span class="mock__check" />
                   <span>
-                    Invoice approvals <small>2 waiting</small>
+                    Insurance list <small>review scheduled</small>
                   </span>
                 </div>
               </div>
@@ -86,12 +86,12 @@ const services = [
             {s.kind === "chat" && (
               <div class="mock mock--chat">
                 <span class="mock__orb" />
-                <p class="mock__q">What can I take off your plate?</p>
-                <div class="mock__input"><span class="mock__type">Summarize this morning's standup…</span></div>
+                <p class="mock__q">Hola, ¿en qué le puedo ayudar?</p>
+                <div class="mock__input"><span class="mock__type">Quisiera una cita para mi hijo…</span></div>
                 <div class="mock__chips">
-                  <span>Draft</span>
-                  <span>Schedule</span>
-                  <span>Research</span>
+                  <span>Book a visit</span>
+                  <span>Hours</span>
+                  <span>Insurance</span>
                 </div>
               </div>
             )}
@@ -107,21 +107,21 @@ const services = [
                   <span style="width: 71%" />
                   <span style="width: 35%" class="mock__code--accent" />
                 </div>
-                <div class="mock__deploy">● Deployed to production</div>
+                <div class="mock__deploy">● Live in English and Spanish</div>
               </div>
             )}
             {s.kind === "dash" && (
               <div class="mock mock--dash">
                 <div class="mock__stat">
-                  <span>Hours saved / week</span>
+                  <span>Spanish pages</span>
                   <div class="mock__meter"><i style="width: 78%" /></div>
                 </div>
                 <div class="mock__stat">
-                  <span>Tickets auto-resolved</span>
+                  <span>Mobile booking flow</span>
                   <div class="mock__meter"><i style="width: 64%" /></div>
                 </div>
                 <div class="mock__stat">
-                  <span>Roadmap shipped</span>
+                  <span>Phone experience</span>
                   <div class="mock__meter"><i style="width: 91%" /></div>
                 </div>
               </div>

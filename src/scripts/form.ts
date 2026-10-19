@@ -63,7 +63,7 @@ export function initContactForm(): void {
 
     const budget = budgetSelect?.value ?? "";
     if (!budget) {
-      setStatus("Pick a budget range so we can scope it right.", "is-error");
+      setStatus("Pick what you're interested in so we can point you the right way.", "is-error");
       budgetSelect?.focus();
       shake();
       return;
