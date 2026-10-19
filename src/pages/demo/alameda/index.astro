@@ -1,0 +1,1458 @@
+---
+import "@fontsource-variable/inter";
+import DemoBanner from "../../../components/demo/DemoBanner.astro";
+import { url } from "../../../i18n/strings";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Alameda Family Health · Patient system demo by Noruzo</title>
+    <meta name="description" content="Concept demo by Noruzo: bilingual WhatsApp reminders, rescheduling and missed-call text-back for a fictional family practice." />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href={url("favicon.svg")} type="image/svg+xml" />
+  </head>
+  <body>
+    <DemoBanner clinic="Alameda Family Health" back="work/alameda-family/" />
+
+    <div class="bar">
+      <div class="bar__brand">
+        <span class="bar__logo" aria-hidden="true">A</span>
+        <div>
+          <b>Alameda Family Health</b>
+          <span data-t="app">Recepción · Recordatorios</span>
+        </div>
+      </div>
+      <div class="bar__controls">
+        <div class="lang" role="group" aria-label="Idioma / Language">
+          <button type="button" data-lang="es" aria-pressed="true">ES</button>
+          <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <button class="btn btn--ghost" type="button" data-restart data-t="restart">Reiniciar</button>
+        <button class="btn" type="button" data-play>
+          <span aria-hidden="true">▶</span> <span data-t="play">Ver la demo</span>
+        </button>
+      </div>
+    </div>
+
+    <p class="caption" data-caption aria-live="polite"></p>
+
+    <main class="app">
+      <section class="desk" aria-label="Front desk">
+        <header class="desk__head">
+          <div>
+            <p class="desk__kicker" data-t="tomorrow">Citas de mañana · martes</p>
+            <h1 data-t="title">Confirmaciones</h1>
+          </div>
+          <button class="btn btn--sm" type="button" data-send data-t="send">Enviar recordatorios</button>
+        </header>
+
+        <div class="stats">
+          <div class="stat">
+            <span data-t="s1">Confirmadas</span>
+            <b><span data-stat="confirmed">0</span><small>/<span data-stat="total">10</span></small></b>
+            <div class="meter"><i data-meter></i></div>
+          </div>
+          <div class="stat">
+            <span data-t="s2">Reprogramadas</span>
+            <b data-stat="changed">0</b>
+          </div>
+          <div class="stat">
+            <span data-t="s3">Llamadas recuperadas</span>
+            <b data-stat="recovered">0</b>
+          </div>
+          <div class="stat stat--warn">
+            <span data-t="s4">Para llamar</span>
+            <b data-stat="call">0</b>
+          </div>
+        </div>
+
+        <div class="grid2">
+          <div class="table" role="table" aria-label="Appointments">
+            <div class="row row--head" role="row">
+              <span role="columnheader" data-t="c1">Hora</span>
+              <span role="columnheader" data-t="c2">Paciente</span>
+              <span role="columnheader" data-t="c3">Canal</span>
+              <span role="columnheader" data-t="c4">Estado</span>
+            </div>
+            <div data-rows></div>
+          </div>
+
+          <aside class="feed">
+            <p class="feed__title" data-t="feed">Actividad</p>
+            <ol class="feed__list" role="list" data-feed></ol>
+          </aside>
+        </div>
+      </section>
+
+      <section class="phone-wrap" aria-label="Patient phone">
+        <div class="phone">
+          <div class="phone__notch" aria-hidden="true"></div>
+          <div class="phone__status" aria-hidden="true">
+            <span>10:02</span><span>●●● ▮</span>
+          </div>
+          <div class="phone__screen" data-screen></div>
+        </div>
+        <p class="phone__label" data-phone-label></p>
+      </section>
+    </main>
+
+    <script>
+      type L = "es" | "en";
+      type Status = "idle" | "sent" | "confirmed" | "changed" | "call" | "open" | "filled" | "new";
+      interface Appt {
+        id: string;
+        time: string;
+        name: string;
+        lang: L;
+        ch: "wa" | "sms";
+        status: Status;
+        note?: string;
+      }
+
+      const UI: Record<L, Record<string, string>> = {
+        es: {
+          "demo.label": "Demo conceptual de Noruzo",
+          "demo.fictional": "{c} es una clínica ficticia",
+          "demo.back": "Ver el caso →",
+          app: "Recepción · Recordatorios",
+          restart: "Reiniciar",
+          play: "Ver la demo",
+          playing: "Reproduciendo…",
+          tomorrow: "Citas de mañana · martes",
+          title: "Confirmaciones",
+          send: "Enviar recordatorios",
+          s1: "Confirmadas",
+          s2: "Reprogramadas",
+          s3: "Llamadas recuperadas",
+          s4: "Para llamar",
+          c1: "Hora",
+          c2: "Paciente",
+          c3: "Canal",
+          c4: "Estado",
+          feed: "Actividad",
+          idle: "Sin enviar",
+          sent: "Enviado",
+          confirmed: "Confirmada",
+          changed: "Reprogramada",
+          call: "Llamar",
+          open: "Libre · lista de espera",
+          filled: "Ocupada desde lista",
+          new: "Paciente nuevo",
+          now: "ahora",
+          cap0: "Así se ve la recepción la tarde anterior. 10 citas para mañana, ninguna confirmada.",
+          cap1: "1 · Los recordatorios salen solos, 48 horas antes, en el idioma de cada paciente.",
+          cap2: "2 · María confirma con un toque. La recepción no hace nada.",
+          cap3: "3 · José necesita otro horario. Lo cambia él mismo y su lugar se ofrece a la lista de espera.",
+          cap4: "4 · Alguien llama a la hora del almuerzo y nadie atiende…",
+          cap5: "…y en segundos recibe un mensaje para reservar. No se va a otra clínica.",
+          cap6: "Resultado: la recepción solo tiene que hacer 1 llamada en vez de 10.",
+          f_sent: "Recordatorios enviados a {n} pacientes ({es} en español, {en} en inglés)",
+          f_conf: "{p} confirmó por {c}",
+          f_change: "{p} cambió su cita de {a} a {b}",
+          f_open: "Horario de {t} ofrecido a la lista de espera",
+          f_fill: "{p} tomó el horario de {t} desde la lista de espera",
+          f_missed: "Llamada perdida de (718) 555-0187",
+          f_text: "Mensaje automático enviado en 6 segundos",
+          f_booked: "Nuevo paciente reservó en línea: {p}, {t}",
+          f_call: "{p} no respondió. Marcado para llamar.",
+          phone_m: "Teléfono de María (prefiere español)",
+          phone_j: "Teléfono de José (prefiere español)",
+          phone_n: "Teléfono de alguien que llama por primera vez",
+          phone_idle: "Teléfono del paciente",
+          calling: "Llamando…",
+          nocall: "Sin respuesta",
+          callEnded: "Llamada terminada · 0:24",
+        },
+        en: {
+          "demo.label": "Concept demo by Noruzo",
+          "demo.fictional": "{c} is a fictional practice",
+          "demo.back": "See the case study →",
+          app: "Front desk · Reminders",
+          restart: "Restart",
+          play: "Play the demo",
+          playing: "Playing…",
+          tomorrow: "Tomorrow's visits · Tuesday",
+          title: "Confirmations",
+          send: "Send reminders",
+          s1: "Confirmed",
+          s2: "Rescheduled",
+          s3: "Calls recovered",
+          s4: "To call",
+          c1: "Time",
+          c2: "Patient",
+          c3: "Channel",
+          c4: "Status",
+          feed: "Activity",
+          idle: "Not sent",
+          sent: "Sent",
+          confirmed: "Confirmed",
+          changed: "Rescheduled",
+          call: "Call",
+          open: "Open · waitlist",
+          filled: "Filled from waitlist",
+          new: "New patient",
+          now: "now",
+          cap0: "This is the front desk the afternoon before. 10 visits tomorrow, none confirmed.",
+          cap1: "1 · Reminders go out on their own, 48 hours ahead, in each patient's language.",
+          cap2: "2 · María confirms with one tap. The front desk does nothing.",
+          cap3: "3 · José needs a different time. He changes it himself and his slot goes to the waitlist.",
+          cap4: "4 · Someone calls during the lunch rush and nobody picks up…",
+          cap5: "…and seconds later they get a text to book. They don't go to another clinic.",
+          cap6: "Result: the front desk makes 1 call instead of 10.",
+          f_sent: "Reminders sent to {n} patients ({es} in Spanish, {en} in English)",
+          f_conf: "{p} confirmed via {c}",
+          f_change: "{p} moved their visit from {a} to {b}",
+          f_open: "{t} slot offered to the waitlist",
+          f_fill: "{p} took the {t} slot from the waitlist",
+          f_missed: "Missed call from (718) 555-0187",
+          f_text: "Auto text sent in 6 seconds",
+          f_booked: "New patient booked online: {p}, {t}",
+          f_call: "{p} didn't answer. Flagged for a call.",
+          phone_m: "María's phone (prefers Spanish)",
+          phone_j: "José's phone (prefers Spanish)",
+          phone_n: "Phone of a first-time caller",
+          phone_idle: "Patient's phone",
+          calling: "Calling…",
+          nocall: "No answer",
+          callEnded: "Call ended · 0:24",
+        },
+      };
+
+      const BASE: Appt[] = [
+        { id: "a1", time: "9:00 am", name: "María González", lang: "es", ch: "wa", status: "idle" },
+        { id: "a2", time: "9:30 am", name: "José Ramírez", lang: "es", ch: "wa", status: "idle" },
+        { id: "a3", time: "10:15 am", name: "Kevin Tran", lang: "en", ch: "sms", status: "idle" },
+        { id: "a4", time: "10:30 am", name: "Ana Pérez", lang: "es", ch: "wa", status: "idle" },
+        { id: "a5", time: "11:00 am", name: "Rosa Torres", lang: "es", ch: "wa", status: "idle" },
+        { id: "a6", time: "11:45 am", name: "Luis Medina", lang: "es", ch: "sms", status: "idle" },
+        { id: "a7", time: "1:30 pm", name: "Grace Lee", lang: "en", ch: "sms", status: "idle" },
+        { id: "a8", time: "2:15 pm", name: "Carmen Díaz", lang: "es", ch: "wa", status: "idle" },
+        { id: "a9", time: "3:00 pm", name: "Pedro Castillo", lang: "es", ch: "wa", status: "idle" },
+        { id: "a10", time: "4:00 pm", name: "Lucía Herrera", lang: "es", ch: "wa", status: "idle" },
+      ];
+
+      const qs = new URLSearchParams(location.search);
+      let lang: L = qs.get("lang") === "en" ? "en" : "es";
+      const SPEED = Number(qs.get("speed") || "1");
+
+      let appts: Appt[] = [];
+      let feed: { t: string; html: string; kind: string }[] = [];
+      let recovered = 0;
+      let run = 0; // increments on restart to cancel in-flight scripts
+      let playing = false;
+
+      const $ = <E extends HTMLElement = HTMLElement>(s: string) => document.querySelector<E>(s)!;
+      const $$ = <E extends HTMLElement = HTMLElement>(s: string) => [...document.querySelectorAll<E>(s)];
+      const u = (k: string, v: Record<string, string | number> = {}) =>
+        (UI[lang][k] ?? k).replace(/\{(\w+)\}/g, (_, x) => String(v[x] ?? ""));
+
+      class Cancelled extends Error {}
+      const sleep = (ms: number, token: number) =>
+        new Promise<void>((res, rej) =>
+          setTimeout(() => (token === run ? res() : rej(new Cancelled())), ms / SPEED),
+        );
+
+      // ---------------- rendering ----------------
+      function renderChrome() {
+        document.documentElement.lang = lang;
+        for (const el of $$("[data-i18n]")) el.textContent = u(el.dataset.i18n!, { c: el.dataset.clinic ?? "" });
+        for (const el of $$("[data-t]")) el.textContent = u(el.dataset.t!);
+        for (const b of $$("[data-lang]")) b.setAttribute("aria-pressed", String(b.dataset.lang === lang));
+        if (playing) $("[data-play] [data-t]").textContent = u("playing");
+      }
+
+      function renderDesk() {
+        $("[data-rows]").innerHTML = appts
+          .map(
+            (a) => `<div class="row ${a.status === "new" ? "row--new" : ""}" role="row" data-row="${a.id}">
+              <span class="row__time" role="cell">${a.time}</span>
+              <span class="row__name" role="cell">${a.name}<small>${a.lang === "es" ? "Español" : "English"}${a.note ? " · " + a.note : ""}</small></span>
+              <span role="cell"><span class="ch ch--${a.ch}">${a.ch === "wa" ? "WhatsApp" : "SMS"}</span></span>
+              <span role="cell"><span class="pill pill--${a.status}">${u(a.status)}</span></span>
+            </div>`,
+          )
+          .join("");
+        const visits = appts.filter((a) => a.status !== "open");
+        const conf = visits.filter((a) => ["confirmed", "changed", "filled", "new"].includes(a.status)).length;
+        $("[data-stat=confirmed]").textContent = String(conf);
+        $("[data-stat=total]").textContent = String(visits.length);
+        $("[data-stat=changed]").textContent = String(appts.filter((a) => a.status === "changed").length);
+        $("[data-stat=recovered]").textContent = String(recovered);
+        $("[data-stat=call]").textContent = String(appts.filter((a) => a.status === "call").length);
+        $("[data-meter]").style.width = `${(conf / visits.length) * 100}%`;
+
+        $("[data-feed]").innerHTML = feed
+          .map((f) => `<li class="ev ev--${f.kind}"><span class="ev__dot"></span><div>${f.html}<small>${f.t}</small></div></li>`)
+          .join("");
+      }
+
+      function flash(id: string) {
+        requestAnimationFrame(() => {
+          const r = document.querySelector(`[data-row="${id}"]`);
+          r?.classList.add("is-flash");
+        });
+      }
+
+      function set(id: string, patch: Partial<Appt>) {
+        appts = appts.map((a) => (a.id === id ? { ...a, ...patch } : a));
+        renderDesk();
+        flash(id);
+      }
+
+      function log(html: string, kind = "info") {
+        feed = [{ t: u("now"), html, kind }, ...feed.map((f) => ({ ...f, t: f.t === u("now") ? "1 min" : f.t }))].slice(0, 7);
+        renderDesk();
+      }
+
+      function caption(k: string) {
+        const el = $("[data-caption]");
+        el.classList.remove("is-in");
+        void el.offsetWidth;
+        el.textContent = u(k);
+        el.classList.add("is-in");
+      }
+
+      // ---------------- phone ----------------
+      type Msg = { from: "clinic" | "me"; text: string; buttons?: string[] };
+      const screen = $("[data-screen]");
+
+      function phoneChat(title: string, sub: string, kind: "wa" | "sms") {
+        screen.className = `phone__screen phone__screen--${kind}`;
+        screen.innerHTML = `<div class="chat__head">
+            <span class="chat__av">${kind === "wa" ? "A" : "✉"}</span>
+            <div><b>${title}</b><small>${sub}</small></div>
+          </div>
+          <div class="chat__body" data-chat></div>`;
+      }
+
+      function push(m: Msg) {
+        const body = screen.querySelector<HTMLElement>("[data-chat]")!;
+        const el = document.createElement("div");
+        el.className = `bub bub--${m.from}`;
+        el.innerHTML = m.text.replace(/\n/g, "<br>");
+        if (m.buttons) {
+          const row = document.createElement("div");
+          row.className = "bub__btns";
+          for (const b of m.buttons) {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.textContent = b;
+            btn.dataset.reply = b;
+            row.appendChild(btn);
+          }
+          el.appendChild(row);
+        }
+        body.appendChild(el);
+        body.scrollTop = body.scrollHeight;
+        return el;
+      }
+
+      async function typing(token: number, ms = 900) {
+        const body = screen.querySelector<HTMLElement>("[data-chat]")!;
+        const el = document.createElement("div");
+        el.className = "bub bub--clinic bub--typing";
+        el.innerHTML = "<i></i><i></i><i></i>";
+        body.appendChild(el);
+        body.scrollTop = body.scrollHeight;
+        await sleep(ms, token);
+        el.remove();
+      }
+
+      /** Wait for the user to tap a reply button, or tap it for them when playing. */
+      function tap(label: string, token: number, autoMs = 1600): Promise<void> {
+        return new Promise((res, rej) => {
+          const btn = [...screen.querySelectorAll<HTMLButtonElement>("[data-reply]")].find((b) => b.dataset.reply === label);
+          if (!btn) return res();
+          btn.classList.add("is-target");
+          let done = false;
+          const finish = () => {
+            if (done) return;
+            done = true;
+            btn.classList.add("is-pressed");
+            screen.querySelectorAll<HTMLButtonElement>("[data-reply]").forEach((b) => (b.disabled = true));
+            setTimeout(res, 250 / SPEED);
+          };
+          btn.addEventListener("click", finish, { once: true });
+          if (playing) {
+            setTimeout(() => {
+              if (token !== run) return rej(new Cancelled());
+              finish();
+            }, autoMs / SPEED);
+          }
+        });
+      }
+
+      function phoneLabel(k: string) {
+        $("[data-phone-label]").textContent = u(k);
+      }
+
+      function phoneIdle() {
+        screen.className = "phone__screen phone__screen--idle";
+        screen.innerHTML = `<div class="lock"><span class="lock__time">10:02</span><span class="lock__date">${lang === "es" ? "lunes" : "Monday"}</span></div>`;
+        phoneLabel("phone_idle");
+      }
+
+      // ---------------- script ----------------
+      const P = {
+        es: {
+          rem: (n: string, t: string) => `Hola ${n} 👋 Te recordamos tu cita de <b>mañana a las ${t}</b> en Alameda Family Health con la Dra. Ruiz.`,
+          ok: "Confirmar",
+          change: "Cambiar",
+          thanks: "¡Gracias! Te esperamos. 📍 5th Ave y 44th St\nSi llegas tarde, avísanos por aquí.",
+          pick: "Claro. Estos horarios están libres mañana:",
+          moved: (t: string) => `Listo, tu cita quedó para <b>mañana a las ${t}</b>. ¡Nos vemos!`,
+          missed: "Perdón, no pudimos atenderte 🙏\nReserva aquí: alameda.health/cita\no responde y te llamamos hoy.",
+          ask: "Hola, quiero una cita para mi hijo. Es nuevo paciente",
+          link: "¡Claro! Elige un horario aquí y en 1 minuto queda lista:\nalameda.health/cita",
+          booked: "✓ Cita reservada: <b>jueves 10:00 am</b> para Mateo. Te mandamos un recordatorio antes.",
+          wa: "WhatsApp Business",
+          sms: "Mensaje de texto",
+        },
+        en: {
+          rem: (n: string, t: string) => `Hi ${n} 👋 This is a reminder of your visit <b>tomorrow at ${t}</b> at Alameda Family Health with Dr. Ruiz.`,
+          ok: "Confirm",
+          change: "Change",
+          thanks: "Thanks! See you then. 📍 5th Ave & 44th St\nRunning late? Let us know here.",
+          pick: "Sure. These times are open tomorrow:",
+          moved: (t: string) => `Done, your visit is now <b>tomorrow at ${t}</b>. See you!`,
+          missed: "Sorry we missed your call 🙏\nBook here: alameda.health/cita\nor reply and we'll call you today.",
+          ask: "Hi, I need an appointment for my son. He's a new patient",
+          link: "Of course! Pick a time here and you're booked in a minute:\nalameda.health/cita",
+          booked: "✓ Visit booked: <b>Thursday 10:00 am</b> for Mateo. We'll send a reminder before.",
+          wa: "WhatsApp Business",
+          sms: "Text message",
+        },
+      };
+      // Patients' own phones stay in their own language, whatever the UI language is.
+      const ES = P.es;
+
+      async function stepSend(token: number) {
+        caption("cap1");
+        const ids = appts.map((a) => a.id);
+        for (const id of ids) {
+          set(id, { status: "sent" });
+          await sleep(110, token);
+        }
+        const es = appts.filter((a) => a.lang === "es").length;
+        log(u("f_sent", { n: appts.length, es, en: appts.length - es }), "sent");
+        ($("[data-send]") as HTMLButtonElement).disabled = true;
+      }
+
+      async function script(token: number) {
+        // 1. reminders
+        caption("cap0");
+        await sleep(2200, token);
+        await stepSend(token);
+        await sleep(600, token);
+
+        // 2. María confirms
+        phoneLabel("phone_m");
+        phoneChat("Alameda Family Health", ES.wa, "wa");
+        await sleep(500, token);
+        push({ from: "clinic", text: ES.rem("María", "9:00 am"), buttons: [ES.ok, ES.change] });
+        await sleep(700, token);
+        caption("cap2");
+        await tap(ES.ok, token, 1900);
+        push({ from: "me", text: ES.ok });
+        set("a1", { status: "confirmed" });
+        log(u("f_conf", { p: "María González", c: "WhatsApp" }), "ok");
+        await typing(token, 700);
+        push({ from: "clinic", text: ES.thanks });
+        await sleep(900, token);
+
+        // others confirm in the background
+        for (const [id, name, ch] of [
+          ["a4", "Ana Pérez", "WhatsApp"],
+          ["a3", "Kevin Tran", "SMS"],
+          ["a8", "Carmen Díaz", "WhatsApp"],
+          ["a5", "Rosa Torres", "WhatsApp"],
+        ] as const) {
+          set(id, { status: "confirmed" });
+          log(u("f_conf", { p: name, c: ch }), "ok");
+          await sleep(550, token);
+        }
+        await sleep(600, token);
+
+        // 3. José reschedules
+        caption("cap3");
+        phoneLabel("phone_j");
+        phoneChat("Alameda Family Health", ES.wa, "wa");
+        await sleep(400, token);
+        push({ from: "clinic", text: ES.rem("José", "9:30 am"), buttons: [ES.ok, ES.change] });
+        await sleep(600, token);
+        await tap(ES.change, token, 1700);
+        push({ from: "me", text: ES.change });
+        await typing(token, 700);
+        push({ from: "clinic", text: ES.pick, buttons: ["11:15 am", "2:00 pm", "4:30 pm"] });
+        await tap("4:30 pm", token, 1700);
+        push({ from: "me", text: "4:30 pm" });
+        appts = appts.map((a) =>
+          a.id === "a2" ? { ...a, time: "4:30 pm", status: "changed" } : a,
+        );
+        appts.splice(appts.findIndex((a) => a.id === "a2"), 1);
+        appts.push({ id: "a2", time: "4:30 pm", name: "José Ramírez", lang: "es", ch: "wa", status: "changed" });
+        appts.splice(1, 0, { id: "slot", time: "9:30 am", name: "—", lang: "es", ch: "wa", status: "open" });
+        renderDesk();
+        flash("a2");
+        flash("slot");
+        log(u("f_change", { p: "José Ramírez", a: "9:30 am", b: "4:30 pm" }), "change");
+        await typing(token, 600);
+        push({ from: "clinic", text: ES.moved("4:30 pm") });
+        log(u("f_open", { t: "9:30 am" }), "info");
+        await sleep(1400, token);
+        set("slot", { name: "Elena Vargas", status: "filled", note: lang === "es" ? "lista de espera" : "waitlist" });
+        log(u("f_fill", { p: "Elena Vargas", t: "9:30 am" }), "ok");
+        await sleep(900, token);
+        for (const [id, name] of [
+          ["a6", "Luis Medina"],
+          ["a9", "Pedro Castillo"],
+          ["a10", "Lucía Herrera"],
+        ] as const) {
+          set(id, { status: "confirmed" });
+          log(u("f_conf", { p: name, c: id === "a6" ? "SMS" : "WhatsApp" }), "ok");
+          await sleep(450, token);
+        }
+        await sleep(700, token);
+
+        // 4. missed call
+        caption("cap4");
+        phoneLabel("phone_n");
+        screen.className = "phone__screen phone__screen--call";
+        screen.innerHTML = `<div class="call"><span class="call__av">A</span><b>Alameda Family Health</b><span class="call__state" data-call>${u("calling")}</span><div class="call__btns"><span class="call__end">✆</span></div></div>`;
+        await sleep(2200, token);
+        screen.querySelector("[data-call]")!.textContent = u("nocall");
+        screen.querySelector(".call")!.classList.add("is-ended");
+        log(u("f_missed"), "warn");
+        await sleep(1000, token);
+        screen.querySelector("[data-call]")!.textContent = u("callEnded");
+        await sleep(700, token);
+
+        caption("cap5");
+        phoneChat("Alameda Family Health", ES.sms, "sms");
+        await sleep(500, token);
+        push({ from: "clinic", text: ES.missed });
+        log(u("f_text"), "sent");
+        recovered = 1;
+        renderDesk();
+        await sleep(1500, token);
+        push({ from: "me", text: ES.ask });
+        await typing(token, 800);
+        push({ from: "clinic", text: ES.link });
+        await sleep(1500, token);
+        push({ from: "clinic", text: ES.booked });
+        appts.push({ id: "new", time: lang === "es" ? "jue 10:00 am" : "Thu 10:00 am", name: "Mateo S.", lang: "es", ch: "sms", status: "new" });
+        renderDesk();
+        flash("new");
+        log(u("f_booked", { p: "Mateo S.", t: lang === "es" ? "jueves 10:00 am" : "Thursday 10:00 am" }), "ok");
+        await sleep(1200, token);
+
+        // 5. the one who never answered
+        set("a7", { status: "call" });
+        log(u("f_call", { p: "Grace Lee" }), "warn");
+        await sleep(600, token);
+        caption("cap6");
+      }
+
+      function reset() {
+        run++;
+        playing = false;
+        appts = BASE.map((a) => ({ ...a }));
+        feed = [];
+        recovered = 0;
+        ($("[data-send]") as HTMLButtonElement).disabled = false;
+        $("[data-play]").classList.remove("is-playing");
+        renderChrome();
+        renderDesk();
+        phoneIdle();
+        caption("cap0");
+      }
+
+      async function play() {
+        reset();
+        playing = true;
+        document.body.classList.add("is-playing");
+        $("[data-play]").classList.add("is-playing");
+        renderChrome();
+        const token = run;
+        try {
+          await script(token);
+        } catch (e) {
+          if (!(e instanceof Cancelled)) throw e;
+          return;
+        }
+        playing = false;
+        document.body.classList.remove("is-playing");
+        $("[data-play]").classList.remove("is-playing");
+        renderChrome();
+        document.body.dataset.done = "true";
+      }
+
+      // Manual mode: "Send reminders" runs the same story, but waits for your taps.
+      async function manual() {
+        const token = run;
+        playing = false;
+        try {
+          await script(token);
+        } catch (e) {
+          if (!(e instanceof Cancelled)) throw e;
+        }
+      }
+
+      document.addEventListener("click", (e) => {
+        const el = (e.target as HTMLElement).closest<HTMLElement>("[data-play],[data-restart],[data-lang],[data-send]");
+        if (!el) return;
+        if (el.hasAttribute("data-play")) play();
+        else if (el.hasAttribute("data-restart")) reset();
+        else if (el.hasAttribute("data-send")) {
+          reset();
+          manual();
+        } else if (el.dataset.lang) {
+          lang = el.dataset.lang as L;
+          renderChrome();
+          renderDesk();
+          if (!document.querySelector("[data-chat]")) phoneIdle();
+        }
+      });
+
+      reset();
+      if (qs.get("autoplay") === "1") setTimeout(play, 600);
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --blue: #2f54d6;
+    --blue-soft: #e8edfd;
+    --ink: #161a24;
+    --ink-soft: #5f6677;
+    --bg: #f4f5f8;
+    --card: #ffffff;
+    --line: #e3e6ee;
+    --ok: #1d7a46;
+    --ok-bg: #e2f5ea;
+    --warn: #8a5a00;
+    --warn-bg: #fff1d4;
+    --move: #2350a8;
+    --move-bg: #e6eefc;
+    --wa: #128c7e;
+    --sans: "Inter Variable", system-ui, sans-serif;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font: 400 15px/1.5 var(--sans);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100svh;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+  }
+
+  /* top bar */
+  .bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 0.9rem clamp(1rem, 3vw, 2rem);
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .bar__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .bar__brand b {
+    display: block;
+    font-size: 0.98rem;
+  }
+
+  .bar__brand span {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+
+  .bar__logo {
+    display: grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 0.7rem;
+    background: var(--blue);
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 1.1rem !important;
+  }
+
+  .bar__controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .lang {
+    display: flex;
+    background: var(--bg);
+    border-radius: 0.6rem;
+    padding: 0.2rem;
+  }
+
+  .lang button {
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.35rem 0.65rem;
+    border-radius: 0.45rem;
+    color: var(--ink-soft);
+  }
+
+  .lang button[aria-pressed="true"] {
+    background: var(--card);
+    color: var(--ink);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: var(--blue);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.88rem;
+    border-radius: 0.65rem;
+    padding: 0.6rem 1rem;
+    transition: background 0.2s;
+  }
+
+  .btn:hover {
+    background: #2442b0;
+  }
+
+  .btn:disabled {
+    background: #c3c9d8;
+    cursor: default;
+  }
+
+  .btn--ghost {
+    background: transparent;
+    color: var(--ink-soft);
+  }
+
+  .btn--ghost:hover {
+    background: var(--bg);
+  }
+
+  .btn--sm {
+    font-size: 0.82rem;
+    padding: 0.5rem 0.85rem;
+  }
+
+  .btn.is-playing {
+    background: var(--ink);
+  }
+
+  /* caption */
+  .caption {
+    max-width: 62rem;
+    margin: 1.25rem auto 0;
+    padding: 0 1rem;
+    text-align: center;
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    min-height: 1.8em;
+  }
+
+  .caption.is-in {
+    animation: capIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes capIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+
+  /* layout */
+  .app {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+    align-items: start;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 1.25rem clamp(1rem, 3vw, 2rem) 3rem;
+  }
+
+  .desk {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 1.1rem;
+    padding: clamp(1rem, 2vw, 1.5rem);
+    box-shadow: 0 20px 40px -32px rgb(20 30 60 / 0.25);
+  }
+
+  .desk__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .desk__kicker {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  .desk h1 {
+    font-size: 1.45rem;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 0.6rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .stat {
+    background: var(--bg);
+    border-radius: 0.8rem;
+    padding: 0.8rem 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .stat > span {
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  .stat b {
+    font-size: 1.6rem;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat small {
+    font-size: 1rem;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  .stat--warn b {
+    color: var(--warn);
+  }
+
+  .meter {
+    height: 6px;
+    background: var(--line);
+    border-radius: 99px;
+    overflow: clip;
+    margin-top: 0.3rem;
+  }
+
+  .meter i {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--ok);
+    border-radius: 99px;
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .grid2 {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .table {
+    border: 1px solid var(--line);
+    border-radius: 0.8rem;
+    overflow: clip;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 6.2rem minmax(0, 1fr) 5.8rem 9.5rem;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.42rem 0.85rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.85rem;
+  }
+
+  .row--head {
+    border-top: 0;
+    background: var(--bg);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .row.is-flash {
+    animation: flash 1.2s ease-out;
+  }
+
+  @keyframes flash {
+    from {
+      background: #fff6c9;
+    }
+  }
+
+  .row--new {
+    background: color-mix(in srgb, var(--ok-bg) 45%, #fff);
+  }
+
+  .row__time {
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .row__name {
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .row__name small {
+    display: block;
+    font-weight: 400;
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+  }
+
+  .ch {
+    font-size: 0.72rem;
+    font-weight: 600;
+    border-radius: 0.4rem;
+    padding: 0.15rem 0.45rem;
+  }
+
+  .ch--wa {
+    color: var(--wa);
+    background: #e3f5f1;
+  }
+
+  .ch--sms {
+    color: var(--ink-soft);
+    background: var(--bg);
+  }
+
+  .pill {
+    display: inline-block;
+    font-size: 0.74rem;
+    font-weight: 600;
+    border-radius: 99px;
+    padding: 0.2rem 0.6rem;
+    white-space: nowrap;
+  }
+
+  .pill--idle {
+    background: var(--bg);
+    color: var(--ink-soft);
+  }
+
+  .pill--sent {
+    background: var(--blue-soft);
+    color: var(--blue);
+  }
+
+  .pill--confirmed,
+  .pill--filled,
+  .pill--new {
+    background: var(--ok-bg);
+    color: var(--ok);
+  }
+
+  .pill--changed,
+  .pill--open {
+    background: var(--move-bg);
+    color: var(--move);
+  }
+
+  .pill--call {
+    background: var(--warn-bg);
+    color: var(--warn);
+  }
+
+  .feed {
+    background: var(--bg);
+    border-radius: 0.8rem;
+    padding: 0.9rem;
+    min-height: 100%;
+  }
+
+  .feed__title {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.6rem;
+  }
+
+  .feed__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .ev {
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    animation: evIn 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes evIn {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+
+  .ev small {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+  }
+
+  .ev__dot {
+    flex: none;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    margin-top: 0.35rem;
+    background: var(--ink-soft);
+  }
+
+  .ev--ok .ev__dot {
+    background: var(--ok);
+  }
+
+  .ev--sent .ev__dot {
+    background: var(--blue);
+  }
+
+  .ev--change .ev__dot {
+    background: var(--move);
+  }
+
+  .ev--warn .ev__dot {
+    background: #e0a100;
+  }
+
+  /* phone */
+  .phone-wrap {
+    position: sticky;
+    top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .phone {
+    position: relative;
+    width: 330px;
+    height: 640px;
+    border-radius: 2.6rem;
+    background: #111;
+    padding: 0.7rem;
+    box-shadow:
+      0 40px 70px -30px rgb(20 30 60 / 0.45),
+      inset 0 0 0 2px #2a2a2a;
+  }
+
+  .phone__notch {
+    position: absolute;
+    top: 0.95rem;
+    left: 50%;
+    width: 6rem;
+    height: 1.5rem;
+    border-radius: 99px;
+    background: #000;
+    transform: translateX(-50%);
+    z-index: 3;
+  }
+
+  .phone__status {
+    position: absolute;
+    top: 1.05rem;
+    left: 1.9rem;
+    right: 1.9rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    font-weight: 600;
+    z-index: 2;
+    color: #111;
+  }
+
+  .phone__screen {
+    height: 100%;
+    border-radius: 2rem;
+    overflow: clip;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    padding-top: 2.4rem;
+  }
+
+  .phone__label {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  .phone__screen--idle {
+    background: linear-gradient(160deg, #3a4fb8, #8a5cc9 60%, #e08a7a);
+  }
+
+  .lock {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+  }
+
+  .lock__time {
+    font-size: 4.2rem;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .lock__date {
+    opacity: 0.85;
+    margin-top: 0.4rem;
+  }
+
+  .phone__screen--wa {
+    background: #efeae2;
+  }
+
+  .phone__screen--sms {
+    background: #fff;
+  }
+
+  .chat__head {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid rgb(0 0 0 / 0.08);
+    background: rgb(255 255 255 / 0.85);
+  }
+
+  .phone__screen--wa .chat__head {
+    background: #f6f6f6;
+  }
+
+  .chat__head b {
+    display: block;
+    font-size: 0.85rem;
+  }
+
+  .chat__head small {
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+  }
+
+  .chat__av {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--blue);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  .chat__body {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding: 0.9rem 0.7rem 1.2rem;
+    scroll-behavior: smooth;
+  }
+
+  .bub {
+    max-width: 84%;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.84rem;
+    line-height: 1.4;
+    border-radius: 0.9rem;
+    animation: bubIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes bubIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.97);
+    }
+  }
+
+  .bub--clinic {
+    align-self: flex-start;
+    background: #fff;
+    border-top-left-radius: 0.2rem;
+    box-shadow: 0 1px 1px rgb(0 0 0 / 0.07);
+  }
+
+  .bub--me {
+    align-self: flex-end;
+    background: #d9fdd3;
+    border-top-right-radius: 0.2rem;
+    font-weight: 500;
+  }
+
+  .phone__screen--sms .bub--clinic {
+    background: #e9e9eb;
+    box-shadow: none;
+    border-radius: 1.1rem;
+  }
+
+  .phone__screen--sms .bub--me {
+    background: #2f7cf6;
+    color: #fff;
+    border-radius: 1.1rem;
+  }
+
+  .bub__btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.55rem;
+  }
+
+  .bub__btns button {
+    flex: 1;
+    min-width: 4.5rem;
+    border: 1px solid rgb(18 140 126 / 0.35);
+    color: var(--wa);
+    font-weight: 600;
+    font-size: 0.8rem;
+    border-radius: 0.55rem;
+    padding: 0.4rem 0.5rem;
+    transition:
+      background 0.2s,
+      transform 0.15s;
+  }
+
+  .bub__btns button:disabled {
+    opacity: 0.55;
+    cursor: default;
+  }
+
+  .bub__btns button.is-target:not(:disabled) {
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+
+  .bub__btns button.is-pressed {
+    background: var(--wa);
+    color: #fff;
+    opacity: 1;
+    transform: scale(0.96);
+  }
+
+  @keyframes pulse {
+    50% {
+      box-shadow: 0 0 0 4px rgb(18 140 126 / 0.18);
+    }
+  }
+
+  .bub--typing {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.7rem 0.8rem;
+  }
+
+  .bub--typing i {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: #9aa0a6;
+    animation: dot 1s infinite;
+  }
+
+  .bub--typing i:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .bub--typing i:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  @keyframes dot {
+    50% {
+      transform: translateY(-3px);
+      opacity: 0.5;
+    }
+  }
+
+  .phone__screen--call {
+    background: linear-gradient(180deg, #2b2f3a, #14161c);
+    color: #fff;
+  }
+
+  .call {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 4rem;
+    gap: 0.5rem;
+  }
+
+  .call__av {
+    display: grid;
+    place-items: center;
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 50%;
+    background: var(--blue);
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    animation: ring 1.4s ease-in-out infinite;
+  }
+
+  .call.is-ended .call__av {
+    animation: none;
+    background: #4a4f5c;
+  }
+
+  @keyframes ring {
+    50% {
+      box-shadow: 0 0 0 14px rgb(47 84 214 / 0.25);
+    }
+  }
+
+  .call b {
+    font-size: 1.15rem;
+  }
+
+  .call__state {
+    opacity: 0.7;
+    font-size: 0.9rem;
+  }
+
+  .call.is-ended .call__state {
+    color: #ff8f80;
+    opacity: 1;
+  }
+
+  .call__btns {
+    margin-top: auto;
+    margin-bottom: 3rem;
+  }
+
+  .call__end {
+    display: grid;
+    place-items: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: #e5484d;
+    font-size: 1.5rem;
+    transform: rotate(135deg);
+  }
+
+  /* responsive */
+  @media (max-width: 1080px) {
+    .grid2 {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .app {
+      grid-template-columns: 1fr;
+    }
+
+    .phone-wrap {
+      position: static;
+      order: -1;
+    }
+
+    .stats {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .phone {
+      width: 300px;
+      height: 580px;
+    }
+
+    .row {
+      grid-template-columns: 4.6rem minmax(0, 1fr) 7.5rem;
+    }
+
+    .row > :nth-child(3) {
+      display: none;
+    }
+
+    .bar__brand div span {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+</style>
