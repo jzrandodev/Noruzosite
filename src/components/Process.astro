@@ -1,40 +1,15 @@
 ---
 import SectionHead from "./SectionHead.astro";
-
-const steps = [
-  {
-    n: "01",
-    title: "Analyze",
-    blurb:
-      "We dig into your workflows and flag the few places where AI genuinely pays off, with numbers attached.",
-  },
-  {
-    n: "02",
-    title: "Build",
-    blurb:
-      "We design and develop the automation or agent, tailored to your stack, your data and your rules.",
-  },
-  {
-    n: "03",
-    title: "Integrate",
-    blurb:
-      "We wire it into the tools you already use with minimal disruption, and train your team to run it.",
-  },
-  {
-    n: "04",
-    title: "Optimize",
-    blurb:
-      "We measure results, refine prompts and pipelines, and compound the gains month over month.",
-  },
-];
+import { strings, type Lang } from "../i18n/strings";
+interface Props {
+  lang: Lang;
+}
+const t = strings[Astro.props.lang].process;
+const steps = t.steps;
 ---
 
 <section class="process section" id="process" data-theme-section="light">
-  <SectionHead
-    chip="Our process"
-    title='Simple, smart and <em class="t-tilt">scalable</em>'
-    sub="One loop, four moves: find the opportunity, build it, then compound it."
-  />
+  <SectionHead chip={t.chip} title={t.title} sub={t.sub} />
 
   <div class="process__wrap">
     <span class="process__line" data-process-line aria-hidden="true"></span>

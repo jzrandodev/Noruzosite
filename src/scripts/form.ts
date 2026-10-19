@@ -18,6 +18,25 @@ export function initContactForm(): void {
   const label = form.querySelector<HTMLElement>("[data-form-label]");
   const status = form.querySelector<HTMLElement>("[data-form-status]");
 
+  // Copy comes from the page so the form speaks the page's language
+  const fallback = {
+    sending: "Sending…",
+    sent: "Sent ✓",
+    success: "Got it. We'll be in touch soon.",
+    badEmail: "That email doesn't look right. Try again?",
+    noNeed: "Pick what you need so we can point you the right way.",
+    noMessage: "Tell us a bit about what's going on.",
+    notWired: "Form isn't wired up yet. Add the Supabase keys to .env.",
+    failed: "Something broke on the way out. Try again in a minute?",
+  };
+  let msg = fallback;
+  try {
+    msg = { ...fallback, ...JSON.parse(form.dataset.status ?? "{}") };
+  } catch {
+    /* keep fallback */
+  }
+  const submitText = label?.textContent ?? "Send";
+
   const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL as string | undefined;
   const anonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY as string | undefined;
 
@@ -38,6 +57,7 @@ export function initContactForm(): void {
     utm_campaign: params.get("utm_campaign"),
     referrer: document.referrer || null,
     path: location.pathname,
+    lang: document.documentElement.lang || "en",
   };
 
   form.addEventListener("submit", async (e) => {
@@ -46,7 +66,7 @@ export function initContactForm(): void {
     // Honeypot tripped → pretend success, deliver nothing
     const honeypot = form.querySelector<HTMLInputElement>("input[name=botcheck]");
     if (honeypot?.checked) {
-      setStatus("Got it. We'll be in touch soon.", "is-success");
+      setStatus(msg.success, "is-success");
       form.reset();
       return;
     }
@@ -56,14 +76,14 @@ export function initContactForm(): void {
 
     const email = emailInput?.value.trim() ?? "";
     if (!email || !emailInput?.checkValidity()) {
-      setStatus("That email doesn't look right — try again?", "is-error");
+      setStatus(msg.badEmail, "is-error");
       shake();
       return;
     }
 
     const budget = budgetSelect?.value ?? "";
     if (!budget) {
-      setStatus("Pick a budget range so we can scope it right.", "is-error");
+      setStatus(msg.noNeed, "is-error");
       budgetSelect?.focus();
       shake();
       return;
@@ -71,19 +91,19 @@ export function initContactForm(): void {
 
     const message = messageInput?.value.trim() ?? "";
     if (!message) {
-      setStatus("Tell us the main problem you're trying to solve.", "is-error");
+      setStatus(msg.noMessage, "is-error");
       messageInput?.focus();
       shake();
       return;
     }
 
     if (!supabaseUrl || !anonKey) {
-      setStatus("Form isn't wired up yet — add the Supabase keys to .env.", "is-error");
+      setStatus(msg.notWired, "is-error");
       return;
     }
 
     if (button) button.disabled = true;
-    if (label) label.textContent = "Sending…";
+    if (label) label.textContent = msg.sending;
 
     try {
       const res = await fetch(`${supabaseUrl}/functions/v1/lead`, {
@@ -106,12 +126,12 @@ export function initContactForm(): void {
         throw new Error(data.error ?? `HTTP ${res.status}`);
       }
 
-      setStatus("Got it. We'll be in touch soon.", "is-success");
-      if (label) label.textContent = "Sent ✓";
+      setStatus(msg.success, "is-success");
+      if (label) label.textContent = msg.sent;
       form.reset();
     } catch {
-      setStatus("Something broke on the way out — try again in a minute?", "is-error");
-      if (label) label.textContent = "Send it";
+      setStatus(msg.failed, "is-error");
+      if (label) label.textContent = submitText;
       if (button) button.disabled = false;
     }
   });

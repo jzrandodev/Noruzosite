@@ -1,0 +1,488 @@
+---
+// Illustrative UI for the concept case studies. Built in HTML/CSS so it
+// stays crisp, and so the Spanish copy is real text, not a screenshot.
+interface Props {
+  kind: "website" | "system";
+  variant?: "card" | "full";
+}
+const { kind, variant = "full" } = Astro.props;
+const full = variant === "full";
+---
+
+<div class={`cv cv--${kind} cv--${variant}`} aria-hidden="true">
+  {
+    kind === "website" && (
+      <>
+        <div class="phone">
+          <div class="phone__top">
+            <span class="phone__brand">
+              Ceibo<b>Dental</b>
+            </span>
+            <span class="phone__lang">
+              <i class="is-on">ES</i>
+              <i>EN</i>
+            </span>
+          </div>
+          <p class="phone__h">Tu dentista de confianza en Washington Heights</p>
+          <div class="phone__chips">
+            <span>Abierto sábados</span>
+            <span>Aceptamos Medicaid</span>
+            <span>Limpieza desde $95</span>
+          </div>
+          <span class="phone__btn">Reservar cita</span>
+          <span class="phone__ghost">Escríbenos por WhatsApp</span>
+          <div class="phone__card">
+            <b>Horario</b>
+            <span>Lun a Vie 9 a 7 · Sáb 9 a 2</span>
+          </div>
+        </div>
+        {full && (
+          <div class="phone">
+            <div class="phone__top">
+              <span class="phone__step">Paso 2 de 3</span>
+              <span class="phone__x">✕</span>
+            </div>
+            <p class="phone__h phone__h--sm">Elige un horario</p>
+            <div class="phone__days">
+              <span>Lun 3</span>
+              <span class="is-on">Mar 4</span>
+              <span>Mié 5</span>
+              <span>Jue 6</span>
+            </div>
+            <div class="phone__slots">
+              <span>9:00</span>
+              <span>9:45</span>
+              <span class="is-on">10:30</span>
+              <span>12:00</span>
+              <span>3:15</span>
+              <span>5:30</span>
+            </div>
+            <p class="phone__note">Te confirmamos por WhatsApp o texto, como prefieras.</p>
+            <span class="phone__btn">Continuar</span>
+          </div>
+        )}
+      </>
+    )
+  }
+  {
+    kind === "system" && (
+      <>
+        <div class="phone phone--wa">
+          <div class="phone__wahead">
+            <span class="phone__avatar" />
+            <span>
+              Alameda Family Health
+              <small>WhatsApp Business</small>
+            </span>
+          </div>
+          <div class="bub">
+            Hola María 👋 Te recordamos tu cita el <b>martes 4 a las 10:30 am</b> con la Dra. Ruiz.
+            <div class="bub__actions">
+              <span>Confirmar</span>
+              <span>Cambiar</span>
+            </div>
+          </div>
+          <div class="bub bub--me">Confirmar</div>
+          <div class="bub">¡Gracias! Te esperamos. 📍 5th Ave y 44th St</div>
+        </div>
+        {full && (
+          <div class="phone">
+            <div class="phone__top">
+              <span class="phone__step">Mensajes</span>
+              <span class="phone__x">10:02</span>
+            </div>
+            <p class="phone__missed">Llamada perdida · Alameda Family Health</p>
+            <div class="bub bub--sms">
+              Perdón, no pudimos atenderte. Reserva aquí: alameda.health/cita o responde y te llamamos hoy.
+            </div>
+            <div class="bub bub--me bub--sms-me">Mejor llámenme después de las 3</div>
+            <div class="bub bub--sms">Perfecto, te llamamos a las 3. ¡Gracias!</div>
+          </div>
+        )}
+        {full && (
+          <div class="desk">
+            <div class="desk__head">
+              <b>Hoy</b>
+              <span>12 citas</span>
+            </div>
+            <div class="desk__row">
+              <span>9:00</span>
+              <span>María G.</span>
+              <span class="pill pill--ok">Confirmada</span>
+            </div>
+            <div class="desk__row">
+              <span>9:30</span>
+              <span>José R.</span>
+              <span class="pill pill--wait">Sin confirmar</span>
+            </div>
+            <div class="desk__row">
+              <span>10:15</span>
+              <span>Ana P.</span>
+              <span class="pill pill--moved">Reprogramada</span>
+            </div>
+            <div class="desk__row">
+              <span>10:30</span>
+              <span>Luis M.</span>
+              <span class="pill pill--ok">Confirmada</span>
+            </div>
+            <div class="desk__row">
+              <span>11:00</span>
+              <span>Rosa T.</span>
+              <span class="pill pill--ok">Confirmada</span>
+            </div>
+          </div>
+        )}
+      </>
+    )
+  }
+</div>
+
+<style>
+  .cv {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1.5em;
+    font-size: 16px;
+    color: var(--c-ink);
+  }
+
+  .cv--card {
+    font-size: 11px;
+    align-items: center;
+    height: 100%;
+    padding-top: 2.5em;
+    overflow: clip;
+  }
+
+  .cv--full {
+    flex-wrap: wrap;
+  }
+
+  .phone {
+    width: 17em;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+    background: var(--c-paper);
+    border-radius: 1.75em;
+    padding: 1.25em 1.1em 1.5em;
+    border: 0.45em solid #1c1c1e;
+    box-shadow: 0 2em 4em -2em rgb(0 0 0 / 0.35);
+    font-size: 1em;
+    text-align: left;
+  }
+
+  .phone__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.6em;
+    border-bottom: 1px solid var(--c-line);
+  }
+
+  .phone__brand {
+    font-size: 0.85em;
+    font-weight: 500;
+  }
+
+  .phone__brand b {
+    font-weight: 700;
+    color: var(--c-accent);
+  }
+
+  .phone__lang {
+    display: flex;
+    border: 1px solid var(--c-line);
+    border-radius: 99px;
+    padding: 0.12em;
+    font-size: 0.62em;
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  .phone__lang i {
+    font-style: normal;
+    padding: 0.2em 0.55em;
+    border-radius: 99px;
+    color: var(--c-ink-soft);
+  }
+
+  .phone__lang .is-on {
+    background: var(--c-ink);
+    color: var(--c-paper);
+  }
+
+  .phone__h {
+    font-size: 1.25em;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .phone__h--sm {
+    font-size: 1.05em;
+  }
+
+  .phone__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35em;
+  }
+
+  .phone__chips span {
+    font-size: 0.66em;
+    font-weight: 600;
+    background: color-mix(in srgb, var(--c-accent) 9%, var(--c-paper));
+    color: var(--c-accent-deep);
+    border-radius: 99px;
+    padding: 0.35em 0.7em;
+  }
+
+  .phone__btn {
+    display: block;
+    text-align: center;
+    background: var(--c-accent);
+    color: var(--c-paper);
+    font-size: 0.8em;
+    font-weight: 650;
+    border-radius: 99px;
+    padding: 0.8em 1em;
+  }
+
+  .phone__ghost {
+    display: block;
+    text-align: center;
+    border: 1px solid var(--c-line);
+    font-size: 0.75em;
+    font-weight: 600;
+    border-radius: 99px;
+    padding: 0.7em 1em;
+    color: #128c7e;
+  }
+
+  .phone__card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+    background: var(--c-bg);
+    border-radius: 0.8em;
+    padding: 0.75em 0.9em;
+    font-size: 0.7em;
+    color: var(--c-ink-soft);
+  }
+
+  .phone__card b {
+    color: var(--c-ink);
+  }
+
+  .phone__step,
+  .phone__x {
+    font-size: 0.7em;
+    font-weight: 600;
+    color: var(--c-ink-soft);
+  }
+
+  .phone__days,
+  .phone__slots {
+    display: grid;
+    gap: 0.4em;
+  }
+
+  .phone__days {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .phone__slots {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .phone__days span,
+  .phone__slots span {
+    text-align: center;
+    font-size: 0.7em;
+    font-weight: 600;
+    border: 1px solid var(--c-line);
+    border-radius: 0.6em;
+    padding: 0.6em 0.2em;
+  }
+
+  .phone__days .is-on {
+    background: var(--c-ink);
+    border-color: var(--c-ink);
+    color: var(--c-paper);
+  }
+
+  .phone__slots .is-on {
+    border-color: var(--c-accent);
+    color: var(--c-accent);
+    background: color-mix(in srgb, var(--c-accent) 6%, var(--c-paper));
+  }
+
+  .phone__note {
+    font-size: 0.68em;
+    color: var(--c-ink-soft);
+  }
+
+  /* WhatsApp */
+  .phone--wa {
+    background: #efeae2;
+  }
+
+  .phone__wahead {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    font-size: 0.78em;
+    font-weight: 650;
+    padding-bottom: 0.7em;
+    border-bottom: 1px solid rgb(0 0 0 / 0.08);
+  }
+
+  .phone__wahead small {
+    display: block;
+    font-weight: 400;
+    font-size: 0.82em;
+    color: var(--c-ink-soft);
+  }
+
+  .phone__avatar {
+    width: 2.2em;
+    height: 2.2em;
+    flex: none;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 30%, #ff9d6b, var(--c-accent) 58%, var(--c-accent-deep));
+  }
+
+  .bub {
+    align-self: flex-start;
+    max-width: 88%;
+    background: var(--c-paper);
+    border-radius: 0.2em 0.9em 0.9em 0.9em;
+    padding: 0.7em 0.85em;
+    font-size: 0.76em;
+    line-height: 1.4;
+    box-shadow: 0 1px 1px rgb(0 0 0 / 0.06);
+  }
+
+  .bub__actions {
+    display: flex;
+    gap: 0.4em;
+    margin-top: 0.7em;
+  }
+
+  .bub__actions span {
+    flex: 1;
+    text-align: center;
+    font-weight: 650;
+    color: #128c7e;
+    border: 1px solid rgb(18 140 126 / 0.3);
+    border-radius: 0.5em;
+    padding: 0.45em;
+  }
+
+  .bub--me {
+    align-self: flex-end;
+    background: #d9fdd3;
+    border-radius: 0.9em 0.2em 0.9em 0.9em;
+    font-weight: 600;
+  }
+
+  .phone__missed {
+    font-size: 0.68em;
+    font-weight: 600;
+    color: #c0392b;
+    text-align: center;
+  }
+
+  .bub--sms {
+    background: var(--c-bg);
+    box-shadow: none;
+  }
+
+  .bub--sms-me {
+    background: #2f7cf6;
+    color: #fff;
+  }
+
+  /* Front desk */
+  .desk {
+    width: 22em;
+    flex: none;
+    align-self: center;
+    background: var(--c-paper);
+    border: 1px solid var(--c-line);
+    border-radius: 1.1em;
+    padding: 1.1em 1.25em;
+    box-shadow: 0 2em 4em -2em rgb(0 0 0 / 0.35);
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .desk__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 0.7em;
+    border-bottom: 1px solid var(--c-line);
+    font-size: 0.9em;
+  }
+
+  .desk__head span {
+    font-size: 0.85em;
+    color: var(--c-ink-soft);
+  }
+
+  .desk__row {
+    display: grid;
+    grid-template-columns: 3.4em 1fr auto;
+    align-items: center;
+    gap: 0.6em;
+    padding: 0.65em 0;
+    border-bottom: 1px solid var(--c-line);
+    font-size: 0.8em;
+  }
+
+  .desk__row:last-child {
+    border-bottom: 0;
+  }
+
+  .desk__row span:first-child {
+    color: var(--c-ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pill {
+    font-size: 0.82em;
+    font-weight: 650;
+    border-radius: 99px;
+    padding: 0.3em 0.7em;
+  }
+
+  .pill--ok {
+    background: #e3f6e8;
+    color: #1d7a3f;
+  }
+
+  .pill--wait {
+    background: #fff1d6;
+    color: #8a5a00;
+  }
+
+  .pill--moved {
+    background: #e6eefc;
+    color: #2350a8;
+  }
+
+  @media (max-width: 640px) {
+    .cv--full {
+      font-size: 14px;
+    }
+
+    .desk {
+      width: 100%;
+    }
+  }
+</style>

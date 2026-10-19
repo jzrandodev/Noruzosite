@@ -1,0 +1,81 @@
+---
+import "@fontsource-variable/inter";
+import "@fontsource-variable/playfair-display";
+import "@fontsource-variable/playfair-display/wght-italic.css";
+import "../styles/base.css";
+import "../styles/typography.css";
+
+import Preloader from "../components/Preloader.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { strings, url, type Lang } from "../i18n/strings";
+
+interface Props {
+  lang: Lang;
+  /** Path of this page (no base), e.g. "" or "es/" or "work/dental/" */
+  path: string;
+  /** Path of the same page in the other language */
+  altPath: string;
+  title?: string;
+  description?: string;
+  preloader?: boolean;
+}
+
+const { lang, path, altPath, preloader = false } = Astro.props;
+const t = strings[lang];
+const title = Astro.props.title ?? t.meta.title;
+const description = Astro.props.description ?? t.meta.description;
+
+const abs = (p: string) => new URL(url(p), Astro.site).href;
+const canonical = abs(path);
+const enHref = abs(lang === "en" ? path : altPath);
+const esHref = abs(lang === "es" ? path : altPath);
+const ogImage = abs("og.png");
+
+const orgSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Noruzo",
+  description,
+  url: abs(""),
+  logo: ogImage,
+});
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={enHref} />
+    <link rel="alternate" hreflang="es" href={esHref} />
+    <link rel="alternate" hreflang="x-default" href={enHref} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={lang === "es" ? "es_US" : "en_US"} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="theme-color" content="#f6f6f6" />
+    <link rel="icon" href={url("favicon.svg")} type="image/svg+xml" />
+    <script type="application/ld+json" set:html={orgSchema} />
+  </head>
+  <body data-theme="light">
+    <a class="skip-link" href="#main">{lang === "es" ? "Saltar al contenido" : "Skip to content"}</a>
+    {preloader && <Preloader />}
+    <Nav lang={lang} altHref={url(altPath)} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <div class="cursor" aria-hidden="true"></div>
+    <script src="../scripts/main.ts"></script>
+  </body>
+</html>

@@ -1,14 +1,28 @@
+---
+import { strings, home, type Lang } from "../i18n/strings";
+interface Props {
+  lang: Lang;
+  altHref: string;
+}
+const { lang, altHref } = Astro.props;
+const t = strings[lang].nav;
+const h = home(lang);
+---
+
 <header class="nav" data-nav>
-  <a class="nav__logo t-display" href="#top" data-hover>
+  <a class="nav__logo t-display" href={h} data-hover aria-label="Noruzo">
     NORU<span class="t-tilt">zo</span>
   </a>
   <nav class="nav__links" aria-label="Primary">
-    <a class="t-label" href="#services" data-hover>Services</a>
-    <a class="t-label" href="#process" data-hover>Process</a>
-    <a class="t-label" href="#work" data-hover>Work</a>
-    <a class="t-label" href="#contact" data-hover>Contact</a>
+    <a class="t-label" href={`${h}#services`} data-hover>{t.services}</a>
+    <a class="t-label" href={`${h}#process`} data-hover>{t.process}</a>
+    <a class="t-label" href={`${h}#work`} data-hover>{t.work}</a>
+    <a class="t-label" href={`${h}#contact`} data-hover>{t.contact}</a>
   </nav>
-  <a class="nav__cta t-label" href="#contact" data-hover>Let's talk</a>
+  <div class="nav__right">
+    <a class="nav__lang t-label" href={altHref} hreflang={lang === "en" ? "es" : "en"} lang={lang === "en" ? "es" : "en"} aria-label={t.switchLabel} data-hover>{t.switchShort}</a>
+    <a class="nav__cta t-label" href={`${h}#contact`} data-hover>{t.cta}</a>
+  </div>
 </header>
 
 <style>
@@ -61,6 +75,21 @@
   .nav__links a:hover::after {
     transform: scaleX(1);
     transform-origin: left;
+  }
+
+  .nav__right {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .nav__lang {
+    opacity: 0.8;
+    transition: opacity 0.3s;
+  }
+
+  .nav__lang:hover {
+    opacity: 1;
   }
 
   .nav__cta {

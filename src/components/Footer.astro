@@ -1,4 +1,9 @@
 ---
+import { strings, type Lang } from "../i18n/strings";
+interface Props {
+  lang: Lang;
+}
+const t = strings[Astro.props.lang].footer;
 const year = new Date().getFullYear();
 ---
 
@@ -9,15 +14,14 @@ const year = new Date().getFullYear();
     </span>
 
     <nav class="footer__links" aria-label="Social">
-      <a class="t-label" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" data-hover>LinkedIn</a>
-      <a class="t-label" href="https://x.com/" target="_blank" rel="noopener noreferrer" data-hover>X</a>
+      <a class="t-label" href="https://www.instagram.com/noruzostudio/" target="_blank" rel="noopener noreferrer" data-hover>Instagram</a>
       <a class="t-label" href="mailto:hello@noruzo.ai" data-hover>hello@noruzo.ai</a>
     </nav>
   </div>
 
   <div class="footer__row footer__row--bottom">
-    <span class="t-label">© {year} Noruzo AI</span>
-    <a class="t-label" href="#top" data-hover>Back to top ↑</a>
+    <span class="t-label">© {year} {t.rights}</span>
+    <a class="t-label" href="#main" data-hover>{t.top}</a>
   </div>
 </footer>
 

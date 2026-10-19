@@ -1,0 +1,277 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import Base from "../layouts/Base.astro";
+import CaseVisual from "./CaseVisual.astro";
+import { strings, caseUrl, home, url, type Lang } from "../i18n/strings";
+
+interface Props {
+  entry: CollectionEntry<"case-studies">;
+}
+const { entry } = Astro.props;
+const d = entry.data;
+const lang = d.lang as Lang;
+const other: Lang = lang === "en" ? "es" : "en";
+const t = strings[lang].cases;
+const { Content } = await render(entry);
+
+const strip = (p: string) => p.replace(url(""), "");
+const path = strip(caseUrl(lang, d.key));
+const altPath = strip(caseUrl(other, d.key));
+
+const all = (await getCollection("case-studies", (c) => c.data.lang === lang)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const idx = all.findIndex((c) => c.data.key === d.key);
+const next = all[(idx + 1) % all.length];
+---
+
+<Base lang={lang} path={path} altPath={altPath} title={`${d.clinic} | Noruzo`} description={d.summary}>
+  <article class="cs">
+    <header class="cs__head section" data-theme-section="light">
+      <a class="cs__back t-label" href={`${home(lang)}#work`} data-hover>← {t.back}</a>
+      <div class="cs__meta">
+        {d.concept && <span class="cs__badge t-label">{t.conceptBadge}</span>}
+        <span class="t-label cs__client">{d.clinic} · {d.place}</span>
+      </div>
+      <h1 class="cs__title t-display t-display--lg">{d.title}</h1>
+      <p class="cs__summary t-body-lg">{d.summary}</p>
+    </header>
+
+    <div class="cs__stage">
+      <CaseVisual kind={d.kind} />
+    </div>
+
+    <div class="cs__layout section">
+      <aside class="cs__aside">
+        {d.concept && <p class="cs__disclaimer">{t.disclaimer}</p>}
+        <div class="cs__list">
+          <h2 class="t-label">{t.deliverables}</h2>
+          <ul role="list">
+            {d.deliverables.map((x) => <li>{x}</li>)}
+          </ul>
+        </div>
+        <div class="cs__list">
+          <h2 class="t-label">{t.measure}</h2>
+          <ul role="list">
+            {d.measure.map((x) => <li>{x}</li>)}
+          </ul>
+        </div>
+      </aside>
+
+      <div class="cs__prose">
+        <Content />
+      </div>
+    </div>
+
+    <footer class="cs__foot section">
+      <div class="cs__cta">
+        <p class="t-display t-display--md">{t.ctaTitle}</p>
+        <a class="cs__btn t-label" href={`${home(lang)}#contact`} data-hover>{t.ctaButton}</a>
+      </div>
+      {
+        next && next.data.key !== d.key && (
+          <a class="cs__next" href={caseUrl(lang, next.data.key)} data-hover>
+            <span class="t-label">{t.nextLabel} →</span>
+            <span class="cs__nexttitle">{next.data.title}</span>
+          </a>
+        )
+      }
+    </footer>
+  </article>
+</Base>
+
+<style>
+  .cs__head {
+    padding-top: calc(var(--nav-h) + clamp(3rem, 8vh, 5rem));
+    padding-bottom: clamp(2rem, 6vh, 4rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 1100px;
+  }
+
+  .cs__back {
+    color: var(--c-ink-soft);
+  }
+
+  .cs__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .cs__badge {
+    border: 1px solid var(--c-accent);
+    color: var(--c-accent-deep);
+    border-radius: 99px;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .cs__client {
+    color: var(--c-ink-soft);
+  }
+
+  .cs__title {
+    max-width: 18ch;
+  }
+
+  .cs__summary {
+    max-width: 40rem;
+    color: var(--c-ink-soft);
+  }
+
+  .cs__stage {
+    margin: 0 var(--gutter);
+    padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1rem, 4vw, 3rem);
+    border-radius: 1.5rem;
+    background: radial-gradient(120% 130% at 20% 0%, #ffd9c7, #f1e6df 55%, #e9e4e1);
+    overflow: clip;
+  }
+
+  .cs__layout {
+    display: grid;
+    grid-template-columns: minmax(14rem, 20rem) minmax(0, 42rem);
+    gap: clamp(2rem, 6vw, 6rem);
+    justify-content: center;
+    align-items: start;
+  }
+
+  .cs__aside {
+    position: sticky;
+    top: calc(var(--nav-h) + 1.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .cs__disclaimer {
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--c-ink-soft);
+    border-left: 2px solid var(--c-accent);
+    padding-left: 0.9rem;
+  }
+
+  .cs__list h2 {
+    color: var(--c-ink-soft);
+    margin-bottom: 0.9rem;
+  }
+
+  .cs__list ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    font-size: 0.92rem;
+  }
+
+  .cs__list li::before {
+    content: "·";
+    color: var(--c-accent);
+    font-weight: 700;
+    margin-right: 0.55rem;
+  }
+
+  .cs__prose {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #3a3a3f;
+  }
+
+  .cs__prose :global(h2) {
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--c-ink);
+    margin: 3rem 0 1rem;
+  }
+
+  .cs__prose :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .cs__prose :global(p) {
+    margin-bottom: 1.1rem;
+  }
+
+  .cs__prose :global(strong) {
+    color: var(--c-ink);
+    font-weight: 600;
+  }
+
+  .cs__prose :global(ul) {
+    padding-left: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .cs__prose :global(li::marker) {
+    color: var(--c-accent);
+  }
+
+  .cs__foot {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: stretch;
+  }
+
+  .cs__cta,
+  .cs__next {
+    border-radius: 1.25rem;
+    padding: clamp(1.75rem, 4vw, 3rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .cs__cta {
+    background: var(--c-ink);
+    color: var(--c-paper);
+  }
+
+  .cs__btn {
+    align-self: flex-start;
+    background: var(--c-accent);
+    color: var(--c-paper);
+    border-radius: 99px;
+    padding: 0.9rem 1.5rem;
+  }
+
+  .cs__next {
+    background: var(--c-paper);
+    border: 1px solid var(--c-line);
+    transition: border-color 0.3s;
+  }
+
+  .cs__next:hover {
+    border-color: var(--c-ink);
+  }
+
+  .cs__next .t-label {
+    color: var(--c-ink-soft);
+  }
+
+  .cs__nexttitle {
+    font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  @media (max-width: 860px) {
+    .cs__layout,
+    .cs__foot {
+      grid-template-columns: 1fr;
+    }
+
+    .cs__aside {
+      position: static;
+    }
+  }
+</style>

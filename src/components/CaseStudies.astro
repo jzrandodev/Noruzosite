@@ -1,77 +1,58 @@
 ---
+import { getCollection } from "astro:content";
 import SectionHead from "./SectionHead.astro";
+import CaseVisual from "./CaseVisual.astro";
+import { strings, caseUrl, type Lang } from "../i18n/strings";
 
-// Placeholder engagements — swap for real client work before outreach.
-const cases = [
-  {
-    stat: "−38%",
-    statLabel: "inventory waste",
-    title: "Forecasting that cut inventory waste by 38%",
-    client: "Consumer goods brand",
-    impact: ["38% less inventory waste", "4× faster demand planning", "Forecasts 21% more accurate"],
-  },
-  {
-    stat: "71%",
-    statLabel: "tickets auto-resolved",
-    title: "A support agent that resolves 7 of 10 tickets",
-    client: "B2B SaaS company",
-    impact: ["71% of tickets auto-resolved", "Median response under 3 minutes", "Support team refocused on churn"],
-  },
-  {
-    stat: "3×",
-    statLabel: "qualified leads",
-    title: "An outreach engine that tripled qualified leads",
-    client: "Professional services firm",
-    impact: ["3× qualified leads in one quarter", "60% less manual prospecting", "Live in under two weeks"],
-  },
-];
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = strings[lang].cases;
+const cases = (await getCollection("case-studies", (c) => c.data.lang === lang)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
 ---
 
 <section class="cases section" id="work" data-theme-section="dark">
-  <SectionHead
-    chip="Case studies"
-    title='Shipped AI that <em class="t-tilt">pays for itself</em>'
-    sub="A sample of what engagements look like — full studies coming soon."
-  />
+  <SectionHead chip={t.chip} title={t.title} sub={t.sub} />
 
-  <div
-    class="cases__track"
-    data-drag-scroll
-    tabindex="0"
-    role="region"
-    aria-label="Case studies, scroll horizontally"
-  >
+  <div class="cases__grid">
     {
       cases.map((c, i) => (
-        <article class="case" data-reveal>
-          <div class={`case__visual case__visual--${i % 3}`} aria-hidden="true">
-            <span class="case__stat t-tilt">{c.stat}</span>
-            <span class="case__statlabel t-label">{c.statLabel}</span>
+        <a class="case" href={caseUrl(lang, c.data.key)} data-reveal data-hover>
+          <div class={`case__visual case__visual--${i % 2}`}>
+            <CaseVisual kind={c.data.kind} variant="card" />
           </div>
           <div class="case__body">
-            <span class="case__client t-label">{c.client}</span>
-            <h3 class="case__title">{c.title}</h3>
+            <div class="case__meta">
+              {c.data.concept && <span class="case__badge t-label">{t.conceptBadge}</span>}
+              <span class="case__client t-label">
+                {c.data.clinic} · {c.data.place}
+              </span>
+            </div>
+            <h3 class="case__title">{c.data.title}</h3>
             <ul class="case__impact" role="list">
-              {c.impact.map((line) => (
+              {c.data.highlights.map((line) => (
                 <li>{line}</li>
               ))}
             </ul>
+            <span class="case__more t-label">
+              {t.readMore} <span aria-hidden="true">→</span>
+            </span>
           </div>
-        </article>
+        </a>
       ))
     }
   </div>
-
-  <p class="cases__hint t-label" aria-hidden="true">Drag to explore →</p>
 </section>
 
 <style>
   .cases {
     color: var(--c-paper);
-    overflow: clip;
   }
 
-  /* Section head sits on dark here — repaint its light-theme pieces */
+  /* Section head sits on dark here, repaint its light-theme pieces */
   .cases :global(.shead__chip) {
     background: transparent;
     border-color: rgb(255 255 255 / 0.18);
@@ -86,50 +67,34 @@ const cases = [
     color: rgb(255 255 255 / 0.55);
   }
 
-  .cases__track {
-    display: flex;
+  .cases__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.5rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    cursor: grab;
-    padding-bottom: 1rem;
-    /* let the first/last card breathe at the edges */
-    margin: 0 calc(-1 * var(--gutter));
-    padding-left: var(--gutter);
-    padding-right: var(--gutter);
-  }
-
-  .cases__track::-webkit-scrollbar {
-    display: none;
-  }
-
-  .cases__track.is-dragging {
-    cursor: grabbing;
-    scroll-snap-type: none;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   .case {
-    flex: none;
-    width: min(480px, 84vw);
-    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
     background: #232326;
     border: 1px solid rgb(255 255 255 / 0.08);
     border-radius: 1.25rem;
     overflow: clip;
+    transition:
+      border-color 0.4s var(--ease-out-expo),
+      transform 0.6s var(--ease-out-expo);
   }
 
-  .cases__track.is-dragging .case {
-    pointer-events: none;
+  .case:hover {
+    border-color: rgb(255 255 255 / 0.22);
+    transform: translateY(-4px);
   }
 
   .case__visual {
-    aspect-ratio: 16 / 9;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+    aspect-ratio: 16 / 10;
+    overflow: clip;
   }
 
   .case__visual--0 {
@@ -137,21 +102,15 @@ const cases = [
   }
 
   .case__visual--1 {
-    background: radial-gradient(120% 130% at 80% 0%, #2e2e33, #161618 75%);
+    background: radial-gradient(120% 130% at 80% 0%, #3a3a40, #161618 75%);
   }
 
-  .case__visual--2 {
-    background: radial-gradient(120% 130% at 50% 110%, var(--c-accent-deep), #1a0c06 80%);
+  .case__visual :global(.phone) {
+    transition: transform 0.8s var(--ease-out-expo);
   }
 
-  .case__stat {
-    font-size: clamp(3.5rem, 7vw, 5.5rem);
-    line-height: 1;
-    color: var(--c-paper);
-  }
-
-  .case__statlabel {
-    color: rgb(255 255 255 / 0.7);
+  .case:hover .case__visual :global(.phone) {
+    transform: translateY(-0.6em);
   }
 
   .case__body {
@@ -159,6 +118,21 @@ const cases = [
     flex-direction: column;
     gap: 1rem;
     padding: clamp(1.5rem, 2.5vw, 2rem);
+    flex: 1;
+  }
+
+  .case__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .case__badge {
+    border: 1px solid color-mix(in srgb, var(--c-accent) 60%, transparent);
+    color: #ff8a5c;
+    border-radius: 99px;
+    padding: 0.35rem 0.75rem;
   }
 
   .case__client {
@@ -182,42 +156,21 @@ const cases = [
   }
 
   .case__impact li::before {
-    content: "—";
+    content: "·";
     color: var(--c-accent);
+    font-weight: 700;
     margin-right: 0.6rem;
   }
 
-  .cases__hint {
-    margin-top: 1.5rem;
-    color: rgb(255 255 255 / 0.4);
+  .case__more {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    color: var(--c-paper);
+  }
+
+  @media (max-width: 820px) {
+    .cases__grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
-
-<script>
-  // Pointer drag-to-scroll for the case study track
-  const track = document.querySelector<HTMLElement>("[data-drag-scroll]");
-  if (track) {
-    let startX = 0;
-    let startScroll = 0;
-    let dragging = false;
-
-    track.addEventListener("pointerdown", (e) => {
-      dragging = true;
-      startX = e.clientX;
-      startScroll = track.scrollLeft;
-      track.setPointerCapture(e.pointerId);
-    });
-    track.addEventListener("pointermove", (e) => {
-      if (!dragging) return;
-      const moved = e.clientX - startX;
-      if (Math.abs(moved) > 4) track.classList.add("is-dragging");
-      track.scrollLeft = startScroll - moved;
-    });
-    const end = () => {
-      dragging = false;
-      track.classList.remove("is-dragging");
-    };
-    track.addEventListener("pointerup", end);
-    track.addEventListener("pointercancel", end);
-  }
-</script>

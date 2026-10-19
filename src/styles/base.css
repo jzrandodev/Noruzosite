@@ -164,3 +164,11 @@ html.has-custom-cursor * {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Without motion the body never flips theme, so dark sections paint
+   their own background (otherwise light text lands on a light page). */
+@media (prefers-reduced-motion: reduce) {
+  [data-theme-section="dark"] {
+    background: var(--c-ink);
+  }
+}

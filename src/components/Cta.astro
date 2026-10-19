@@ -1,35 +1,43 @@
+---
+import { strings, type Lang } from "../i18n/strings";
+interface Props {
+  lang: Lang;
+}
+const t = strings[Astro.props.lang].cta;
+---
+
 <section class="cta section" id="contact" data-theme-section="light">
   <h2 class="cta__title t-display t-display--xl" data-split>
-    Let's build
+    {t.title}
   </h2>
 
   <p class="cta__sub t-body-lg" data-reveal>
-    Tell us where to reach you and we'll start the conversation.
+    {t.sub}
   </p>
 
-  <form class="cta__form" data-contact-form novalidate>
+  <form class="cta__form" data-contact-form data-status={JSON.stringify(t.status)} novalidate>
     <!-- Honeypot: hidden from people, bots fill it and get dropped -->
     <input type="checkbox" name="botcheck" class="visually-hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
     <div class="cta__row">
-      <label class="visually-hidden" for="cta-name">Your name</label>
+      <label class="visually-hidden" for="cta-name">{t.name}</label>
       <input
         class="cta__input"
         id="cta-name"
         type="text"
         name="name"
-        placeholder="Your name (optional)"
+        placeholder={t.name}
         autocomplete="name"
         maxlength="120"
         data-hover
       />
-      <label class="visually-hidden" for="cta-email">Email address</label>
+      <label class="visually-hidden" for="cta-email">{t.emailLabel}</label>
       <input
         class="cta__input"
         id="cta-email"
         type="email"
         name="email"
-        placeholder="you@company.com"
+        placeholder={t.email}
         autocomplete="email"
         required
         data-hover
@@ -37,35 +45,31 @@
     </div>
 
     <div class="cta__row">
-      <label class="visually-hidden" for="cta-website">Company website</label>
+      <label class="visually-hidden" for="cta-website">{t.website}</label>
       <input
         class="cta__input"
         id="cta-website"
         type="url"
         name="website"
-        placeholder="Company website (optional)"
+        placeholder={t.website}
         autocomplete="url"
         inputmode="url"
         maxlength="254"
         data-hover
       />
-      <label class="visually-hidden" for="cta-budget">Project budget</label>
+      <label class="visually-hidden" for="cta-budget">{t.needLabel}</label>
       <select class="cta__input cta__select" id="cta-budget" name="budget" required data-hover>
-        <option value="" disabled selected>Project budget…</option>
-        <option value="Under $5,000">Under $5,000</option>
-        <option value="$5,000 – $15,000">$5,000 – $15,000</option>
-        <option value="$15,000 – $50,000">$15,000 – $50,000</option>
-        <option value="$50,000+">$50,000+</option>
-        <option value="Not sure yet">Not sure yet</option>
+        <option value="" disabled selected>{t.needPlaceholder}</option>
+        {t.needs.map((n) => <option value={n}>{n}</option>)}
       </select>
     </div>
 
-    <label class="visually-hidden" for="cta-message">What are you trying to fix?</label>
+    <label class="visually-hidden" for="cta-message">{t.messageLabel}</label>
     <textarea
       class="cta__input cta__textarea"
       id="cta-message"
       name="message"
-      placeholder="What's the main problem you're trying to solve? A couple of sentences is plenty."
+      placeholder={t.message}
       rows="3"
       maxlength="2000"
       required
@@ -73,9 +77,9 @@
 
     <div class="cta__row cta__row--actions">
       <button class="cta__submit t-label" type="submit" data-hover>
-        <span data-form-label>Send it</span>
+        <span data-form-label>{t.submit}</span>
       </button>
-      <p class="cta__privacy">We only use this to reply to you. No lists, no spam.</p>
+      <p class="cta__privacy">{t.privacy}</p>
     </div>
     <p class="cta__status t-label" data-form-status role="status" aria-live="polite"></p>
   </form>

@@ -14,52 +14,32 @@ function loopWhenVisible(trigger: Element, tl: gsap.core.Timeline): void {
 
 /** Short looping animations inside the service mockup cards. */
 export function initMockupAnimations(): void {
-  // Task list: rows slide in, checkboxes pop, hold, repeat
-  const tasks = document.querySelector(".mock--tasks");
-  if (tasks) {
-    const rows = tasks.querySelectorAll(".mock__row");
-    const checks = tasks.querySelectorAll(".mock__check--done");
+  // Website: headline + button land, a time slot gets picked, hold, repeat
+  const site = document.querySelector(".mock--site");
+  if (site) {
+    const parts = site.querySelectorAll(".mock__headline, .mock__sub, .mock__btn");
+    const slots = site.querySelectorAll(".mock__slots span");
+    const picked = site.querySelector(".mock__slots .is-on");
     const tl = gsap.timeline({ repeat: -1, repeatDelay: 1.8, defaults: { ease: "power3.out" } });
-    tl.from(rows, { autoAlpha: 0, y: 16, stagger: 0.28, duration: 0.55 })
-      .from(checks, { scale: 0, stagger: 0.32, duration: 0.4, ease: "back.out(2.5)" }, "-=0.5")
-      .to({}, { duration: 1.6 }); // hold before looping
-    loopWhenVisible(tasks, tl);
-  }
-
-  // Chat: orb breathes constantly; prompt types itself, action chips pop
-  const chat = document.querySelector(".mock--chat");
-  if (chat) {
-    gsap.to(chat.querySelector(".mock__orb"), {
-      scale: 1.12,
-      duration: 1.6,
-      ease: "sine.inOut",
-      yoyo: true,
-      repeat: -1,
-    });
-
-    const type = chat.querySelector(".mock__type");
-    const chips = chat.querySelectorAll(".mock__chips span");
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 2 });
-    tl.fromTo(
-      type,
-      { clipPath: "inset(0 100% 0 0)" },
-      { clipPath: "inset(0 -2% 0 0)", duration: 1.6, ease: "steps(30)" },
-    )
-      .from(chips, { autoAlpha: 0, y: 8, stagger: 0.14, duration: 0.45, ease: "power3.out" })
+    tl.from(parts, { autoAlpha: 0, y: 14, stagger: 0.2, duration: 0.55 })
+      .from(slots, { autoAlpha: 0, y: 8, stagger: 0.1, duration: 0.4 }, "-=0.2")
+      .from(picked, { scale: 0.85, duration: 0.45, ease: "back.out(3)" }, "+=0.3")
       .to({}, { duration: 1.6 });
-    loopWhenVisible(chat, tl);
+    loopWhenVisible(site, tl);
   }
 
-  // Code window: lines write themselves, then the deploy badge lands
-  const build = document.querySelector(".mock--build");
-  if (build) {
-    const lines = build.querySelectorAll(".mock__code span");
-    const deploy = build.querySelector(".mock__deploy");
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 2.2 });
-    tl.from(lines, { width: 0, stagger: 0.2, duration: 0.55, ease: "power2.out" })
-      .from(deploy, { autoAlpha: 0, y: 8, duration: 0.5, ease: "power3.out" }, "+=0.2")
+  // WhatsApp: reminder arrives, buttons pop, patient confirms
+  const wa = document.querySelector(".mock--wa");
+  if (wa) {
+    const bubble = wa.querySelector(".mock__bubble:not(.mock__bubble--me)");
+    const actions = wa.querySelectorAll(".mock__actions span");
+    const reply = wa.querySelector(".mock__bubble--me");
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 2, defaults: { ease: "power3.out" } });
+    tl.from(bubble, { autoAlpha: 0, y: 16, scale: 0.96, transformOrigin: "left top", duration: 0.55 })
+      .from(actions, { autoAlpha: 0, y: 6, stagger: 0.12, duration: 0.4 })
+      .from(reply, { autoAlpha: 0, y: 12, scale: 0.9, transformOrigin: "right top", duration: 0.5, ease: "back.out(2)" }, "+=0.9")
       .to({}, { duration: 1.8 });
-    loopWhenVisible(build, tl);
+    loopWhenVisible(wa, tl);
   }
 
   // Dashboard: meters fill to their targets, hold, repeat

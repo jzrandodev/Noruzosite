@@ -1,23 +1,27 @@
+---
+import { strings, type Lang } from "../i18n/strings";
+interface Props {
+  lang: Lang;
+}
+const t = strings[Astro.props.lang].hero;
+---
+
 <section class="hero" id="top">
   <canvas class="hero__gl" data-gl aria-hidden="true"></canvas>
 
   <div class="hero__content">
-    <h1 class="hero__title t-display t-display--xl" data-hero-title aria-label="Noruzo AI">
-      <span class="hero__line" aria-hidden="true">
-        <span class="char">N</span><span class="char">O</span><span class="char">R</span><span class="char">U</span><span class="char t-tilt">z</span><span class="char t-tilt">o</span>
-      </span>
+    <h1 class="hero__title t-display t-display--xl" data-hero-title aria-label="Noruzo">
       <span class="hero__line hero__line--sub" aria-hidden="true">
-        <span class="char">A</span><span class="char">I</span><span class="hero__dot char"></span>
+        <span class="char">N</span><span class="char">O</span><span class="char">R</span><span class="char">U</span><span class="char t-tilt">z</span><span class="char t-tilt">o</span><span class="hero__dot char"></span>
       </span>
     </h1>
 
     <p class="hero__tagline t-body-lg" data-hero-tagline>
-      Noruzo designs and ships automation, agents and AI products.
-      Less busywork, more output you can point to.
+      {t.tagline}
     </p>
 
     <a class="hero__scroll t-label" href="#services" data-hover>
-      Scroll <span class="hero__arrow" aria-hidden="true">↓</span>
+      {t.scroll} <span class="hero__arrow" aria-hidden="true">↓</span>
     </a>
   </div>
 </section>
@@ -80,7 +84,7 @@
   }
 
   .hero__tagline {
-    max-width: 32rem;
+    max-width: 36rem;
     margin-top: 2rem;
     color: var(--c-ink-soft);
   }
