@@ -1,0 +1,1687 @@
+---
+import "@fontsource-variable/inter";
+import "@fontsource-variable/fraunces";
+import DemoBanner from "../../../components/demo/DemoBanner.astro";
+import { url } from "../../../i18n/strings";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ceibo Dental · Concept demo by Noruzo</title>
+    <meta name="description" content="Concept demo by Noruzo: a Spanish-first website for a fictional family dental practice." />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#fbf7f1" />
+    <link rel="icon" href={url("favicon.svg")} type="image/svg+xml" />
+  </head>
+  <body>
+    <DemoBanner clinic="Ceibo Dental" back="work/ceibo-dental/" />
+
+    <header class="hdr" data-hdr>
+      <a class="logo" href="#inicio" aria-label="Ceibo Dental">
+        <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
+          <circle cx="16" cy="16" r="16" fill="var(--red)" />
+          <path d="M16 7c2.6 3 3.8 5.8 3.8 8.3 0 2.6-1.6 4.4-3.8 4.4s-3.8-1.8-3.8-4.4C12.2 12.8 13.4 10 16 7z" fill="#fbf7f1" />
+          <path d="M16 19.7V25" stroke="#fbf7f1" stroke-width="1.6" stroke-linecap="round" />
+        </svg>
+        <span>Ceibo <em>Dental</em></span>
+      </a>
+      <nav class="hdr__nav" aria-label="Principal">
+        <a href="#servicios" data-i18n="nav.services">Servicios</a>
+        <a href="#seguros" data-i18n="nav.insurance">Seguros</a>
+        <a href="#equipo" data-i18n="nav.team">Equipo</a>
+        <a href="#visita" data-i18n="nav.visit">Visítanos</a>
+      </nav>
+      <div class="hdr__right">
+        <div class="lang" role="group" aria-label="Idioma / Language">
+          <button type="button" data-lang-btn="es" aria-pressed="true">Español</button>
+          <button type="button" data-lang-btn="en" aria-pressed="false">English</button>
+        </div>
+        <button class="btn btn--sm" type="button" data-open-booking data-i18n="cta.book">Reservar cita</button>
+      </div>
+    </header>
+
+    <main id="inicio">
+      <section class="hero">
+        <div class="hero__text">
+          <p class="eyebrow" data-i18n="hero.eyebrow">Dentista familiar en Washington Heights</p>
+          <h1 data-i18n="hero.title">Tu sonrisa, en tu idioma.</h1>
+          <p class="hero__sub" data-i18n="hero.sub">
+            Limpiezas, empastes y urgencias para toda la familia. Te atendemos en español, sin vueltas y con precios claros.
+          </p>
+          <ul class="chips" role="list">
+            <li data-i18n="hero.chip1">Abierto sábados</li>
+            <li data-i18n="hero.chip2">Aceptamos Medicaid</li>
+            <li data-i18n="hero.chip3">Limpieza desde $95</li>
+          </ul>
+          <div class="hero__ctas">
+            <button class="btn" type="button" data-open-booking data-i18n="cta.book">Reservar cita</button>
+            <a class="btn btn--wa" href="#" data-wa>
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3z"/></svg>
+              <span data-i18n="cta.whatsapp">Escríbenos por WhatsApp</span>
+            </a>
+          </div>
+        </div>
+
+        <aside class="next" aria-live="polite">
+          <p class="next__label" data-i18n="next.label">Próximo horario disponible</p>
+          <p class="next__time" data-next-time>Hoy, 3:15 pm</p>
+          <p class="next__who" data-i18n="next.who">con la Dra. Valeria Ríos</p>
+          <button class="btn btn--ghost" type="button" data-open-booking data-book-next data-i18n="next.cta">Reservar este horario</button>
+          <div class="next__art" aria-hidden="true">
+            <span class="blob blob--1"></span>
+            <span class="blob blob--2"></span>
+            <span class="blob blob--3"></span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="facts" aria-label="Datos rápidos">
+        <div class="fact">
+          <span class="fact__icon" aria-hidden="true">◷</span>
+          <div>
+            <b data-i18n="facts.hoursT">Horario</b>
+            <span data-i18n="facts.hours">Lun a vie 9 am a 7 pm · Sáb 9 am a 2 pm</span>
+          </div>
+        </div>
+        <div class="fact">
+          <span class="fact__icon" aria-hidden="true">✚</span>
+          <div>
+            <b data-i18n="facts.insT">Seguros</b>
+            <span data-i18n="facts.ins">Medicaid, Fidelis, Healthfirst, MetroPlus y más</span>
+          </div>
+        </div>
+        <div class="fact">
+          <span class="fact__icon" aria-hidden="true">⌖</span>
+          <div>
+            <b data-i18n="facts.whereT">Dónde</b>
+            <span data-i18n="facts.where">Broadway y W 174th St · Tren A y 1</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec" id="servicios">
+        <header class="sec__head">
+          <p class="eyebrow" data-i18n="svc.eyebrow">Servicios</p>
+          <h2 data-i18n="svc.title">Precios claros, sin sorpresas</h2>
+          <p data-i18n="svc.sub">Precios de referencia sin seguro. Con seguro, muchas veces pagas $0. Te confirmamos antes de empezar.</p>
+        </header>
+        <ul class="svc" role="list" data-services></ul>
+      </section>
+
+      <section class="sec sec--tint" id="seguros">
+        <header class="sec__head">
+          <p class="eyebrow" data-i18n="ins.eyebrow">Seguros</p>
+          <h2 data-i18n="ins.title">¿Aceptan mi seguro?</h2>
+          <p data-i18n="ins.sub">Escribe el nombre de tu plan y te decimos al instante.</p>
+        </header>
+        <div class="ins">
+          <label class="visually-hidden" for="ins-q" data-i18n="ins.label">Nombre de tu seguro</label>
+          <input id="ins-q" class="ins__input" type="search" autocomplete="off" data-ins-input placeholder="Ej: Medicaid, Fidelis…" />
+          <p class="ins__result" data-ins-result aria-live="polite"></p>
+          <ul class="ins__list" role="list" data-ins-list></ul>
+        </div>
+      </section>
+
+      <section class="sec" id="equipo">
+        <header class="sec__head">
+          <p class="eyebrow" data-i18n="team.eyebrow">Equipo</p>
+          <h2 data-i18n="team.title">Te atendemos en tu idioma</h2>
+        </header>
+        <ul class="team" role="list">
+          <li class="doc">
+            <span class="doc__av" aria-hidden="true">VR</span>
+            <b>Dra. Valeria Ríos</b>
+            <span data-i18n="team.d1">Odontología general · Habla español e inglés</span>
+          </li>
+          <li class="doc">
+            <span class="doc__av doc__av--2" aria-hidden="true">MP</span>
+            <b>Dr. Martín Peña</b>
+            <span data-i18n="team.d2">Odontopediatría · Habla español e inglés</span>
+          </li>
+          <li class="doc">
+            <span class="doc__av doc__av--3" aria-hidden="true">LC</span>
+            <b>Lucía Cabrera</b>
+            <span data-i18n="team.d3">Recepción · Te ayuda con seguros y pagos</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="sec sec--tint" id="faq">
+        <header class="sec__head">
+          <p class="eyebrow">FAQ</p>
+          <h2 data-i18n="faq.title">Preguntas frecuentes</h2>
+        </header>
+        <div class="faq" data-faq></div>
+      </section>
+
+      <section class="sec visit" id="visita">
+        <div>
+          <p class="eyebrow" data-i18n="visit.eyebrow">Visítanos</p>
+          <h2 data-i18n="visit.title">Estamos a dos cuadras del tren</h2>
+          <p data-i18n="visit.addr">Broadway y W 174th St, Washington Heights, NY</p>
+          <p>(212) 555-0142</p>
+          <div class="hero__ctas">
+            <button class="btn" type="button" data-open-booking data-i18n="cta.book">Reservar cita</button>
+          </div>
+        </div>
+        <div class="map" aria-hidden="true">
+          <span class="map__road map__road--1"></span>
+          <span class="map__road map__road--2"></span>
+          <span class="map__road map__road--3"></span>
+          <span class="map__pin"></span>
+          <span class="map__label">Ceibo Dental</span>
+          <span class="map__train">A · 1</span>
+        </div>
+      </section>
+    </main>
+
+    <footer class="ftr">
+      <span>© Ceibo Dental</span>
+      <span data-i18n="footer.note">Sitio diseñado por Noruzo como proyecto conceptual.</span>
+    </footer>
+
+    <a class="fab" href="#" data-wa aria-label="WhatsApp">
+      <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
+    </a>
+
+    <!-- Booking flow -->
+    <div class="sheet" data-sheet hidden>
+      <div class="sheet__scrim" data-close-booking></div>
+      <div class="sheet__panel" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+        <div class="sheet__top">
+          <p class="sheet__step" data-step-label></p>
+          <button class="sheet__x" type="button" data-close-booking aria-label="Cerrar">✕</button>
+        </div>
+        <div class="sheet__bar"><span data-step-bar></span></div>
+
+        <!-- step 1 -->
+        <div class="step" data-step="1">
+          <h2 id="sheet-title" data-i18n="bk.s1">¿Por qué nos visitas?</h2>
+          <div class="opts" data-reasons></div>
+        </div>
+
+        <!-- step 2 -->
+        <div class="step" data-step="2" hidden>
+          <h2 data-i18n="bk.s2">Elige un horario</h2>
+          <div class="days" data-days></div>
+          <div class="slots" data-slots></div>
+          <p class="hint" data-i18n="bk.hint">Te confirmamos por WhatsApp o texto, como prefieras.</p>
+        </div>
+
+        <!-- step 3 -->
+        <form class="step" data-step="3" hidden data-form novalidate>
+          <h2 data-i18n="bk.s3">¿A nombre de quién?</h2>
+          <label class="field">
+            <span data-i18n="bk.name">Nombre</span>
+            <input name="name" autocomplete="given-name" required />
+          </label>
+          <label class="field">
+            <span data-i18n="bk.phone">Celular</span>
+            <input name="phone" inputmode="tel" autocomplete="tel" required />
+          </label>
+          <fieldset class="field">
+            <legend data-i18n="bk.via">¿Cómo te confirmamos?</legend>
+            <div class="seg">
+              <label><input type="radio" name="via" value="wa" checked /> <span>WhatsApp</span></label>
+              <label><input type="radio" name="via" value="sms" /> <span data-i18n="bk.sms">Mensaje de texto</span></label>
+            </div>
+          </fieldset>
+          <p class="hint" data-i18n="bk.privacy">No te pedimos información médica aquí. Eso lo vemos en persona.</p>
+          <p class="err" data-err aria-live="polite"></p>
+          <button class="btn btn--block" type="submit" data-i18n="bk.confirm">Confirmar cita</button>
+        </form>
+
+        <!-- done -->
+        <div class="step done" data-step="4" hidden>
+          <span class="done__check" aria-hidden="true">✓</span>
+          <h2 data-done-title>¡Listo!</h2>
+          <p class="done__sum" data-done-sum></p>
+          <div class="wa-prev">
+            <p class="wa-prev__head">Ceibo Dental · WhatsApp</p>
+            <div class="wa-prev__bub" data-done-msg></div>
+          </div>
+          <button class="btn btn--ghost btn--block" type="button" data-close-booking data-i18n="bk.close">Volver al sitio</button>
+        </div>
+
+        <div class="sheet__nav" data-nav>
+          <button class="link" type="button" data-back data-i18n="bk.back">← Atrás</button>
+          <button class="btn" type="button" data-next disabled data-i18n="bk.next">Continuar</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      type L = "es" | "en";
+      const T: Record<L, Record<string, string>> = {
+        es: {
+          "demo.label": "Demo conceptual de Noruzo",
+          "demo.fictional": "{c} es una clínica ficticia",
+          "demo.back": "Ver el caso →",
+          "nav.services": "Servicios",
+          "nav.insurance": "Seguros",
+          "nav.team": "Equipo",
+          "nav.visit": "Visítanos",
+          "cta.book": "Reservar cita",
+          "cta.whatsapp": "Escríbenos por WhatsApp",
+          "hero.eyebrow": "Dentista familiar en Washington Heights",
+          "hero.title": "Tu sonrisa, en tu idioma.",
+          "hero.sub": "Limpiezas, empastes y urgencias para toda la familia. Te atendemos en español, sin vueltas y con precios claros.",
+          "hero.chip1": "Abierto sábados",
+          "hero.chip2": "Aceptamos Medicaid",
+          "hero.chip3": "Limpieza desde $95",
+          "next.label": "Próximo horario disponible",
+          "next.time": "Hoy, 3:15 pm",
+          "next.who": "con la Dra. Valeria Ríos",
+          "next.cta": "Reservar este horario",
+          "facts.hoursT": "Horario",
+          "facts.hours": "Lun a vie 9 am a 7 pm · Sáb 9 am a 2 pm",
+          "facts.insT": "Seguros",
+          "facts.ins": "Medicaid, Fidelis, Healthfirst, MetroPlus y más",
+          "facts.whereT": "Dónde",
+          "facts.where": "Broadway y W 174th St · Tren A y 1",
+          "svc.eyebrow": "Servicios",
+          "svc.title": "Precios claros, sin sorpresas",
+          "svc.sub": "Precios de referencia sin seguro. Con seguro, muchas veces pagas $0. Te confirmamos antes de empezar.",
+          "ins.eyebrow": "Seguros",
+          "ins.title": "¿Aceptan mi seguro?",
+          "ins.sub": "Escribe el nombre de tu plan y te decimos al instante.",
+          "ins.label": "Nombre de tu seguro",
+          "ins.ph": "Ej: Medicaid, Fidelis…",
+          "ins.yes": "Sí, aceptamos {p}. Trae tu tarjeta el día de la cita.",
+          "ins.no": "No vemos \"{p}\" en la lista. Escríbenos por WhatsApp y lo revisamos por ti.",
+          "team.eyebrow": "Equipo",
+          "team.title": "Te atendemos en tu idioma",
+          "team.d1": "Odontología general · Habla español e inglés",
+          "team.d2": "Odontopediatría · Habla español e inglés",
+          "team.d3": "Recepción · Te ayuda con seguros y pagos",
+          "faq.title": "Preguntas frecuentes",
+          "visit.eyebrow": "Visítanos",
+          "visit.title": "Estamos a dos cuadras del tren",
+          "visit.addr": "Broadway y W 174th St, Washington Heights, NY",
+          "footer.note": "Sitio diseñado por Noruzo como proyecto conceptual.",
+          "from": "desde",
+          "bk.step": "Paso {n} de 3",
+          "bk.s1": "¿Por qué nos visitas?",
+          "bk.s2": "Elige un horario",
+          "bk.s3": "¿A nombre de quién?",
+          "bk.hint": "Te confirmamos por WhatsApp o texto, como prefieras.",
+          "bk.name": "Nombre",
+          "bk.phone": "Celular",
+          "bk.via": "¿Cómo te confirmamos?",
+          "bk.sms": "Mensaje de texto",
+          "bk.privacy": "No te pedimos información médica aquí. Eso lo vemos en persona.",
+          "bk.confirm": "Confirmar cita",
+          "bk.back": "← Atrás",
+          "bk.next": "Continuar",
+          "bk.close": "Volver al sitio",
+          "bk.err": "Escribe tu nombre y un celular de 10 dígitos.",
+          "bk.done": "¡Listo, {n}!",
+          "bk.sum": "{r} · {d} a las {t}",
+          "bk.msg": "Hola {n} 👋 Tu cita en Ceibo Dental está confirmada: {d}, {t}. Responde CAMBIAR si necesitas otro horario.",
+          today: "Hoy",
+        },
+        en: {
+          "demo.label": "Concept demo by Noruzo",
+          "demo.fictional": "{c} is a fictional practice",
+          "demo.back": "See the case study →",
+          "nav.services": "Services",
+          "nav.insurance": "Insurance",
+          "nav.team": "Team",
+          "nav.visit": "Visit us",
+          "cta.book": "Book a visit",
+          "cta.whatsapp": "Message us on WhatsApp",
+          "hero.eyebrow": "Family dentist in Washington Heights",
+          "hero.title": "Your smile, in your language.",
+          "hero.sub": "Cleanings, fillings and same-day emergencies for the whole family. Clear prices, no runaround.",
+          "hero.chip1": "Open Saturdays",
+          "hero.chip2": "We take Medicaid",
+          "hero.chip3": "Cleaning from $95",
+          "next.label": "Next available time",
+          "next.time": "Today, 3:15 pm",
+          "next.who": "with Dr. Valeria Ríos",
+          "next.cta": "Book this time",
+          "facts.hoursT": "Hours",
+          "facts.hours": "Mon to Fri 9 am to 7 pm · Sat 9 am to 2 pm",
+          "facts.insT": "Insurance",
+          "facts.ins": "Medicaid, Fidelis, Healthfirst, MetroPlus and more",
+          "facts.whereT": "Where",
+          "facts.where": "Broadway & W 174th St · A and 1 trains",
+          "svc.eyebrow": "Services",
+          "svc.title": "Clear prices, no surprises",
+          "svc.sub": "Reference prices without insurance. With insurance you often pay $0. We confirm before we start.",
+          "ins.eyebrow": "Insurance",
+          "ins.title": "Do you take my insurance?",
+          "ins.sub": "Type your plan's name and we'll tell you right away.",
+          "ins.label": "Your insurance name",
+          "ins.ph": "e.g. Medicaid, Fidelis…",
+          "ins.yes": "Yes, we take {p}. Bring your card to your visit.",
+          "ins.no": "We don't see \"{p}\" on our list. Message us on WhatsApp and we'll check for you.",
+          "team.eyebrow": "Team",
+          "team.title": "Care in your language",
+          "team.d1": "General dentistry · Speaks Spanish and English",
+          "team.d2": "Pediatric dentistry · Speaks Spanish and English",
+          "team.d3": "Front desk · Helps with insurance and payments",
+          "faq.title": "Common questions",
+          "visit.eyebrow": "Visit us",
+          "visit.title": "Two blocks from the train",
+          "visit.addr": "Broadway & W 174th St, Washington Heights, NY",
+          "footer.note": "Site designed by Noruzo as a concept project.",
+          "from": "from",
+          "bk.step": "Step {n} of 3",
+          "bk.s1": "What's the visit for?",
+          "bk.s2": "Pick a time",
+          "bk.s3": "Who's the visit for?",
+          "bk.hint": "We'll confirm by WhatsApp or text, whichever you prefer.",
+          "bk.name": "First name",
+          "bk.phone": "Mobile",
+          "bk.via": "How should we confirm?",
+          "bk.sms": "Text message",
+          "bk.privacy": "We don't ask for medical information here. We cover that in person.",
+          "bk.confirm": "Confirm visit",
+          "bk.back": "← Back",
+          "bk.next": "Continue",
+          "bk.close": "Back to the site",
+          "bk.err": "Add your name and a 10-digit mobile number.",
+          "bk.done": "You're all set, {n}!",
+          "bk.sum": "{r} · {d} at {t}",
+          "bk.msg": "Hi {n} 👋 Your visit at Ceibo Dental is confirmed: {d}, {t}. Reply CHANGE if you need a different time.",
+          today: "Today",
+        },
+      };
+
+      const SERVICES = [
+        { icon: "✦", es: ["Limpieza y revisión", "Cada 6 meses. Incluye radiografías."], en: ["Cleaning and checkup", "Every 6 months. X-rays included."], price: 95 },
+        { icon: "◐", es: ["Empastes", "Del color de tu diente, en una sola visita."], en: ["Fillings", "Tooth-colored, done in one visit."], price: 150 },
+        { icon: "✚", es: ["Urgencias", "Dolor o diente roto. Te vemos el mismo día."], en: ["Emergencies", "Pain or a broken tooth. Seen same day."], price: 120 },
+        { icon: "☺", es: ["Niños", "Primera visita desde el primer diente."], en: ["Kids", "First visit from the first tooth."], price: 75 },
+        { icon: "◇", es: ["Tratamiento de conducto", "Salva tu diente en vez de sacarlo."], en: ["Root canal", "Saves your tooth instead of pulling it."], price: 650 },
+        { icon: "☀", es: ["Blanqueamiento", "En consultorio, en una hora."], en: ["Whitening", "In office, in about an hour."], price: 250 },
+      ];
+
+      const INSURANCE = ["Medicaid", "Fidelis Care", "Healthfirst", "MetroPlus", "EmblemHealth", "Delta Dental", "Cigna Dental", "UnitedHealthcare Dental", "Aetna Dental", "Child Health Plus"];
+
+      const FAQ = {
+        es: [
+          ["¿Atienden urgencias el mismo día?", "Sí. Si tienes dolor o se te rompió un diente, escríbenos por WhatsApp o reserva el primer horario libre. Guardamos espacios todos los días para urgencias."],
+          ["¿Qué pasa si no tengo seguro?", "Te damos el precio antes de empezar y ofrecemos planes de pago sin intereses para tratamientos de más de $300."],
+          ["¿Puedo traer a mis hijos a la misma cita?", "Sí. Reserva una cita por persona y te ponemos los horarios seguidos."],
+          ["¿Necesito un número de seguro social?", "No. Solo tu nombre, tu teléfono y, si tienes, la tarjeta de tu seguro."],
+        ],
+        en: [
+          ["Do you see emergencies the same day?", "Yes. If you're in pain or broke a tooth, message us on WhatsApp or book the first open time. We keep slots open every day for emergencies."],
+          ["What if I don't have insurance?", "We give you the price before we start and offer interest-free payment plans for treatments over $300."],
+          ["Can I bring my kids to the same visit?", "Yes. Book one visit per person and we'll put the times back to back."],
+          ["Do I need a Social Security number?", "No. Just your name, phone number and your insurance card if you have one."],
+        ],
+      };
+
+      const REASONS = {
+        es: [["Limpieza o revisión", "30 min"], ["Dolor o urgencia", "Hoy mismo"], ["Cita para niños", "30 min"], ["Otra cosa", "Te llamamos"]],
+        en: [["Cleaning or checkup", "30 min"], ["Pain or emergency", "Same day"], ["Kids' visit", "30 min"], ["Something else", "We'll call you"]],
+      };
+
+      const DAYS = {
+        es: ["Hoy", "Mañana", "Jue 6", "Vie 7", "Sáb 8"],
+        en: ["Today", "Tomorrow", "Thu 6", "Fri 7", "Sat 8"],
+      };
+      const SLOTS = [
+        ["3:15 pm", "5:30 pm"],
+        ["9:00 am", "9:45 am", "10:30 am", "12:00 pm", "3:15 pm", "5:30 pm"],
+        ["9:00 am", "11:15 am", "2:00 pm", "4:30 pm"],
+        ["9:45 am", "10:30 am", "1:00 pm", "6:15 pm"],
+        ["9:00 am", "10:30 am", "11:15 am"],
+      ];
+
+      const qs = new URLSearchParams(location.search);
+      const stored = (() => {
+        try {
+          return localStorage.getItem("ceibo-lang");
+        } catch {
+          return null;
+        }
+      })();
+      let lang: L =
+        (qs.get("lang") as L) ||
+        (stored as L) ||
+        "es"; // Spanish-first by design
+      if (lang !== "en" && lang !== "es") lang = "es";
+
+      const t = (k: string, vars: Record<string, string> = {}) =>
+        (T[lang][k] ?? k).replace(/\{(\w)\}/g, (_, v) => vars[v] ?? "");
+
+      const $ = <E extends Element = HTMLElement>(s: string, r: ParentNode = document) => r.querySelector<E>(s)!;
+      const $$ = <E extends Element = HTMLElement>(s: string, r: ParentNode = document) => [...r.querySelectorAll<E>(s)];
+
+      function renderStatic() {
+        document.documentElement.lang = lang;
+        for (const el of $$("[data-i18n]")) {
+          const key = el.dataset.i18n!;
+          el.textContent = t(key, { c: el.dataset.clinic ?? "" });
+        }
+        for (const b of $$<HTMLButtonElement>("[data-lang-btn]")) {
+          b.setAttribute("aria-pressed", String(b.dataset.langBtn === lang));
+        }
+        $("[data-next-time]").textContent = t("next.time");
+        $<HTMLInputElement>("[data-ins-input]").placeholder = t("ins.ph");
+
+        $("[data-services]").innerHTML = SERVICES.map(
+          (s) => `<li class="svc__item">
+              <span class="svc__icon" aria-hidden="true">${s.icon}</span>
+              <div><b>${s[lang][0]}</b><p>${s[lang][1]}</p></div>
+              <span class="svc__price"><small>${t("from")}</small>$${s.price}</span>
+            </li>`,
+        ).join("");
+
+        $("[data-faq]").innerHTML = FAQ[lang]
+          .map(([q, a]) => `<details class="faq__item"><summary>${q}</summary><p>${a}</p></details>`)
+          .join("");
+
+        const msg = lang === "es" ? "Hola, quiero reservar una cita en Ceibo Dental." : "Hi, I'd like to book a visit at Ceibo Dental.";
+        for (const a of $$<HTMLAnchorElement>("[data-wa]")) {
+          a.href = `https://wa.me/12125550142?text=${encodeURIComponent(msg)}`;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+        }
+        renderInsurance();
+        renderBooking();
+      }
+
+      // ---- insurance checker ----
+      const insInput = $<HTMLInputElement>("[data-ins-input]");
+      function renderInsurance() {
+        const q = insInput.value.trim().toLowerCase();
+        const hits = q ? INSURANCE.filter((p) => p.toLowerCase().includes(q)) : INSURANCE;
+        $("[data-ins-list]").innerHTML = hits
+          .map((p) => `<li class="${q ? "is-hit" : ""}"><span aria-hidden="true">✓</span>${p}</li>`)
+          .join("");
+        const res = $("[data-ins-result]");
+        res.className = "ins__result";
+        if (!q) {
+          res.textContent = "";
+        } else if (hits.length) {
+          res.textContent = t("ins.yes", { p: hits[0] });
+          res.classList.add("is-yes");
+        } else {
+          res.textContent = t("ins.no", { p: insInput.value.trim() });
+          res.classList.add("is-no");
+        }
+      }
+      insInput.addEventListener("input", renderInsurance);
+
+      // ---- booking ----
+      const sheet = $("[data-sheet]");
+      const state = { step: 1, reason: -1, day: 1, slot: "", name: "", phone: "", via: "wa" };
+
+      function renderBooking() {
+        $("[data-step-label]").textContent = state.step <= 3 ? t("bk.step", { n: String(state.step) }) : "";
+        ($("[data-step-bar]") as HTMLElement).style.width = `${Math.min(state.step, 3) * 33.34}%`;
+        for (const s of $$("[data-step]")) s.hidden = Number(s.dataset.step) !== state.step;
+
+        $("[data-reasons]").innerHTML = REASONS[lang]
+          .map(
+            ([r, d], i) =>
+              `<button type="button" class="opt ${state.reason === i ? "is-on" : ""}" data-reason="${i}"><b>${r}</b><span>${d}</span></button>`,
+          )
+          .join("");
+
+        $("[data-days]").innerHTML = DAYS[lang]
+          .map((d, i) => `<button type="button" class="day ${state.day === i ? "is-on" : ""}" data-day="${i}">${d}</button>`)
+          .join("");
+        $("[data-slots]").innerHTML = SLOTS[state.day]
+          .map((s) => `<button type="button" class="slot ${state.slot === s ? "is-on" : ""}" data-slot="${s}">${s}</button>`)
+          .join("");
+
+        const nav = $("[data-nav]");
+        nav.hidden = state.step >= 3;
+        ($("[data-back]") as HTMLButtonElement).style.visibility = state.step > 1 ? "visible" : "hidden";
+        ($("[data-next]") as HTMLButtonElement).disabled =
+          (state.step === 1 && state.reason < 0) || (state.step === 2 && !state.slot);
+
+        if (state.step === 4) {
+          const raw = DAYS[lang][state.day];
+          const day = state.day < 2 ? raw.toLowerCase() : raw;
+          $("[data-done-title]").textContent = t("bk.done", { n: state.name });
+          $("[data-done-sum]").textContent = t("bk.sum", { r: REASONS[lang][state.reason][0], d: DAYS[lang][state.day], t: state.slot });
+          $("[data-done-msg]").textContent = t("bk.msg", { n: state.name, d: day, t: state.slot });
+        }
+      }
+
+      function open(next = false) {
+        Object.assign(state, { step: 1, reason: -1, day: 1, slot: "" });
+        if (next) Object.assign(state, { step: 2, reason: 0, day: 0, slot: "3:15 pm" });
+        $<HTMLFormElement>("[data-form]").reset();
+        $("[data-err]").textContent = "";
+        renderBooking();
+        sheet.hidden = false;
+        document.body.classList.add("no-scroll");
+        requestAnimationFrame(() => sheet.classList.add("is-open"));
+      }
+      function close() {
+        sheet.classList.remove("is-open");
+        document.body.classList.remove("no-scroll");
+        setTimeout(() => (sheet.hidden = true), 300);
+      }
+
+      document.addEventListener("click", (e) => {
+        const el = (e.target as HTMLElement).closest<HTMLElement>(
+          "[data-open-booking],[data-close-booking],[data-reason],[data-day],[data-slot],[data-next],[data-back],[data-lang-btn]",
+        );
+        if (!el) return;
+        if (el.dataset.langBtn) {
+          lang = el.dataset.langBtn as L;
+          try {
+            localStorage.setItem("ceibo-lang", lang);
+          } catch {}
+          renderStatic();
+        } else if (el.hasAttribute("data-open-booking")) open(el.hasAttribute("data-book-next"));
+        else if (el.hasAttribute("data-close-booking")) close();
+        else if (el.dataset.reason) {
+          state.reason = Number(el.dataset.reason);
+          renderBooking();
+        } else if (el.dataset.day) {
+          state.day = Number(el.dataset.day);
+          state.slot = "";
+          renderBooking();
+        } else if (el.dataset.slot) {
+          state.slot = el.dataset.slot;
+          renderBooking();
+        } else if (el.hasAttribute("data-next")) {
+          state.step += 1;
+          renderBooking();
+        } else if (el.hasAttribute("data-back")) {
+          state.step = Math.max(1, state.step - 1);
+          renderBooking();
+        }
+      });
+
+      $<HTMLFormElement>("[data-form]").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const f = e.target as HTMLFormElement;
+        const name = (f.elements.namedItem("name") as HTMLInputElement).value.trim();
+        const phone = (f.elements.namedItem("phone") as HTMLInputElement).value.replace(/\D/g, "");
+        if (!name || phone.length < 10) {
+          $("[data-err]").textContent = t("bk.err");
+          return;
+        }
+        state.name = name.split(" ")[0];
+        state.phone = phone;
+        state.step = 4;
+        renderBooking();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !sheet.hidden) close();
+      });
+
+      renderStatic();
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --red: #c4373c;
+    --red-deep: #9e2a2f;
+    --green: #1f4a3a;
+    --green-soft: #e3ece6;
+    --cream: #fbf7f1;
+    --sand: #f3ebe0;
+    --ink: #1d2320;
+    --ink-soft: #5d6762;
+    --line: #e6ddd0;
+    --wa: #128c7e;
+    --r: 1.1rem;
+    --serif: "Fraunces Variable", Georgia, serif;
+    --sans: "Inter Variable", system-ui, sans-serif;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font: 400 1rem/1.55 var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body.no-scroll {
+    overflow: hidden;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  input {
+    font: inherit;
+    color: inherit;
+  }
+
+  button {
+    cursor: pointer;
+    background: none;
+    border: 0;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--red);
+    outline-offset: 3px;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  /* ---------- header ---------- */
+  .hdr {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem clamp(1rem, 4vw, 3rem);
+    background: color-mix(in srgb, var(--cream) 88%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font: 600 1.2rem/1 var(--serif);
+    letter-spacing: -0.01em;
+  }
+
+  .logo em {
+    color: var(--red);
+  }
+
+  .hdr__nav {
+    display: flex;
+    gap: 1.75rem;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+
+  .hdr__nav a:hover {
+    color: var(--ink);
+  }
+
+  .hdr__right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .lang {
+    display: flex;
+    background: var(--sand);
+    border-radius: 99px;
+    padding: 0.2rem;
+  }
+
+  .lang button {
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.4rem 0.75rem;
+    border-radius: 99px;
+    color: var(--ink-soft);
+  }
+
+  .lang button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  /* ---------- buttons ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--red);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.98rem;
+    border-radius: 99px;
+    padding: 0.9rem 1.5rem;
+    transition:
+      background 0.2s,
+      transform 0.2s;
+  }
+
+  .btn:hover {
+    background: var(--red-deep);
+  }
+
+  .btn:active {
+    transform: scale(0.98);
+  }
+
+  .btn:disabled {
+    background: #d9cfc3;
+    cursor: not-allowed;
+  }
+
+  .btn--sm {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.88rem;
+  }
+
+  .btn--wa {
+    background: transparent;
+    color: var(--wa);
+    border: 1.5px solid color-mix(in srgb, var(--wa) 35%, transparent);
+  }
+
+  .btn--wa:hover {
+    background: color-mix(in srgb, var(--wa) 8%, transparent);
+  }
+
+  .btn--ghost {
+    background: var(--ink);
+  }
+
+  .btn--ghost:hover {
+    background: #000;
+  }
+
+  .btn--block {
+    width: 100%;
+  }
+
+  .link {
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  /* ---------- hero ---------- */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+    padding: clamp(3rem, 8vh, 6rem) clamp(1rem, 4vw, 3rem) clamp(2.5rem, 6vh, 4rem);
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--red);
+  }
+
+  .hero h1 {
+    margin-top: 1rem;
+    font: 500 clamp(2.6rem, 6vw, 4.8rem)/1.02 var(--serif);
+    letter-spacing: -0.035em;
+    color: var(--green);
+  }
+
+  .hero__sub {
+    margin-top: 1.25rem;
+    font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+    color: var(--ink-soft);
+    max-width: 34rem;
+  }
+
+  .chips {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .chips li {
+    background: var(--green-soft);
+    color: var(--green);
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 99px;
+    padding: 0.45rem 0.9rem;
+  }
+
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+  }
+
+  .next {
+    position: relative;
+    overflow: clip;
+    background: var(--green);
+    color: var(--cream);
+    border-radius: 1.75rem;
+    padding: clamp(1.75rem, 3vw, 2.5rem);
+    min-height: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.35rem;
+  }
+
+  .next > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .next__label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .next__time {
+    font: 500 clamp(2rem, 3.5vw, 2.8rem)/1.05 var(--serif);
+    letter-spacing: -0.02em;
+  }
+
+  .next__who {
+    opacity: 0.8;
+    margin-bottom: 1rem;
+  }
+
+  .next .btn--ghost {
+    align-self: flex-start;
+    background: var(--cream);
+    color: var(--green);
+  }
+
+  .next__art {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(2px);
+  }
+
+  .blob--1 {
+    width: 14rem;
+    height: 14rem;
+    right: -3rem;
+    top: -4rem;
+    background: var(--red);
+    opacity: 0.85;
+  }
+
+  .blob--2 {
+    width: 7rem;
+    height: 7rem;
+    right: 7rem;
+    top: 4rem;
+    background: #e9a77f;
+    opacity: 0.8;
+  }
+
+  .blob--3 {
+    width: 4rem;
+    height: 4rem;
+    right: 3rem;
+    top: 9rem;
+    background: var(--cream);
+    opacity: 0.25;
+  }
+
+  /* ---------- facts ---------- */
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border-block: 1px solid var(--line);
+  }
+
+  .fact {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    background: var(--cream);
+    padding: 1.5rem clamp(1rem, 3vw, 2.5rem);
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+  }
+
+  .fact b {
+    display: block;
+    color: var(--ink);
+  }
+
+  .fact__icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    background: var(--sand);
+    color: var(--red);
+    font-size: 1.1rem;
+  }
+
+  /* ---------- sections ---------- */
+  .sec {
+    padding: clamp(3.5rem, 9vh, 6rem) clamp(1rem, 4vw, 3rem);
+  }
+
+  .sec > * {
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .sec--tint {
+    background: var(--sand);
+  }
+
+  .sec__head {
+    margin-bottom: 2.5rem;
+  }
+
+  .sec__head h2,
+  .visit h2 {
+    margin-top: 0.6rem;
+    font: 500 clamp(1.9rem, 3.6vw, 2.8rem)/1.1 var(--serif);
+    letter-spacing: -0.025em;
+    color: var(--green);
+  }
+
+  .sec__head p:not(.eyebrow) {
+    margin-top: 0.75rem;
+    color: var(--ink-soft);
+    max-width: 38rem;
+  }
+
+  .svc {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .svc__item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr auto;
+    gap: 0.4rem 1rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 1.4rem;
+  }
+
+  .svc__icon {
+    grid-row: span 2;
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 0.8rem;
+    background: var(--green-soft);
+    color: var(--green);
+    font-size: 1.1rem;
+  }
+
+  .svc__item p {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    margin-top: 0.2rem;
+  }
+
+  .svc__price {
+    font: 600 1.4rem/1 var(--serif);
+    color: var(--red);
+  }
+
+  .svc__price small {
+    font: 500 0.75rem var(--sans);
+    color: var(--ink-soft);
+    margin-right: 0.35rem;
+  }
+
+  /* insurance */
+  .ins > * {
+    max-width: 44rem;
+  }
+
+  .ins__input {
+    width: 100%;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 99px;
+    padding: 1rem 1.4rem;
+    font-size: 1.05rem;
+  }
+
+  .ins__input:focus {
+    outline: none;
+    border-color: var(--green);
+  }
+
+  .ins__result {
+    margin-top: 1rem;
+    font-weight: 600;
+    min-height: 1.5rem;
+  }
+
+  .ins__result.is-yes {
+    color: var(--green);
+  }
+
+  .ins__result.is-no {
+    color: var(--red-deep);
+  }
+
+  .ins__list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .ins__list li {
+    display: flex;
+    gap: 0.4rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 99px;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+
+  .ins__list li span {
+    color: var(--green);
+  }
+
+  .ins__list li.is-hit {
+    border-color: var(--green);
+    background: var(--green-soft);
+  }
+
+  /* team */
+  .team {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .doc {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+
+  .doc b {
+    color: var(--ink);
+    font-size: 1.05rem;
+  }
+
+  .doc__av {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    font: 600 1.1rem var(--serif);
+    margin-bottom: 0.8rem;
+  }
+
+  .doc__av--2 {
+    background: var(--green);
+  }
+
+  .doc__av--3 {
+    background: #e9a77f;
+  }
+
+  /* faq */
+  .faq {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .faq__item {
+    max-width: 48rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 1.1rem 1.3rem;
+  }
+
+  .faq__item summary {
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .faq__item summary::after {
+    content: "+";
+    color: var(--red);
+    font-size: 1.3rem;
+    line-height: 1;
+  }
+
+  .faq__item[open] summary::after {
+    content: "–";
+  }
+
+  .faq__item p {
+    margin-top: 0.7rem;
+    color: var(--ink-soft);
+  }
+
+  /* visit */
+  .visit {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+    max-width: calc(1140px + 2 * clamp(1rem, 4vw, 3rem));
+    margin: 0 auto;
+  }
+
+  .visit > * {
+    margin: 0;
+    max-width: none;
+  }
+
+  .visit p:not(.eyebrow) {
+    margin-top: 0.6rem;
+    color: var(--ink-soft);
+  }
+
+  .map {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 1.5rem;
+    overflow: clip;
+    background: #e8e2d6;
+  }
+
+  .map__road {
+    position: absolute;
+    background: #fff;
+  }
+
+  .map__road--1 {
+    left: 0;
+    right: 0;
+    top: 45%;
+    height: 14px;
+    transform: rotate(-8deg);
+  }
+
+  .map__road--2 {
+    top: 0;
+    bottom: 0;
+    left: 38%;
+    width: 18px;
+    transform: rotate(12deg);
+  }
+
+  .map__road--3 {
+    left: 0;
+    right: 0;
+    top: 75%;
+    height: 8px;
+    transform: rotate(-8deg);
+  }
+
+  .map__pin {
+    position: absolute;
+    left: 44%;
+    top: 33%;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    background: var(--red);
+    box-shadow: 0 6px 14px rgb(0 0 0 / 0.2);
+  }
+
+  .map__label {
+    position: absolute;
+    left: calc(44% + 2.6rem);
+    top: 31%;
+    background: #fff;
+    border-radius: 0.5rem;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .map__train {
+    position: absolute;
+    left: 30%;
+    top: 58%;
+    background: var(--green);
+    color: #fff;
+    border-radius: 99px;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .ftr {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 2rem clamp(1rem, 4vw, 3rem) 6rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  .fab {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 30;
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: #25d366;
+    color: #fff;
+    box-shadow: 0 10px 24px -6px rgb(0 0 0 / 0.35);
+  }
+
+  /* ---------- booking sheet ---------- */
+  .sheet[hidden],
+  [data-step][hidden],
+  .sheet__nav[hidden] {
+    display: none !important;
+  }
+
+  .sheet {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+  }
+
+  .sheet__scrim {
+    position: absolute;
+    inset: 0;
+    background: rgb(20 26 23 / 0.45);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .sheet__panel {
+    position: relative;
+    width: min(30rem, 100%);
+    max-height: 92svh;
+    overflow: auto;
+    background: var(--cream);
+    border-radius: 1.5rem;
+    padding: 1.4rem 1.5rem 1.5rem;
+    transform: translateY(24px);
+    opacity: 0;
+    transition:
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.3s;
+  }
+
+  .sheet.is-open .sheet__scrim {
+    opacity: 1;
+  }
+
+  .sheet.is-open .sheet__panel {
+    transform: none;
+    opacity: 1;
+  }
+
+  .sheet__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sheet__step {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .sheet__x {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--sand);
+  }
+
+  .sheet__bar {
+    height: 4px;
+    border-radius: 99px;
+    background: var(--sand);
+    margin: 0.9rem 0 1.4rem;
+    overflow: clip;
+  }
+
+  .sheet__bar span {
+    display: block;
+    height: 100%;
+    background: var(--red);
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .step h2 {
+    font: 500 1.6rem/1.15 var(--serif);
+    letter-spacing: -0.02em;
+    color: var(--green);
+    margin-bottom: 1.1rem;
+  }
+
+  .opts {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .opt {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 1rem;
+    padding: 1rem 1.1rem;
+    transition: border-color 0.2s;
+  }
+
+  .opt span {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+
+  .opt.is-on {
+    border-color: var(--red);
+    background: color-mix(in srgb, var(--red) 5%, #fff);
+  }
+
+  .days {
+    display: flex;
+    gap: 0.4rem;
+    overflow-x: auto;
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .day {
+    flex: none;
+    border: 1.5px solid var(--line);
+    background: #fff;
+    border-radius: 0.8rem;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+
+  .day.is-on {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--cream);
+  }
+
+  .slots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  .slot {
+    border: 1.5px solid var(--line);
+    background: #fff;
+    border-radius: 0.8rem;
+    padding: 0.75rem 0.3rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .slot.is-on {
+    border-color: var(--red);
+    color: var(--red);
+    background: color-mix(in srgb, var(--red) 6%, #fff);
+  }
+
+  .hint {
+    margin-top: 1rem;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 0.9rem;
+    border: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .field input:not([type="radio"]) {
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 0.8rem;
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .field input:focus {
+    outline: none;
+    border-color: var(--green);
+  }
+
+  .field legend {
+    margin-bottom: 0.35rem;
+  }
+
+  .seg {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .seg label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 0.8rem;
+    padding: 0.75rem 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .seg label:has(input:checked) {
+    border-color: var(--green);
+    background: var(--green-soft);
+  }
+
+  .seg input {
+    accent-color: var(--green);
+  }
+
+  .err {
+    color: var(--red-deep);
+    font-size: 0.85rem;
+    min-height: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .sheet__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.4rem;
+  }
+
+  .done {
+    text-align: center;
+  }
+
+  .done__check {
+    display: inline-grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: var(--green);
+    color: #fff;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes pop {
+    from {
+      transform: scale(0.4);
+      opacity: 0;
+    }
+  }
+
+  .done__sum {
+    color: var(--ink-soft);
+    margin-top: -0.5rem;
+  }
+
+  .wa-prev {
+    text-align: left;
+    background: #efeae2;
+    border-radius: 1rem;
+    padding: 0.9rem;
+    margin: 1.25rem 0;
+  }
+
+  .wa-prev__head {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-bottom: 0.6rem;
+  }
+
+  .wa-prev__bub {
+    background: #fff;
+    border-radius: 0.2rem 0.9rem 0.9rem 0.9rem;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.9rem;
+    box-shadow: 0 1px 1px rgb(0 0 0 / 0.06);
+    animation: rise 0.5s 0.25s both cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes rise {
+    from {
+      transform: translateY(10px);
+      opacity: 0;
+    }
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 900px) {
+    .hdr__nav {
+      display: none;
+    }
+
+    .hero,
+    .visit {
+      grid-template-columns: 1fr;
+    }
+
+    .next {
+      min-height: 15rem;
+    }
+
+    .svc,
+    .team {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .hdr .btn--sm {
+      display: none;
+    }
+
+    .facts,
+    .svc,
+    .team {
+      grid-template-columns: 1fr;
+    }
+
+    .sheet {
+      place-items: end stretch;
+    }
+
+    .sheet__panel {
+      border-radius: 1.5rem 1.5rem 0 0;
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+</style>
