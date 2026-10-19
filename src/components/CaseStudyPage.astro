@@ -24,6 +24,16 @@ const all = (await getCollection("case-studies", (c) => c.data.lang === lang)).s
 );
 const idx = all.findIndex((c) => c.data.key === d.key);
 const next = all[(idx + 1) % all.length];
+
+// Working demo + recorded walkthrough for each concept
+const demo = {
+  "ceibo-dental": { path: "demo/ceibo-dental/", media: "dental", phone: true },
+  "alameda-family": { path: "demo/alameda/", media: "alameda", phone: false },
+}[d.key];
+const dl = {
+  en: { title: "See it working", sub: "This is a real, clickable build, not a mockup. Try it yourself.", cta: "Open the live demo" },
+  es: { title: "Míralo funcionando", sub: "Es un sitio real que puedes usar, no una maqueta. Pruébalo.", cta: "Abrir la demo en vivo" },
+}[lang];
 ---
 
 <Base lang={lang} path={path} altPath={altPath} title={`${d.clinic} | Noruzo`} description={d.summary}>
@@ -41,6 +51,31 @@ const next = all[(idx + 1) % all.length];
     <div class="cs__stage">
       <CaseVisual kind={d.kind} />
     </div>
+
+    {
+      demo && (
+        <section class:list={["cs__demo", { "cs__demo--phone": demo.phone }]}>
+          <div class="cs__demotext">
+            <h2>{dl.title}</h2>
+            <p>{dl.sub}</p>
+            <a class="cs__btn t-label" href={url(`${demo.path}?lang=${lang}`)} target="_blank" rel="noopener" data-hover>
+              {dl.cta} ↗
+            </a>
+          </div>
+          <video
+            class="cs__video"
+            src={url(`media/${demo.media}-${lang}.mp4`)}
+            poster={url(`media/${demo.media}-${lang}.jpg`)}
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-label={dl.title}
+          />
+        </section>
+      )
+    }
 
     <div class="cs__layout section">
       <aside class="cs__aside">
@@ -130,6 +165,49 @@ const next = all[(idx + 1) % all.length];
     border-radius: 1.5rem;
     background: radial-gradient(120% 130% at 20% 0%, #ffd9c7, #f1e6df 55%, #e9e4e1);
     overflow: clip;
+  }
+
+  .cs__demo {
+    display: grid;
+    grid-template-columns: minmax(14rem, 20rem) minmax(0, 1fr);
+    gap: clamp(1.5rem, 5vw, 4rem);
+    align-items: center;
+    max-width: 1240px;
+    margin: clamp(3rem, 8vh, 5rem) auto 0;
+    padding: 0 var(--gutter);
+  }
+
+  .cs__demotext {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .cs__demotext h2 {
+    font-size: clamp(1.6rem, 3vw, 2.3rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .cs__demotext p {
+    color: var(--c-ink-soft);
+    line-height: 1.6;
+  }
+
+  .cs__video {
+    width: 100%;
+    border-radius: 1.1rem;
+    border: 1px solid var(--c-line);
+    box-shadow: 0 30px 60px -36px rgb(0 0 0 / 0.35);
+    background: var(--c-paper);
+  }
+
+  .cs__demo--phone .cs__video {
+    width: min(100%, 22rem);
+    justify-self: center;
+    border: 0.45rem solid #1c1c1e;
+    border-radius: 2rem;
   }
 
   .cs__layout {
@@ -269,7 +347,8 @@ const next = all[(idx + 1) % all.length];
 
   @media (max-width: 860px) {
     .cs__layout,
-    .cs__foot {
+    .cs__foot,
+    .cs__demo {
       grid-template-columns: 1fr;
     }
 
