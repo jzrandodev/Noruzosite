@@ -2,6 +2,7 @@
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
 import CaseVisual from "./CaseVisual.astro";
+import CaseExtras from "./CaseExtras.astro";
 import { strings, caseUrl, home, url, type Lang } from "../i18n/strings";
 
 interface Props {
@@ -62,6 +63,8 @@ const next = all[(idx + 1) % all.length];
         <Content />
       </div>
     </div>
+
+    <CaseExtras kind={d.kind} lang={lang} />
 
     <footer class="cs__foot section">
       <div class="cs__cta">

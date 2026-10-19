@@ -30,7 +30,7 @@ const abs = (p: string) => new URL(url(p), Astro.site).href;
 const canonical = abs(path);
 const enHref = abs(lang === "en" ? path : altPath);
 const esHref = abs(lang === "es" ? path : altPath);
-const ogImage = abs("og.png");
+const ogImage = abs(lang === "es" ? "og-es.png" : "og.png");
 
 const orgSchema = JSON.stringify({
   "@context": "https://schema.org",
