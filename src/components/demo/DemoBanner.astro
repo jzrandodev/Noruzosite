@@ -10,11 +10,11 @@ const { clinic, back } = Astro.props;
 
 <div class="demo-banner" role="note">
   <span>
-    <b data-i18n="demo.label">Concept demo by Noruzo</b>
+    <b data-i18n="demo.label">Example by Noruzo</b>
     <span class="demo-banner__sep" aria-hidden="true">·</span>
-    <span data-i18n="demo.fictional" data-clinic={clinic}>{clinic} is a fictional practice</span>
+    <span data-i18n="demo.fictional" data-clinic={clinic}>{clinic} is an example practice</span>
   </span>
-  <a href={url(back)} data-i18n="demo.back">See the case study →</a>
+  <a href={url(back)} data-i18n="demo.back">See the example →</a>
 </div>
 
 <style>
