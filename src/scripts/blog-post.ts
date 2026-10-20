@@ -28,7 +28,7 @@ async function render() {
     return;
   }
 
-  document.title = `${data.title} — Noruzo Journal`;
+  document.title = `${data.title} | Noruzo Journal`;
   const article = document.querySelector<HTMLElement>("[data-article]")!;
   document.querySelector<HTMLElement>("[data-title]")!.textContent = data.title ?? "";
   const dateEl = document.querySelector<HTMLElement>("[data-date]")!;
