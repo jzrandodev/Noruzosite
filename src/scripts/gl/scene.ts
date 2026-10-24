@@ -17,6 +17,12 @@ import gooFrag from "./goo.frag?raw";
 
 const lerp = (a: number, b: number, n: number) => a + (b - a) * n;
 
+// Easing rates are per 60fps frame; ease() rescales them by real elapsed
+// time so the follow feels the same on 60Hz and 120Hz screens.
+const FOLLOW = 0.02;
+const VELOCITY_EASE = 0.03;
+const ease = (rate: number, dt: number) => 1 - Math.pow(1 - rate, dt * 60);
+
 // The trail buffer runs at reduced resolution — the goo threshold hides it
 // and the sim cost drops 6x.
 const SIM_SCALE = 0.4;
@@ -49,7 +55,7 @@ export function createFluidScene(canvas: HTMLCanvasElement): (() => void) | null
       uMouse: { value: new Vector2(0.5, 0.6) },
       uPrevMouse: { value: new Vector2(0.5, 0.6) },
       uVelocity: { value: 0 },
-      uDecay: { value: 0.985 },
+      uDecay: { value: 0.988 },
     },
   });
   const drawMaterial = new ShaderMaterial({
@@ -113,22 +119,25 @@ export function createFluidScene(canvas: HTMLCanvasElement): (() => void) | null
   observer.observe(canvas);
 
   let raf = 0;
+  let lastTick = performance.now();
   const tick = (now: number) => {
     raf = requestAnimationFrame(tick);
+    const dt = Math.min((now - lastTick) / 1000, 0.1);
+    lastTick = now;
     if (!visible) return;
 
     // When the pointer goes quiet, a slow wandering ghost keeps the goo alive
     if (now - lastPointerAt > 1500) {
       const t = now / 1000;
-      mouse.tx = 0.5 + 0.36 * Math.sin(t * 0.21);
-      mouse.ty = 0.58 + 0.27 * Math.sin(t * 0.16 + 1.7);
+      mouse.tx = 0.5 + 0.36 * Math.sin(t * 0.13);
+      mouse.ty = 0.58 + 0.27 * Math.sin(t * 0.1 + 1.7);
     }
 
     simMaterial.uniforms.uPrevMouse.value.set(mouse.x, mouse.y);
-    mouse.x = lerp(mouse.x, mouse.tx, 0.055);
-    mouse.y = lerp(mouse.y, mouse.ty, 0.055);
+    mouse.x = lerp(mouse.x, mouse.tx, ease(FOLLOW, dt));
+    mouse.y = lerp(mouse.y, mouse.ty, ease(FOLLOW, dt));
     mouse.tvel = Math.min(1, Math.hypot(mouse.tx - lastX, mouse.ty - lastY) * 14);
-    mouse.vel = lerp(mouse.vel, mouse.tvel, 0.05);
+    mouse.vel = lerp(mouse.vel, mouse.tvel, ease(VELOCITY_EASE, dt));
     lastX = mouse.tx;
     lastY = mouse.ty;
 
