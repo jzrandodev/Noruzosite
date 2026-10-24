@@ -128,13 +128,6 @@ const t = strings[Astro.props.lang].cta;
     color: var(--c-ink-soft);
   }
 
-  .cta__textarea {
-    resize: vertical;
-    border-radius: 1.25rem;
-    min-height: 5.5rem;
-    font-size: 0.95rem;
-  }
-
   .cta__input {
     flex: 1 1 14rem;
     padding: 1.1rem 1.4rem;
@@ -142,7 +135,15 @@ const t = strings[Astro.props.lang].cta;
     border-radius: 99px;
     background: var(--c-paper);
     color: var(--c-ink);
+    font: inherit;
     transition: border-color 0.3s var(--ease-out-expo);
+  }
+
+  /* After .cta__input so its radius wins; a 99px radius clipped the text */
+  .cta__textarea {
+    resize: vertical;
+    border-radius: 1.25rem;
+    min-height: 8rem;
   }
 
   .cta__input::placeholder {
